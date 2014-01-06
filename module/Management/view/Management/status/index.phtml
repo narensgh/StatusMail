@@ -1,0 +1,28 @@
+<?php
+    $title = 'Status Form';
+    $this->headTitle ( $title );
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<?php
+    $statusForm = $this->statusForm;
+    $statusForm->setAttribute ( 'action', $this->url ( 'base', array ('controller'=>'status','action' => 'saveStatus' )));
+    $statusForm->prepare ();
+    echo $this->form ()->openTag ( $statusForm );
+?>
+<table>
+    <tr>
+        <td><?php echo $this->formRow($statusForm->get('ticketno')); ?></td>
+    </tr>
+    <tr>
+        <td><?php echo $this->formRow($statusForm->get('title')); ?></td>
+    </tr>    
+    <tr>
+        <td><?php echo $this->formRow($statusForm->get('description')); ?></td>
+    </tr>
+    <tr>
+        <td colspan="2" align="center"><?php echo $this->formSubmit($statusForm->get('submit')); ?></td>
+    </tr>
+</table>
+<?php
+    echo $this->form ()->closeTag ();
+?>

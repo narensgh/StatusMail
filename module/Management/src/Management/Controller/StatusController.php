@@ -16,6 +16,8 @@ namespace Management\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
+use Management\Form\StatusForm;
+
 use Zend\Session\Container;
 
 class StatusController extends AbstractActionController
@@ -25,6 +27,17 @@ class StatusController extends AbstractActionController
         $this->session = new Container('appl');
         $this->isLogedIn();
     }
+    
+    public function indexAction() 
+    {
+        $statusForm = new StatusForm();
+        return new ViewModel(
+            array(
+                'statusForm'=>$statusForm,
+            )
+        );
+    }
+
     private function isLogedIn()
     {
         if($this->session->username)
