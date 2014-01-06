@@ -1,0 +1,30 @@
+<?php 
+$users = $this->users;
+?>
+<div class="row">
+<?php if(!empty($users)){ ?>
+	<table>
+	<tr>
+		<th>Full Name</th>
+		<th>Username</th>
+		<th>Email</th>
+	</tr>
+	<?php 
+	foreach ($users as $user){?>
+	<tr>
+		<td><?php echo $user->fullname ?></td>
+		<td><?php echo $user->username ?></td>
+		<td><?php echo $user->emailid  ?></td>
+	</tr>
+	<?php }?>
+	</table><?php
+}?>
+</div>
+<div class="row">
+<table id="releases">
+					</table>
+					<script type="text/template" id="releases-template">
+		<td><a id="<%= release_id %>" href ="javascript:void(<%= release_id %>)"><%= release_name.substring(0,40) %></a></td>
+	</script>
+
+</div>

@@ -1,0 +1,46 @@
+<?php
+
+namespace Management\Model\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Login
+ *
+ * @ORM\Table(name="login")
+ * @ORM\Entity
+ */
+class Login
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="loginid", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $loginid;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="username", type="string", length=150, nullable=false)
+     */
+    private $username;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="password", type="string", length=32, nullable=false)
+     */
+    private $password;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="lastactivity", type="datetime", nullable=false)
+     */
+    private $lastactivity = 'CURRENT_TIMESTAMP';
+
+
+}

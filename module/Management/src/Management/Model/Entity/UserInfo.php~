@@ -1,0 +1,56 @@
+<?php
+
+namespace Management\Model\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * UserInfo
+ *
+ * @ORM\Table(name="user_info", uniqueConstraints={@ORM\UniqueConstraint(name="login_id", columns={"loginid"})})
+ * @ORM\Entity
+ */
+class UserInfo
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $userId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="fullname", type="string", length=255, nullable=false)
+     */
+    private $fullname;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="contact_no", type="bigint", nullable=false)
+     */
+    private $contactNo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email_id", type="string", length=255, nullable=false)
+     */
+    private $emailId;
+
+    /**
+     * @var \Management\Model\Entity\Login
+     *
+     * @ORM\ManyToOne(targetEntity="Management\Model\Entity\Login")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="loginid", referencedColumnName="loginid")
+     * })
+     */
+    private $loginid;
+
+
+}
