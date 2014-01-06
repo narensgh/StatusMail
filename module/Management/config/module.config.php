@@ -60,7 +60,7 @@ namespace Management;
 		'controllers' => array(
 				'invokables' => array(
 						'Management\Controller\Index' => 'Management\Controller\IndexController',
-						'Management\Controller\Admin' => 'Management\Controller\AdminController'
+						'Management\Controller\Status' => 'Management\Controller\StatusController'
 				),
 		),
 		'view_manager' => array(
