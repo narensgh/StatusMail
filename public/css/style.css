@@ -70,3 +70,18 @@ label
     color: #FEFEFE;
 }
 
+.report_container
+{
+    border-bottom: 1px solid #687582;
+    margin-bottom: 5px;
+    padding: 10px;
+}
+.status_cont{
+    margin-left: 33px;
+    display: block;
+}
+.desc_cont
+{
+    margin-left: 75px;
+}
+

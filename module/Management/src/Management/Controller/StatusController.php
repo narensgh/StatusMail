@@ -48,6 +48,10 @@ class StatusController extends AbstractActionController
         	$this->redirectTo(array('controller'=>'index','action'=>'login'));
         }
     }
+     public function reportAction() 
+    {
+         
+    }
     private function redirectTo($route)
     {
     	return $this->redirect()->toRoute('base',$route);
