@@ -1,10 +1,7 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * Index Controller
+ * 
  */
 
 namespace Management\Controller;
@@ -34,7 +31,7 @@ class IndexController extends AbstractActionController
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->add('select', 'l')
-           ->add('from', 'Socialmedia\Model\Entity\Login l');
+           ->add('from', 'Management\Model\Entity\Login l');
         $result = $qb->getQuery()-> getArrayResult();
         return new ViewModel(array('results' => $result));
     }
@@ -74,7 +71,7 @@ class IndexController extends AbstractActionController
         {
             $qb = $this->getEntityManager()->createQueryBuilder();
             $qb->add('select', 'l')
-                    ->add('from', 'Socialmedia\Model\Entity\Login l')
+                    ->add('from', 'Management\Model\Entity\Login l')
                     ->where('l.username = ?1')
                     ->andwhere('l.password = ?2')
                     ->setParameter(1, $post['username'])
@@ -85,7 +82,7 @@ class IndexController extends AbstractActionController
             {
                 $this->session->username = $result['username'];
                 $this->session->userId = $result['peopleId'];
-                $this->redirectTo(array('controller' => 'index', 'action' => 'index'));
+                $this->redirectTo(array('controller' => 'status', 'action' => 'index'));
             } else {
                 $this->redirectTo(array('controller' => 'index', 'action' => 'login'));
             }
