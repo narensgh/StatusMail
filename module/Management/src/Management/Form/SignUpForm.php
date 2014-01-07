@@ -76,10 +76,11 @@ class SignUpForm extends Form
 		));
 		$this->add(array(
 				'name' => 'submit',
-				'type' => 'Submit',
+				'type' => 'Submit',                                
 				'attributes' => array(
 						'value' => 'Sign Up',
 						'id' => 'submitbutton',
+                                    'class' => 'sign-up'
 				),
 		));
 	}
