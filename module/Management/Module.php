@@ -30,21 +30,11 @@ class Module
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);        
         
+//         Entity manager for docrine
+
         $em = $e->getApplication()->getServiceManager()->get('Doctrine\ORM\EntityManager');
         $platform = $em->getConnection()->getDatabasePlatform();
         $platform->registerDoctrineTypeMapping('enum', 'string');
-        
-        
-//         $config = $e->getApplication()
-//                   ->getServiceManager()
-//                   ->get('Configuration');
-//         $sessionConfig = new SessionConfig();
-//         $sessionConfig->setOptions($config['session']);
-//         $sessionManager = new SessionManager($sessionConfig);
-//         $sessionManager->start();
-//         print_r($sessionManager);
-//         die('tested');
-//         Container::setDefaultManager($sessionManager);
     }
 
     public function getConfig()
@@ -61,24 +51,5 @@ class Module
                 ),
             ),
         );
-    }
-    public function getServiceConfig()
-    { 
-    	return array(
-    			'factories' => array(
-    				'Management\Model\UserTable' =>  function($sm) {
-	    					$tableGateway = $sm->get('UserTableGateway');
-	    					$table = new UserTable($tableGateway);
-	    					return $table;
-    					},
-			    	'UserTableGateway' => function ($sm) {
-					    	$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
-					    	$resultSetPrototype = new ResultSet();
-					    	$resultSetPrototype->setArrayObjectPrototype(new User());
-					    	return new TableGateway('login', $dbAdapter, null, $resultSetPrototype);
-					   	},
-			    	),
-		    	);
-    }
-    
+    }    
 }
