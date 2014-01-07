@@ -15,9 +15,7 @@ namespace Management\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-
 use Management\Form\StatusForm;
-
 use Zend\Session\Container;
 
 class StatusController extends AbstractActionController
