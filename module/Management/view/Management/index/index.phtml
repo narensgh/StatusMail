@@ -1,5 +1,5 @@
-<?php 
-$users = $this->users;
+<?php
+$users = $this->results;
 ?>
 <div class="row">
 <?php if(!empty($users)){ ?>
@@ -9,12 +9,12 @@ $users = $this->users;
 		<th>Username</th>
 		<th>Email</th>
 	</tr>
-	<?php 
+	<?php
 	foreach ($users as $user){?>
 	<tr>
-		<td><?php echo $user->fullname ?></td>
-		<td><?php echo $user->username ?></td>
-		<td><?php echo $user->emailid  ?></td>
+
+		<td><?php echo $user['username']?></td>
+
 	</tr>
 	<?php }?>
 	</table><?php

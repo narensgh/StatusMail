@@ -24,7 +24,7 @@ class SignUpForm extends Form
 		));
 		$this->add(array(
 				'name' => 'emailid',
-				'type' => 'Text',
+				'type' => 'email',
 				'attributes' =>array(
 						'class' => 'textbox'
 				),
@@ -49,8 +49,21 @@ class SignUpForm extends Form
 				),
 		));
 		$this->add(array(
+			'name' => 'contact',
+			'type' => 'Text',
+			'attributes' =>array(
+				'class' => 'textbox'
+			),
+			'options' => array(
+				'label' => 'Contact Number',
+				'label_attributes' => array(
+					'class' => 'label1'
+				),
+			),
+		));
+		$this->add(array(
 				'name' => 'password',
-				'type' => 'Text',
+				'type' => 'Password',
 				'attributes' =>array(
 						'class' => 'textbox'
 				),

@@ -22,15 +22,17 @@ use Zend\Session\Container;
 
 class StatusController extends AbstractActionController
 {
-    function __construct() 
+	private $session;
+    function __construct()
     {
-        $this->session = new Container('appl');
+    	$this->session = new Container('appl');
         $this->isLogedIn();
     }
-    
-    public function indexAction() 
+
+    public function indexAction()
     {
         $statusForm = new StatusForm();
+        $this->isLogedIn();
         return new ViewModel(
             array(
                 'statusForm'=>$statusForm,
@@ -42,7 +44,10 @@ class StatusController extends AbstractActionController
     {
         if($this->session->username)
         {
-            $this->redirectTo(array('controller'=>'index','action'=>'login'));
+            return true;
+        }
+        else {
+        	$this->redirectTo(array('controller'=>'index','action'=>'login'));
         }
     }
     private function redirectTo($route)

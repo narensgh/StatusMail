@@ -40,14 +40,14 @@ class Login
      *
      * @ORM\Column(name="lastactivity", type="datetime", nullable=false)
      */
-    private $lastactivity = 'CURRENT_TIMESTAMP';
+    private $lastactivity;
 
 
 
     /**
      * Get loginid
      *
-     * @return integer 
+     * @return integer
      */
     public function getLoginid()
     {
@@ -70,7 +70,7 @@ class Login
     /**
      * Get username
      *
-     * @return string 
+     * @return string
      */
     public function getUsername()
     {
@@ -85,7 +85,7 @@ class Login
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        $this->password = md5($password);
 
         return $this;
     }
@@ -93,7 +93,7 @@ class Login
     /**
      * Get password
      *
-     * @return string 
+     * @return string
      */
     public function getPassword()
     {
@@ -116,7 +116,7 @@ class Login
     /**
      * Get lastactivity
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getLastactivity()
     {

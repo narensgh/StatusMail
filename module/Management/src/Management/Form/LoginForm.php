@@ -23,7 +23,7 @@ class LoginForm extends Form
 			));
 		$this->add(array(
 				'name' => 'password',
-				'type' => 'Text',
+				'type' => 'Password',
 				'attributes' =>array(
 						'class' => 'textbox'
 				),
@@ -32,7 +32,7 @@ class LoginForm extends Form
 						'label_attributes' => array(
 								'class' => 'label1'
 						)
-					),				
+					),
 			));
 		$this->add(array(
 				'name' => 'submit',

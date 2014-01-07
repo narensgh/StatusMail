@@ -15,7 +15,7 @@ use Zend\Form\Form;
 
 class StatusForm extends Form
 {
-    function __construct() 
+    function __construct()
     {
         parent::__construct();
         $this->setAttribute('method', 'post');
@@ -44,12 +44,12 @@ class StatusForm extends Form
                         'label_attributes' => array(
                             'class' => 'label1'
                         )
-                   ),				
+                   ),
                 )
             );
         $this->add(array(
                     'name' => 'description',
-                    'type' => 'Text',
+                    'type' => 'Textarea',
                     'attributes' =>array(
                         'class' => 'textbox'
                     ),
@@ -58,7 +58,7 @@ class StatusForm extends Form
                         'label_attributes' => array(
                             'class' => 'label1'
                         )
-                   ),				
+                   ),
                 )
             );
         $this->add(array(
