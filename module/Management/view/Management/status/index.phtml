@@ -1,4 +1,6 @@
+<script src="../js/ckeditor/ckeditor.js"></script>
 <?php
+
     $title = 'Status Form';
     $this->headTitle ( $title );
 ?>
@@ -9,20 +11,15 @@
     $statusForm->prepare ();
     echo $this->form ()->openTag ( $statusForm );
 ?>
-<table>
-    <tr>
-        <td><?php echo $this->formRow($statusForm->get('ticketno')); ?></td>
-    </tr>
-    <tr>
-        <td><?php echo $this->formRow($statusForm->get('title')); ?></td>
-    </tr>    
-    <tr>
-        <td><?php echo $this->formRow($statusForm->get('description')); ?></td>
-    </tr>
-    <tr>
-        <td colspan="2" align="center"><?php echo $this->formSubmit($statusForm->get('submit')); ?></td>
-    </tr>
-</table>
-<?php
+<?php echo $this->formRow($statusForm->get('ticketno')); 
+ echo $this->formRow($statusForm->get('title')); 
+ echo $this->formRow($statusForm->get('description'));
+ echo $this->formSubmit($statusForm->get('submit'));
     echo $this->form ()->closeTag ();
 ?>
+<script type="text/javascript">
+$(document).ready(function(){
+	CKEDITOR.replace( 'description' );
+	});
+
+</script>

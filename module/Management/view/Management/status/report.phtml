@@ -1,67 +1,28 @@
-<div class="report_container">
-    <h4>02/01/2014</h4>
-    1. <a href="#">ASC-434</a> :  When editing release, subgenre should be updated rather than treated as insert<br/>
-    <span class="status_cont">Status : Under Review</span>
-    <div class="desc_cont">
-                 a). Changed the query to use "ON DUPLICATE KEY UPDATE" to simplified query to add or update sub-genre id.<br/>
-                  b). Review Link : https://github.com/theorchard/orchard/commit/aa84849e0e1c43a289ca089e4d42c7d34fc2326c
-    </div>
-</div>
+<?php 
+if($this->reports)
+{
+	$reports = $this->reports;
+}
+
+?>
 
 <div class="report_container">
-    <h4>03/01/2014</h4>
-    1. <a href="#">ASC-434</a> :  When editing release, subgenre should be updated rather than treated as insert<br/>
-    <span class="status_cont">Status : Under Review</span>
-    <div class="desc_cont">
-                 a). Changed the query to use "ON DUPLICATE KEY UPDATE" to simplified query to add or update sub-genre id.<br/>
-                  b). Review Link : https://github.com/theorchard/orchard/commit/aa84849e0e1c43a289ca089e4d42c7d34fc2326c
+<?php 
+	if(!empty($reports))
+	{
+		foreach ($reports as $report)
+		{
+			?>
+			<h4><?php echo date('jS F Y', strtotime($report->dateAdded->date)) ?></h4>
+			1. <a href="http://jira.theorchard.com/browse/<?php echo $report->ticketNo ?>" target="_blank"><?php echo $report->ticketNo ?></a> : 
+			<?php echo $report->title ?>
+			<span class="status_cont">Status : Under Review</span>
+			<div class="desc_cont">
+                <?php echo $report->description ?>
     </div>
-</div>
+			<?php 
+		}
+	}
 
-<div class="report_container">
-    <h4>04/01/2014</h4>
-    1. <a href="#">ASC-434</a> :  When editing release, subgenre should be updated rather than treated as insert<br/>
-    <span class="status_cont">Status : Under Review</span>
-    <div class="desc_cont">
-                 a). Changed the query to use "ON DUPLICATE KEY UPDATE" to simplified query to add or update sub-genre id.<br/>
-                  b). Review Link : https://github.com/theorchard/orchard/commit/aa84849e0e1c43a289ca089e4d42c7d34fc2326c
-    </div>
-</div>
-<div class="report_container">
-    <h4>05/01/2014</h4>
-    1. <a href="#">ASC-434</a> :  When editing release, subgenre should be updated rather than treated as insert<br/>
-    <span class="status_cont">Status : Under Review</span>
-    <div class="desc_cont">
-                 a). Changed the query to use "ON DUPLICATE KEY UPDATE" to simplified query to add or update sub-genre id.<br/>
-                  b). Review Link : https://github.com/theorchard/orchard/commit/aa84849e0e1c43a289ca089e4d42c7d34fc2326c
-    </div>
-</div>
-<div class="report_container">
-    <h4>06/01/2014</h4>
-    1. <a href="#">ASC-434</a> :  When editing release, subgenre should be updated rather than treated as insert<br/>
-    <span class="status_cont">Status : Under Review</span>
-    <div class="desc_cont">
-                 a). Changed the query to use "ON DUPLICATE KEY UPDATE" to simplified query to add or update sub-genre id.<br/>
-                  b). Review Link : https://github.com/theorchard/orchard/commit/aa84849e0e1c43a289ca089e4d42c7d34fc2326c
-    </div>
-</div>
-
-<div class="report_container">
-    <h4>07/01/2014</h4>
-    1. <a href="#">ASC-434</a> :  When editing release, subgenre should be updated rather than treated as insert<br/>
-    <span class="status_cont">Status : Under Review</span>
-    <div class="desc_cont">
-                 a). Changed the query to use "ON DUPLICATE KEY UPDATE" to simplified query to add or update sub-genre id.<br/>
-                  b). Review Link : https://github.com/theorchard/orchard/commit/aa84849e0e1c43a289ca089e4d42c7d34fc2326c
-    </div>
-</div>
-
-<div class="report_container">
-    <h4>08/01/2014</h4>
-    1. <a href="#">ASC-434</a> :  When editing release, subgenre should be updated rather than treated as insert<br/>
-    <span class="status_cont">Status : Under Review</span>
-    <div class="desc_cont">
-                 a). Changed the query to use "ON DUPLICATE KEY UPDATE" to simplified query to add or update sub-genre id.<br/>
-                  b). Review Link : https://github.com/theorchard/orchard/commit/aa84849e0e1c43a289ca089e4d42c7d34fc2326c
-    </div>
+?>
 </div>

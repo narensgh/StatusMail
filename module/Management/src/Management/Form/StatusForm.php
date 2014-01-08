@@ -23,13 +23,11 @@ class StatusForm extends Form
                     'name' => 'ticketno',
                     'type' => 'Text',
                     'attributes' =>array(
+                    	'id' => 'ticketno',
                         'class' => 'textbox'
                         ),
                     'options' => array(
-                        'label' => 'Ticket No',
-                        'label_attributes' => array(
-                            'class' => 'label1'
-                            ),
+                        'label' => 'Ticket No'
                         ),
                     )
                 );
@@ -37,6 +35,7 @@ class StatusForm extends Form
                     'name' => 'title',
                     'type' => 'Text',
                     'attributes' =>array(
+                    	'id' => 'title',
                         'class' => 'textbox'
                     ),
                     'options' => array(
@@ -51,7 +50,8 @@ class StatusForm extends Form
                     'name' => 'description',
                     'type' => 'Textarea',
                     'attributes' =>array(
-                        'class' => 'textbox'
+                    	'id' => 'description',
+                        'class' => 'editor'
                     ),
                     'options' => array(
                         'label' => 'Description',
