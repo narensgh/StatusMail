@@ -13,7 +13,7 @@ label
 }
 .signup_wrapper{
     width:500px;
-     margin: 20px;
+    margin: 20px;
 }
 .sign_title{
     background: #6DC32E;
@@ -32,6 +32,36 @@ label
 .label1 span
 {
     display: inline-block;
+    font-size: 16px;
+    font-weight: normal;
+    width: 140px; 
+}
+.status_wrapper
+{
+	width:750px;
+	margin : 20px auto;
+}
+#title
+{
+	width:500px;
+}
+.select1
+{
+	width:300px;
+	padding:3px;
+}
+#status
+{
+	margin-right:250px;
+}
+.select2
+{
+	padding:3px;
+	margin-right: 3px;
+}
+.label1
+{
+	display: inline-block;
     font-size: 16px;
     font-weight: normal;
     width: 140px; 

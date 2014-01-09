@@ -20,6 +20,27 @@ class StatusForm extends Form
         parent::__construct();
         $this->setAttribute('method', 'post');
         $this->add(array(
+        		'type' => 'Select',
+        		'name' => 'ticketType',
+        		'attributes' =>  array(
+        				'id' => 'ticketType',
+        				'class' => 'select2',
+        				'options' => array(
+        						'' => 'Select Ticket Type',
+        						'ASC' => 'ASC',
+        						'LNC' =>'LNC',
+        						'MOV' => 'MOV',
+        						'VAPI' => 'VAPI'
+        				),
+        		),
+        		'options' => array(
+        				'label' => 'Ticket No',
+        				'label_attributes' => array(
+        						'class' => 'label1'
+        				)
+        		),
+        ));
+        $this->add(array(
                     'name' => 'ticketno',
                     'type' => 'Text',
                     'attributes' =>array(
@@ -27,7 +48,10 @@ class StatusForm extends Form
                         'class' => 'textbox'
                         ),
                     'options' => array(
-                        'label' => 'Ticket No'
+                        
+                    		'label_attributes' => array(
+                    				'class' => 'label1'
+                    		)
                         ),
                     )
                 );
@@ -36,7 +60,8 @@ class StatusForm extends Form
                     'type' => 'Text',
                     'attributes' =>array(
                     	'id' => 'title',
-                        'class' => 'textbox'
+                        'class' => 'textbox',
+                    	'width' => '200'
                     ),
                     'options' => array(
                         'label' => 'Title',
@@ -46,6 +71,26 @@ class StatusForm extends Form
                    ),
                 )
             );
+        $this->add(array(
+        		'type' => 'Select',
+        		'name' => 'status',
+        		'attributes' =>  array(
+        				'id' => 'status',
+        				'class' => 'select1',
+        				'options' => array(
+        						'' => 'Select Status',
+        						'Under Review' => 'Under Review',
+        						'Work in progress' => 'Work in progress',
+        						'Completed' => 'Completed'
+        				),
+        		),
+        		'options' => array(
+        				'label' => 'Status',
+        				'label_attributes' => array(
+        						'class' => 'label1'
+        				)
+        		),
+        ));
         $this->add(array(
                     'name' => 'description',
                     'type' => 'Textarea',
@@ -67,6 +112,7 @@ class StatusForm extends Form
                 'attributes' => array(
                     'value' => 'Save',
                     'id' => 'submitbutton',
+                	'class' =>'sign-in'
                 ),
             )
         );
