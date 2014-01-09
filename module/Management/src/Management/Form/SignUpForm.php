@@ -13,7 +13,8 @@ class SignUpForm extends Form
 				'name' => 'fullname',
 				'type' => 'Text',
 				'attributes' =>array(
-						'class' => 'textbox'
+						'class' => 'textbox',
+						'id' => 'fullname'
 				),
 				'options' => array(
 						'label' => 'Fullname',
@@ -26,7 +27,8 @@ class SignUpForm extends Form
 				'name' => 'emailid',
 				'type' => 'email',
 				'attributes' =>array(
-						'class' => 'textbox'
+						'class' => 'textbox',
+						'id' => 'emailid'
 				),
 				'options' => array(
 						'label' => 'Email-Id',
@@ -39,7 +41,8 @@ class SignUpForm extends Form
 				'name' => 'username',
 				'type' => 'Text',
 				'attributes' =>array(
-						'class' => 'textbox'
+						'class' => 'textbox',
+						'id' =>  'username'
 				),
 				'options' => array(
 						'label' => 'Username',
@@ -52,7 +55,8 @@ class SignUpForm extends Form
 			'name' => 'contact',
 			'type' => 'Text',
 			'attributes' =>array(
-				'class' => 'textbox'
+				'class' => 'textbox',
+				'id' =>'contact'
 			),
 			'options' => array(
 				'label' => 'Contact Number',
@@ -65,6 +69,7 @@ class SignUpForm extends Form
 				'name' => 'password',
 				'type' => 'Password',
 				'attributes' =>array(
+						'id' => 'password',
 						'class' => 'textbox'
 				),
 				'options' => array(

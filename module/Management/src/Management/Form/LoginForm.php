@@ -12,6 +12,7 @@ class LoginForm extends Form
 				'name' => 'username',
 				'type' => 'Text',
 				'attributes' =>array(
+						'id' => 'username',
 						'class' => 'textbox'
 					),
 				'options' => array(
@@ -25,6 +26,7 @@ class LoginForm extends Form
 				'name' => 'password',
 				'type' => 'Password',
 				'attributes' =>array(
+						'id' => 'password',
 						'class' => 'textbox'
 				),
 				'options' => array(

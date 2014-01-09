@@ -43,10 +43,11 @@ class StatusController extends AbstractActionController
 	{
 		if($this->getRequest()->isPost())
 		{
+			$userInfo = $this->getEntityManager()->find('Management\Model\Entity\UserInfo', $this->session->userId);
 // 			$statusForm = new StatusForm();
 			$report = new Report();
 			$post = $this->getRequest()->getPost();
-			$report->setUserId($this->session->userId);
+			$report->setUserId($userInfo);
 			$report->setTicketNo($post->ticketno);			
 			$report->setTitle($post->title);
 			$report->setDescription($post->description);
@@ -80,7 +81,10 @@ class StatusController extends AbstractActionController
     {
     	$qb = $this->getEntityManager()->createQueryBuilder();
     	$qb->add('select', 'r')
-    	->add('from', 'Management\Model\Entity\Report r');
+    	->add('from', 'Management\Model\Entity\Report r')
+		 ->innerJoin('r.userId', 'ui')
+		 ->where('r.userId = :userId')
+         ->setParameter('userId', $this->session->userId);
     	$reports = $qb->getQuery()-> getArrayResult();
     	return new ViewModel(array('reports' => json_decode(json_encode($reports, true))));
     }

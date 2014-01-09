@@ -21,10 +21,13 @@ class Report
      */
     private $reportId;
 
-    /**
-     * @var integer
+	  /**
+     * @var \Management\Model\Entity\UserInfo
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Management\Model\Entity\UserInfo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     * })
      */
     private $userId;
 
@@ -71,7 +74,7 @@ class Report
     /**
      * Set userId
      *
-     * @param integer $userId
+     * @param \Management\Model\Entity\UserInfo $userId
      * @return Report
      */
     public function setUserId($userId)
@@ -84,7 +87,7 @@ class Report
     /**
      * Get userId
      *
-     * @return integer 
+     * @return Management\Model\Entity\UserInfo 
      */
     public function getUserId()
     {

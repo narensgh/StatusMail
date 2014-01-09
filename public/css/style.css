@@ -7,7 +7,7 @@ label
     margin: 0;
 }
 .login_wrapper{
-    width:420px;
+    width:467px;
     margin: 20px;
     float: right;
 }
@@ -114,4 +114,11 @@ label
 {
     margin-left: 75px;
 }
-
+.logout
+{
+	float:right;
+}
+#reportGraph
+{
+	min-height: 400px;
+}
