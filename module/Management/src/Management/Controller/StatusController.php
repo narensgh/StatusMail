@@ -31,6 +31,7 @@ class StatusController extends AbstractActionController
 
     public function indexAction()
     {
+    	$this->isLogedIn();
         $statusForm = new StatusForm();
         $this->isLogedIn();
         return new ViewModel(
@@ -41,6 +42,7 @@ class StatusController extends AbstractActionController
     }
 	public function saveStatusAction()
 	{
+    	$this->isLogedIn();
 		if($this->getRequest()->isPost())
 		{
 			$userInfo = $this->getEntityManager()->find('Management\Model\Entity\UserInfo', $this->session->userId);
@@ -48,7 +50,7 @@ class StatusController extends AbstractActionController
 			$report = new Report();
 			$post = $this->getRequest()->getPost();
 			$report->setUserId($userInfo);
-			$report->setTicketNo($post->ticketno);			
+			$report->setTicketNo($post->ticketno);
 			$report->setTitle($post->title);
 			$report->setDescription($post->description);
 			$report->setDateAdded(new \DateTime('now'));
@@ -56,7 +58,7 @@ class StatusController extends AbstractActionController
 			$this->getEntityManager()->flush();
 			$this->redirectTo(array('controller'=>'status','action'=>'report'));
 		}
-		
+
 	}
 	public function getEntityManager()
 	{
@@ -77,8 +79,9 @@ class StatusController extends AbstractActionController
         	$this->redirectTo(array('controller'=>'index','action'=>'login'));
         }
     }
-    public function reportAction() 
+    public function reportAction()
     {
+    	$this->isLogedIn();
     	$qb = $this->getEntityManager()->createQueryBuilder();
     	$qb->add('select', 'r')
     	->add('from', 'Management\Model\Entity\Report r')
