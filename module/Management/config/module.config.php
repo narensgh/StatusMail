@@ -1,9 +1,9 @@
 <?php
 namespace Management;
- 
+
  return array(
 			'router' => array(
-			    'routes' => array(			    		
+			    'routes' => array(
 			        'management' => array(
 			            'type'    => 'Zend\Mvc\Router\Http\Literal',
 			            'options' => array(
@@ -60,7 +60,8 @@ namespace Management;
 		'controllers' => array(
 				'invokables' => array(
 						'Management\Controller\Index' => 'Management\Controller\IndexController',
-						'Management\Controller\Status' => 'Management\Controller\StatusController'
+						'Management\Controller\Status' => 'Management\Controller\StatusController',
+						'Management\Controller\Login' => 'Management\Controller\LoginController',
 				),
 		),
 		'view_manager' => array(
@@ -89,7 +90,7 @@ namespace Management;
 						),
 				),
 		),
-				
+
 // 				configuring doctrine
 				'doctrine' => array(
 						'driver' => array(
@@ -98,7 +99,7 @@ namespace Management;
 										'cache' => 'array',
 										'paths' => array(__DIR__ . '/../src')
 								),
-				
+
 								'orm_default' => array(
 										'drivers' => array(
 												'Management\Model\Entity' => 'management_entities'

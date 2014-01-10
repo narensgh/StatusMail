@@ -10,19 +10,35 @@ class SignUpForm extends Form
 		parent::__construct();
 		$this->setAttribute('method', 'post');
 		$this->add(array(
-				'name' => 'fullname',
+				'name' => 'firstName',
 				'type' => 'Text',
 				'attributes' =>array(
 						'class' => 'textbox',
 						'id' => 'fullname'
 				),
 				'options' => array(
-						'label' => 'Fullname',
+						'label' => 'First Name',
 						'label_attributes' => array(
 								'class' => 'label1'
 						),
 				),
 		));
+
+		$this->add(array(
+			'name' => 'lastName',
+			'type' => 'Text',
+			'attributes' =>array(
+				'class' => 'textbox',
+				'id' => 'fullname'
+			),
+			'options' => array(
+				'label' => 'Last Name',
+				'label_attributes' => array(
+					'class' => 'label1'
+				),
+			),
+		));
+
 		$this->add(array(
 				'name' => 'emailid',
 				'type' => 'email',
@@ -37,6 +53,7 @@ class SignUpForm extends Form
 						),
 				),
 		));
+
 		$this->add(array(
 				'name' => 'username',
 				'type' => 'Text',
@@ -51,6 +68,7 @@ class SignUpForm extends Form
 						),
 				),
 		));
+
 		$this->add(array(
 			'name' => 'contact',
 			'type' => 'Text',
@@ -65,6 +83,7 @@ class SignUpForm extends Form
 				),
 			),
 		));
+
 		$this->add(array(
 				'name' => 'password',
 				'type' => 'Password',
@@ -79,9 +98,10 @@ class SignUpForm extends Form
 						),
 				),
 		));
+
 		$this->add(array(
 				'name' => 'submit',
-				'type' => 'Submit',                                
+				'type' => 'Submit',
 				'attributes' => array(
 						'value' => 'Sign Up',
 						'id' => 'submitbutton',

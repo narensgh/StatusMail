@@ -21,7 +21,27 @@ class SignUpFilter extends InputFilter
 		));
 
 		$this->add(array(
-			'name'       => 'fullname',
+			'name'       => 'firstName',
+			'required'   => true,
+			'filters'    => array(
+				array(
+					'name'    => 'StripTags',
+				),
+			),
+			'validators' => array(
+				array(
+					'name'    => 'StringLength',
+					'options' => array(
+						'encoding' => 'UTF-8',
+						'min'      => 2,
+						'max'      => 140,
+					),
+				),
+			),
+		));
+
+		$this->add(array(
+			'name'       => 'lastName',
 			'required'   => true,
 			'filters'    => array(
 				array(
