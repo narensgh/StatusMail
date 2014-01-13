@@ -9,8 +9,8 @@ namespace Management;
 			            'options' => array(
 			                'route'    => '/',
 			                'defaults' => array(
-			                    'controller'    => 'Management\Controller\Index',
-			                    'action'        => 'index',
+			                    'controller'    => 'Management\Controller\Login',
+			                    'action'        => 'login',
 			                ),
 			            ),
 			            'may_terminate' => true,
@@ -24,8 +24,8 @@ namespace Management;
 			                            'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
 			                        ),
 			                        'defaults' => array(
-			                        		'controller'    => 'Management\Controller\Index',
-			                        		'action'        => 'index',
+			                        		'controller'    => 'Management\Controller\Login',
+			                    			'action'        => 'login',
 			                        ),
 			                    ),
 			                ),
@@ -92,17 +92,6 @@ namespace Management;
 		),
 
 // 				configuring doctrine
-				'doctrine' => array(
-						'driver' => array(
-								'management_entities' => array(
-										'class' =>'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-										'cache' => 'array',
-										'paths' => array(__DIR__ . '/../src')
-								),
-
-								'orm_default' => array(
-										'drivers' => array(
-												'Management\Model\Entity' => 'management_entities'
-										)
-								))),
+		'doctrine' => array(
+				),
 	);

@@ -4,7 +4,13 @@ namespace Management\Model;
 
 use Management\Model\Entity\User;
 
-class Login extends Base{
+class Login{
+
+	protected $_em;
+
+	public function __construct($em){
+		$this->_em = $em;
+	}
 
 	public function isValidLoginData($post){
 		$qb = $this->_em->createQueryBuilder();
@@ -34,8 +40,8 @@ class Login extends Base{
 // 		$user->setEmailId($data->emailid);
 // 		$user->setFullname($data->fullname);
 // 		$user->setLogin($login);
-		$this->getEntityManager()->persist($user);
-		$this->getEntityManager()->flush();
+		$this->_em->persist($user);
+		$this->_em->flush();
 // 		$this->user = $user;
 		return $user;
 	}

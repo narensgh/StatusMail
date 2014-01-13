@@ -23,21 +23,29 @@ class LoginController extends AbstractActionController	{
 	/**
 	 * @var EntityManager
 	 */
-	private $em;
+	private $_em;
 
 	/**
 	 * @var Container
 	 */
-	private $session;
+	private $_session;
 
 	/**
 	 * @var User
 	 */
-	private $user;
+	private $_user;
 
 	function __construct(){
 		$this->session = new Container('appl');
 		//$this->isLogedIn();
+	}
+
+	public function getEntityManager(){
+		if(!$this->_em){
+			$sm = $this->getServiceLocator();
+			$this->_em = $sm->get('Doctrine\ORM\EntityManager');
+		}
+		return $this->_em;
 	}
 
 	public function indexAction(){
@@ -48,15 +56,6 @@ class LoginController extends AbstractActionController	{
 // 		return new ViewModel(array('results' => $result));
 	}
 
-	public function getEntityManager(){
-		if(!$this->em)
-		{
-			$sm = $this->getServiceLocator();
-			$this->em = $sm->get('Doctrine\ORM\EntityManager');
-		}
-		return $this->em;
-	}
-
 	public function loginAction(){
 		$loginForm = new LoginForm();
 		$signUpForm = new SignUpForm();
@@ -64,7 +63,7 @@ class LoginController extends AbstractActionController	{
 
 		if($request->isPost()){
 			$post = $request->getPost();
-			$serviceLogin = new LoginService();
+			$serviceLogin = new LoginService($this->getEntityManager());
 
 			if( $post['submit'] == "Login"){
 				$serviceLogin->login($post, $loginForm);exit;
