@@ -21,7 +21,7 @@ class Login{
 			->setParameter(1, $post['username'])
 			->setParameter(2, md5($post['password']));
 
-		$result = $qb->getQuery()->getSingleResult();echo "<pre>";print_r($result);exit;
+		$result = $qb->getQuery()->getSingleResult();
 		return $result;
 	}
 

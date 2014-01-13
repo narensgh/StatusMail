@@ -68,7 +68,7 @@ class User
     /**
      * Get userId
      *
-     * @return integer 
+     * @return integer
      */
     public function getUserId()
     {
@@ -84,14 +84,14 @@ class User
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
-    
+
         return $this;
     }
 
     /**
      * Get firstName
      *
-     * @return string 
+     * @return string
      */
     public function getFirstName()
     {
@@ -107,14 +107,14 @@ class User
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
-    
+
         return $this;
     }
 
     /**
      * Get lastName
      *
-     * @return string 
+     * @return string
      */
     public function getLastName()
     {
@@ -130,14 +130,14 @@ class User
     public function setEmail($email)
     {
         $this->email = $email;
-    
+
         return $this;
     }
 
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -153,14 +153,14 @@ class User
     public function setUsername($username)
     {
         $this->username = $username;
-    
+
         return $this;
     }
 
     /**
      * Get username
      *
-     * @return string 
+     * @return string
      */
     public function getUsername()
     {
@@ -175,15 +175,15 @@ class User
      */
     public function setPassword($password)
     {
-        $this->password = $password;
-    
+        $this->password = md5($password);
+
         return $this;
     }
 
     /**
      * Get password
      *
-     * @return string 
+     * @return string
      */
     public function getPassword()
     {
@@ -199,14 +199,14 @@ class User
     public function setContactNo($contactNo)
     {
         $this->contactNo = $contactNo;
-    
+
         return $this;
     }
 
     /**
      * Get contactNo
      *
-     * @return string 
+     * @return string
      */
     public function getContactNo()
     {

@@ -4,13 +4,16 @@ namespace Management\Service;
 
 use Management\Form\SignUpFilter;
 use Management\Model\Login;
+use Zend\Session\Container;
 
 class LoginService extends Common{
 
 	protected $_em;
+	protected $session;
 
 	public function __construct($em){
 		$this->_em = $em;
+		$this->session = new Container('appl');
 	}
 
 	public function login($post){
@@ -19,13 +22,12 @@ class LoginService extends Common{
 			$userObj = $modelLogin->isValidLoginData($post);
 			if (!empty($userObj)){
 				$this->session->username = $userObj->getUserName();
-				$this->session->userId = $userObj->getLoginid();
-				$this->session->userType = $userObj->getUserType();
-				$this->redirectTo(array('controller' => 'status', 'action' => 'index'));
+				$this->session->userId = $userObj->getUserId();
+				return  array('controller' => 'status', 'action' => 'index');
 			} else
-				$this->redirectTo(array('controller' => 'login', 'action' => 'login'));
+				return array('controller' => 'login', 'action' => 'login');
 		} else
-			$this->redirectTo(array('controller' => 'login', 'action' => 'login'));
+			return array('controller' => 'login', 'action' => 'login');
 	}
 
 	public function signUp($post, $signUpForm){

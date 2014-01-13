@@ -10,7 +10,7 @@
     </div>
     <?php
         $loginForm = $this->loginForm;
-        $loginForm->setAttribute('action', $this->url('base', array('controller' => 'index', 'action' => 'login')));
+        $loginForm->setAttribute('action', $this->url('base', array('controller' => 'login', 'action' => 'login')));
         $loginForm->prepare();
         echo $this->form()->openTag($loginForm);
     ?>

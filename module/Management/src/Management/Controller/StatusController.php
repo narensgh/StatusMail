@@ -23,8 +23,7 @@ class StatusController extends AbstractActionController
 {
 	private $session;
 	private $em;
-    function __construct()
-    {
+    function __construct(){
     	$this->session = new Container('appl');
        // $this->isLogedIn();
     }

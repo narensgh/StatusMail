@@ -11,7 +11,6 @@ use Doctrine\ORM\EntityManager;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
-use Management\Model\Entity\Login;
 use Management\Model\Entity\UserInfo;
 use Management\Form\LoginForm;
 use Management\Form\SignUpForm;
@@ -66,8 +65,8 @@ class LoginController extends AbstractActionController	{
 			$serviceLogin = new LoginService($this->getEntityManager());
 
 			if( $post['submit'] == "Login"){
-				$serviceLogin->login($post, $loginForm);exit;
-				$this->login($post, $loginForm);
+				$result = $serviceLogin->login($post, $loginForm);
+				$this->redirectTo($result);
 			}else if($post['submit']=="Sign Up"){
 				$serviceLogin->signUp($post, $signUpForm);
 			}
