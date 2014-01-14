@@ -121,7 +121,11 @@ class StatusController extends BaseController{
     private function redirectTo($route){
     	return $this->redirect()->toRoute('base',$route);
     }
-
+    public function viewAllReportAction()
+    {
+    	
+    }
+    
 }
 
 ?>

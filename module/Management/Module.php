@@ -28,7 +28,16 @@ class Module
     {
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
-        $moduleRouteListener->attach($eventManager);        
+        $moduleRouteListener->attach($eventManager);
+		        
+        $sharedEventManager = $eventManager->getSharedManager(); // The shared event manager
+        
+        $sharedEventManager->attach(__NAMESPACE__, MvcEvent::EVENT_DISPATCH, function($e) {
+        	$routeMatch = $e->getRouteMatch();
+            $viewModel = $e->getViewModel();
+            $viewModel->setVariable('controller', $routeMatch->getParam('controller'));
+            $viewModel->setVariable('action', $routeMatch->getParam('action'));
+        });
         
 //         Entity manager for docrine
 

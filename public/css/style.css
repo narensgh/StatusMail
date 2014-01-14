@@ -75,6 +75,8 @@ label
     height: 28px;
     border-radius: 5px;
     border: 1px solid #596571;
+	line-height:28px;
+  	padding:2px;
 }
 .textbox:focus
 {
@@ -121,4 +123,44 @@ label
 #reportGraph
 {
 	min-height: 400px;
+}
+
+/* =============================working for reports ===================*/
+.user_content
+{
+	float: left;
+    height: 398px;
+    overflow-y: scroll;
+    width: 220px;
+}
+.report_content
+{
+	border-left: 1px solid #29547F;
+    float: right;
+    padding: 5px;
+    width: 900px;
+	
+}
+.clear{
+	clear:both;
+}
+.suser
+{
+	background: #B0B0B0;
+    border-bottom: 1px solid #FEFEFE;
+    padding: 5px;
+    width: 100%;
+	color : #fefefe;
+	font-weight:normal;
+}
+.suser:hover
+{
+	color : #888;
+}
+.suser .user_title
+{
+	display : inline-block;
+	width : 91%;
+	cursor : pointer;
+	
 }

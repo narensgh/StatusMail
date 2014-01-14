@@ -86,7 +86,7 @@ class LoginController extends BaseController	{
 		if(isset($this->session->username) || $this->session->afterLogout || isset($this->session)){
 			return true;
 		}else {
-			$this->redirectTo(array('controller'=>'login','action'=>'login'));
+			$this->redirectTo(array('controller'=>'index','action'=>'login'));
 		}
 	}
 
