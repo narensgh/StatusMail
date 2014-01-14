@@ -17,12 +17,12 @@ use Management\Form\SignUpForm;
 use Management\Form\SignUpFilter;
 use Management\Service\LoginService;
 
-class LoginController extends AbstractActionController	{
+class LoginController extends BaseController	{
 
 	/**
 	 * @var EntityManager
 	 */
-	private $_em;
+// 	private $_em;
 
 	/**
 	 * @var Container
@@ -35,24 +35,26 @@ class LoginController extends AbstractActionController	{
 	private $_user;
 
 	function __construct(){
-		$this->session = new Container('appl');
+		$this->_session = new Container('appl');
 		//$this->isLogedIn();
 	}
 
-	public function getEntityManager(){
-		if(!$this->_em){
-			$sm = $this->getServiceLocator();
-			$this->_em = $sm->get('Doctrine\ORM\EntityManager');
-		}
-		return $this->_em;
-	}
+// 	public function getEntityManager(){
+// 		if(!$this->_em){
+// 			$sm = $this->getServiceLocator();
+// 			$this->_em = $sm->get('Doctrine\ORM\EntityManager');
+// 		}
+// 		return $this->_em;
+// 	}
 
 	public function indexAction(){
-// 		$qb = $this->getEntityManager()->createQueryBuilder();
-// 		$qb->add('select', 'l')
-// 		   ->add('from', 'Management\Model\Entity\Login l');
-// 		$result = $qb->getQuery()-> getArrayResult();
-// 		return new ViewModel(array('results' => $result));
+		$qb = $this->getEntityManager()->createQueryBuilder();
+		$qb->add('select', 'u.firstName, u.lastName')
+		   ->add('from', 'Management\Model\Entity\User u')
+		   ->where('u.userId = :id')
+		   ->setParameter('id', $this->_session->userId);
+		$result = $qb->getQuery()-> getSingleResult();
+		return new ViewModel(array('results' => $result));
 	}
 
 	public function loginAction(){
@@ -84,7 +86,7 @@ class LoginController extends AbstractActionController	{
 		if(isset($this->session->username) || $this->session->afterLogout || isset($this->session)){
 			return true;
 		}else {
-			$this->redirectTo(array('controller'=>'index','action'=>'login'));
+			$this->redirectTo(array('controller'=>'login','action'=>'login'));
 		}
 	}
 
@@ -92,7 +94,7 @@ class LoginController extends AbstractActionController	{
 		unset($this->session->username);
 		unset($this->session->userId);
 		$this->session->afterLogout = true;
-		$this->redirectTo(array('controller'=>'index','action'=>'login'));
+		$this->redirectTo(array('controller'=>'login','action'=>'login'));
 	}
 
 	private function redirectTo($route){

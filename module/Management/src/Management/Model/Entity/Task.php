@@ -35,12 +35,20 @@ class Task
      */
     private $title;
 
-
+    /**
+     * @var \Management\Model\Entity\Status
+     *
+     * @ORM\OneToMany(targetEntity="Management\Model\Entity\Status", mappedBy="task")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="task_id", referencedColumnName="task_id")
+     * })
+     */
+    private $status;
 
     /**
      * Get taskId
      *
-     * @return integer 
+     * @return integer
      */
     public function getTaskId()
     {
@@ -56,14 +64,14 @@ class Task
     public function setJiraTicketId($jiraTicketId)
     {
         $this->jiraTicketId = $jiraTicketId;
-    
+
         return $this;
     }
 
     /**
      * Get jiraTicketId
      *
-     * @return string 
+     * @return string
      */
     public function getJiraTicketId()
     {
@@ -79,14 +87,14 @@ class Task
     public function setTitle($title)
     {
         $this->title = $title;
-    
+
         return $this;
     }
 
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {

@@ -63,7 +63,15 @@ class User
      */
     private $contactNo;
 
-
+    /**
+     * @var \Management\Model\Entity\Status
+     *
+     * @ORM\OneToMany(targetEntity="Management\Model\Entity\Status", mappedBy="user")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     * })
+     */
+    private $status;
 
     /**
      * Get userId

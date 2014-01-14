@@ -23,6 +23,8 @@ class LoginService extends Common{
 			if (!empty($userObj)){
 				$this->session->username = $userObj->getUserName();
 				$this->session->userId = $userObj->getUserId();
+				$this->session->firstName = $userObj->getFirstName();
+				$this->session->lastName = $userObj->getLastName();
 				return  array('controller' => 'status', 'action' => 'index');
 			} else
 				return array('controller' => 'login', 'action' => 'login');

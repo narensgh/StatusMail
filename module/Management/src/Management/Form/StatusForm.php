@@ -26,7 +26,7 @@ class StatusForm extends Form
         				'id' => 'ticketType',
         				'class' => 'select2',
         				'options' => array(
-        						'' => 'Select Ticket Type',
+        						'' => '---Select Ticket Type---',
         						'ASC' => 'ASC',
         						'LNC' =>'LNC',
         						'MOV' => 'MOV',
@@ -41,14 +41,14 @@ class StatusForm extends Form
         		),
         ));
         $this->add(array(
-                    'name' => 'ticketno',
+                    'name' => 'ticketNumber',
                     'type' => 'Text',
                     'attributes' =>array(
                     	'id' => 'ticketno',
                         'class' => 'textbox'
                         ),
                     'options' => array(
-                        
+
                     		'label_attributes' => array(
                     				'class' => 'label1'
                     		)
@@ -78,10 +78,11 @@ class StatusForm extends Form
         				'id' => 'status',
         				'class' => 'select1',
         				'options' => array(
-        						'' => 'Select Status',
-        						'Under Review' => 'Under Review',
-        						'Work in progress' => 'Work in progress',
-        						'Completed' => 'Completed'
+        						'' => '---Select Status---',
+								'Committed'	=>	'Committed',
+		        				'Completed'	=>	'Completed',
+								'Under Review'	=>	'Under Review',
+        						'Work in progress'	=>	'Work in progress',
         				),
         		),
         		'options' => array(

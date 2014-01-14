@@ -41,7 +41,7 @@ namespace Management;
     						),
     						'defaults' => array(
     								'__NAMESPACE__' => 'Management\Controller',
-    								'controller'    => 'Index',
+    								'controller'    => 'Login',
     								'action'        => 'index',
     						),
 	    				),

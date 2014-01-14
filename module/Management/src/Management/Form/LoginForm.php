@@ -42,7 +42,7 @@ class LoginForm extends Form
 				'attributes' => array(
 						'value' => 'Login',
 						'id' => 'submitbutton',
-                                    'class' => 'sign-in'
+						'class' => 'sign-in'
 				),
 			));
 	}

@@ -10,15 +10,15 @@
 
 <?php
     $statusForm = $this->statusForm;
-    $statusForm->setAttribute ( 'action', $this->url ( 'base', array ('controller'=>'status','action' => 'saveStatus' )));
+    $statusForm->setAttribute ( 'action', $this->url ( 'base', array ('controller'=>'status','action' => 'index' )));
     $statusForm->prepare ();
     echo $this->form ()->openTag ( $statusForm );
 ?>
  <div class="content">
-<?php 
-echo $this->formRow($statusForm->get('ticketType'))." - "; 
-echo $this->formRow($statusForm->get('ticketno'));
-echo $this->formRow($statusForm->get('title')); 
+<?php
+echo $this->formRow($statusForm->get('ticketType'))." - ";
+echo $this->formRow($statusForm->get('ticketNumber'));
+echo $this->formRow($statusForm->get('title'));
 echo $this->formRow($statusForm->get('status'));
 echo $this->formRow($statusForm->get('description'));
 echo $this->formSubmit($statusForm->get('submit'));

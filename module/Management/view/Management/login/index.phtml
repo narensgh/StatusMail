@@ -1,6 +1,6 @@
 
 <script src="http://code.highcharts.com/highcharts.js"></script>
-<?php	$name = $results->getFullname(); ?>
+<?php	$name = $results['firstName']." ".$results['lastName']; ?>
 <script>
 $(function () {
         $('#reportGraph').highcharts({

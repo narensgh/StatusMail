@@ -40,12 +40,12 @@ class Status
      *
      * @ORM\Column(name="date_added", type="datetime", nullable=false)
      */
-    private $dateAdded = 'CURRENT_TIMESTAMP';
+    private $dateAdded;
 
     /**
      * @var \Management\Model\Entity\Task
      *
-     * @ORM\ManyToOne(targetEntity="Management\Model\Entity\Task")
+     * @ORM\ManyToOne(targetEntity="Management\Model\Entity\Task", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="task_id", referencedColumnName="task_id")
      * })
@@ -67,7 +67,7 @@ class Status
     /**
      * Get statusId
      *
-     * @return integer 
+     * @return integer
      */
     public function getStatusId()
     {
@@ -83,14 +83,14 @@ class Status
     public function setStatus($status)
     {
         $this->status = $status;
-    
+
         return $this;
     }
 
     /**
      * Get status
      *
-     * @return string 
+     * @return string
      */
     public function getStatus()
     {
@@ -106,14 +106,14 @@ class Status
     public function setDescription($description)
     {
         $this->description = $description;
-    
+
         return $this;
     }
 
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -129,14 +129,14 @@ class Status
     public function setDateAdded($dateAdded)
     {
         $this->dateAdded = $dateAdded;
-    
+
         return $this;
     }
 
     /**
      * Get dateAdded
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateAdded()
     {
@@ -152,14 +152,14 @@ class Status
     public function setTask(\Management\Model\Entity\Task $task = null)
     {
         $this->task = $task;
-    
+
         return $this;
     }
 
     /**
      * Get task
      *
-     * @return \Management\Model\Entity\Task 
+     * @return \Management\Model\Entity\Task
      */
     public function getTask()
     {
@@ -175,14 +175,14 @@ class Status
     public function setUser(\Management\Model\Entity\User $user = null)
     {
         $this->user = $user;
-    
+
         return $this;
     }
 
     /**
      * Get user
      *
-     * @return \Management\Model\Entity\User 
+     * @return \Management\Model\Entity\User
      */
     public function getUser()
     {
