@@ -15,5 +15,4 @@ class Common {
 			$this->_em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
 		return $this->_em;
 	}
-
 }

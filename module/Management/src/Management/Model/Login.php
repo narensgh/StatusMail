@@ -19,9 +19,9 @@ class Login{
 			->where('u.username = ?1')
 			->andwhere('u.password = ?2')
 			->setParameter(1, $post['username'])
-			->setParameter(2, md5($post['password']));
-
-		$result = $qb->getQuery()->getSingleResult();
+			->setParameter(2, md5($post['password']))
+			->setMaxResults(1);
+		$result = $qb->getQuery()->getOneOrNullResult();
 		return $result;
 	}
 
@@ -33,16 +33,8 @@ class Login{
 		$user->setContactNo($data->contact);
 		$user->setFirstName($data->firstName);
 		$user->setLastName($data->lastName);
-
-// 		$this->getEntityManager()->persist($user);
-// 		$this->getEntityManager()->flush();
-// 		$user = new UserInfo();
-// 		$user->setEmailId($data->emailid);
-// 		$user->setFullname($data->fullname);
-// 		$user->setLogin($login);
 		$this->_em->persist($user);
 		$this->_em->flush();
-// 		$this->user = $user;
 		return $user;
 	}
 

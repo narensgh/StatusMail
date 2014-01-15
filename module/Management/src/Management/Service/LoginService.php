@@ -43,12 +43,7 @@ class LoginService extends Common{
 				$this->session->username = $userObj->getUsername();
 				$this->redirectTo(array('controller'=>'status','action'=>'index'));
 			}
-			echo "Something went wrong.";exit;
 		}
-	}
-
-	private function redirectTo($route){
-		return $this->redirect()->toRoute('base',$route);
 	}
 
 }

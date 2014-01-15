@@ -17,15 +17,13 @@ class StatusService extends Common{
 	}
 
 	public function getUserReport($userId, $fromDate=null, $toDate=null){
-// 		date('Y-m-d', strtotime("-7 days",strtotime(date('Y-m-d'))))
-// 		echo date('Y-m-d'). " --------------- ". date('Y-m-d', strtotime("+1 days",strtotime(date('Y-m-d'))));exit;
 		if (!$fromDate)
 			$fromDate = date('Y-m-d', strtotime("-7 days",strtotime(date('Y-m-d'))));
 		if (!$toDate)
 			$toDate = date('Y-m-d', strtotime("+1 days",strtotime(date('Y-m-d'))));
 
 		$qb = $this->getEntityManager()->createQueryBuilder();
-		$qb->add('select', 's,t')
+		$qb->add('select', 's,t,u')
 		->add('from', 'Management\Model\Entity\Status s')
 		->innerJoin('s.task', 't')
 		->innerJoin('s.user', 'u')
@@ -36,8 +34,22 @@ class StatusService extends Common{
 		->setParameter('to', $toDate)
 		->orderBy('s.dateAdded');
 		$reports = $qb->getQuery()->getArrayResult();
-
-		return $reports;
+		$reports = json_decode(json_encode($reports, true));
+		$reportArr = array();
+		foreach ($reports as $report)
+		{
+			$statusId = $report->statusId;
+			$reportDate = date('Y-m-d',strtotime($report->dateAdded->date));
+			$reportArr[$reportDate]->$statusId = array(
+						'status' => $report->status,
+						'description'=> $report->description,
+						'jiraTicketId'=>$report->task->jiraTicketId,
+						'title'=>$report->task->title,
+						'userId'=> $report->user->userId,
+						'reportDate'=> $reportDate
+					);
+		}
+		return json_decode(json_encode($reportArr, true));
 	}
 
 }

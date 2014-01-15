@@ -79,6 +79,9 @@ namespace Management;
 				'template_path_stack' => array(
 						__DIR__ . '/../view',
 				),
+				'strategies' => array(
+						'ViewJsonStrategy',
+				),
 		),
 		'translator' => array(
 				'locale' => 'en_US',

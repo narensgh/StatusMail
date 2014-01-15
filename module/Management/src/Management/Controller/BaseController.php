@@ -4,6 +4,7 @@ namespace Management\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 
+
 class BaseController extends AbstractActionController{
 
 	protected $_em;
@@ -17,6 +18,9 @@ class BaseController extends AbstractActionController{
 			$this->_em = $sm->get('Doctrine\ORM\EntityManager');
 		}
 		return $this->_em;
+	}
+	public function redirectTo($route){
+		return $this->redirect()->toRoute('base',$route);
 	}
 
 }

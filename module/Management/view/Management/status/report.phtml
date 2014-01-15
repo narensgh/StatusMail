@@ -1,26 +1,32 @@
 <?php 
-if($this->reports)
+if($this->reportObj)
 {
-	$reports = $this->reports;
+	$reportObj = $this->reportObj;
+// 	print_r($reports);die;
 }
 
 ?>
 
 <div class="report_container">
 <?php 
-	if(!empty($reports))
+	if(!empty($reportObj))
 	{
-		foreach ($reports as $report)
+		foreach ($reportObj as $reportDate => $reports )
 		{
-			?>
-			<h4><?php echo date('jS F Y', strtotime($report->dateAdded->date)) ?></h4>
-			1. <a href="http://jira.theorchard.com/browse/<?php echo $report->ticketNo ?>" target="_blank"><?php echo $report->ticketNo ?></a> : 
-			<?php echo $report->title ?>
-			<span class="status_cont">Status : Under Review</span>
-			<div class="desc_cont">
-                <?php echo $report->description ?>
-    		</div>
-			<?php 
+			?> 			
+			<h4><?php echo date('jS F Y', strtotime($reportDate)) ?></h4>
+			<?php
+			foreach ($reports as $report)
+			{
+				?>
+				1. <a href="http://jira.theorchard.com/browse/<?php echo $report->jiraTicketId ?>" target="_blank"><?php echo $report->jiraTicketId ?></a> : 
+				<?php echo $report->title ?>
+				<span class="status_cont"><?php echo $report->status ?></span>
+				<div class="desc_cont">
+	                <?php echo $report->description ?>
+	    		</div>
+				<?php
+			} 
 		}
 	}
 

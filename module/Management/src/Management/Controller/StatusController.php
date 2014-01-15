@@ -23,6 +23,7 @@ use Management\Model\Entity\Task;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 use Management\Form\StatusForm;
 use Management\Model\Entity\Report;
 use Zend\Session\Container;
@@ -137,19 +138,28 @@ class StatusController extends BaseController{
     public function reportAction(){
     	$this->isLoggedIn();
     	$serviceStatus = new StatusService($this->getEntityManager());
-    	$userReport = $serviceStatus->getUserReport($this->session->userId);echo "<pre>";print_r($userReport);exit;
-    	return new ViewModel(array('reports' => $userReport));
-    }
-
-    private function redirectTo($route){
-    	return $this->redirect()->toRoute('base',$route);
-    }
-
-    public function viewAllReportAction(){
-    	$this->isLoggedIn();
-    	$serviceStatus = new StatusService($this->getEntityManager());
     	$userReport = $serviceStatus->getUserReport($this->session->userId);
-    	return new ViewModel(array('reports' => $userReport));
+    	return new ViewModel(array('reportObj' => $userReport));
+    }
+    public function viewAllReportAction()
+    {
+    	$this->isLoggedIn();
+    	$qb = $this->getEntityManager()->createQueryBuilder();
+    	$qb->add('select', 'u')
+    	->add('from', 'Management\Model\Entity\User u');
+    	$reports = $qb->getQuery()-> getArrayResult();
+    	return new ViewModel(array('teamUser' => json_decode(json_encode($reports, true))));
+    }
+    public function getUserReportAction()
+    {
+    	$request = $this->getRequest();    	
+    	if ($request->isXmlHttpRequest()){
+    		$serviceStatus = new StatusService($this->getEntityManager());
+    		$userId = $request->getPost('userId');
+    		$reportDate = $request->getPost('reportDate');
+    		$userReport = $serviceStatus->getUserReport($userId, $reportDate );
+    	}
+    	return new JsonModel(array('userReport'=>$userReport));
     }
 
 }

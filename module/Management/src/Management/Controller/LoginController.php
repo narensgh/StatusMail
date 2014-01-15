@@ -39,14 +39,6 @@ class LoginController extends BaseController	{
 		//$this->isLogedIn();
 	}
 
-// 	public function getEntityManager(){
-// 		if(!$this->_em){
-// 			$sm = $this->getServiceLocator();
-// 			$this->_em = $sm->get('Doctrine\ORM\EntityManager');
-// 		}
-// 		return $this->_em;
-// 	}
-
 	public function indexAction(){
 		$qb = $this->getEntityManager()->createQueryBuilder();
 		$qb->add('select', 'u.firstName, u.lastName')
@@ -89,15 +81,13 @@ class LoginController extends BaseController	{
 			$this->redirectTo(array('controller'=>'index','action'=>'login'));
 		}
 	}
-
+	public function redirectTo($route){
+		return $this->redirect()->toRoute('base',$route);
+	}
 	public function logoutAction(){
 		unset($this->session->username);
 		unset($this->session->userId);
 		$this->session->afterLogout = true;
 		$this->redirectTo(array('controller'=>'login','action'=>'login'));
-	}
-
-	private function redirectTo($route){
-		return $this->redirect()->toRoute('base',$route);
 	}
 }
