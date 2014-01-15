@@ -13,6 +13,10 @@
 
 namespace Management\Controller;
 
+use ZendTest\View\Helper\Placeholder\StandaloneContainerTest;
+
+use Management\Service\StatusService;
+
 use Management\Model\Entity\Status;
 
 use Management\Model\Entity\Task;
@@ -105,27 +109,49 @@ class StatusController extends BaseController{
         }
     }
 
-    public function reportAction(){
+    public function freportAction(){
     	$this->isLoggedIn();
     	$qb = $this->getEntityManager()->createQueryBuilder();
-    	$qb->add('select', 't,s,u')
-    	->add('from', 'Management\Model\Entity\Task t')
-		 ->innerJoin('t.status', 's')
-		 ->innerJoin('s.user', 'u')
-		 ->where('u.userId = :userId')
-         ->setParameter('userId', $this->session->userId);
-    	$reports = $qb->getQuery()-> getArrayResult();echo "<pre>";print_r($reports);exit;
-    	return new ViewModel(array('reports' => json_decode(json_encode($reports, true))));
+//     	$qb->add('select', 's,t,u')
+//     	->add('from', 'Management\Model\Entity\Task t')
+// 		 ->innerJoin('t.status', 's')
+// 		 ->innerJoin('s.user', 'u')
+// 		 ->where('u.userId = :userId')
+//          ->setParameter('userId', $this->session->userId)
+//          ->orderBy('s.dateAdded');
+
+    	$qb->add('select', 's,t')
+    	->add('from', 'Management\Model\Entity\Status s')
+    	->innerJoin('s.task', 't')
+    	->innerJoin('s.user', 'u')
+    	->where('u.userId = :userId')
+    	->setParameter('userId', $this->session->userId)
+    	->orderBy('s.dateAdded');
+
+    	$reports = $qb->getQuery()->getArrayResult();
+//     	echo "<pre>";print_r($reports);exit;
+//     	return new ViewModel(array('reports' => json_decode(json_encode($reports, true))));
+    	return new ViewModel(array('reports' => $reports));
+    }
+
+    public function reportAction(){
+    	$this->isLoggedIn();
+    	$serviceStatus = new StatusService($this->getEntityManager());
+    	$userReport = $serviceStatus->getUserReport($this->session->userId);echo "<pre>";print_r($userReport);exit;
+    	return new ViewModel(array('reports' => $userReport));
     }
 
     private function redirectTo($route){
     	return $this->redirect()->toRoute('base',$route);
     }
-    public function viewAllReportAction()
-    {
-    	
+
+    public function viewAllReportAction(){
+    	$this->isLoggedIn();
+    	$serviceStatus = new StatusService($this->getEntityManager());
+    	$userReport = $serviceStatus->getUserReport($this->session->userId);
+    	return new ViewModel(array('reports' => $userReport));
     }
-    
+
 }
 
 ?>
