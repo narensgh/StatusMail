@@ -41,8 +41,12 @@ class LoginService extends Common{
 			$userObj = $modelLogin->createUser($post);
 			if ($userObj){
 				$this->session->username = $userObj->getUsername();
-				$this->redirectTo(array('controller'=>'status','action'=>'index'));
-			}
+				$this->session->userId = $userObj->getUserId();
+				$this->session->firstName = $userObj->getFirstName();
+				$this->session->lastName = $userObj->getLastName();
+				return array('controller'=>'status','action'=>'index');
+			}else
+				return array('controller' => 'login', 'action' => 'login');
 		}
 	}
 

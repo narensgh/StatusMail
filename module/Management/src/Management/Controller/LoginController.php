@@ -62,7 +62,8 @@ class LoginController extends BaseController	{
 				$result = $serviceLogin->login($post, $loginForm);
 				$this->redirectTo($result);
 			}else if($post['submit']=="Sign Up"){
-				$serviceLogin->signUp($post, $signUpForm);
+				$result = $serviceLogin->signUp($post, $signUpForm);
+				$this->redirectTo($result);
 			}
 		}
 		return new ViewModel(
@@ -75,7 +76,7 @@ class LoginController extends BaseController	{
 
 
 	private function isLogedIn(){
-		if(isset($this->session->username) || $this->session->afterLogout || isset($this->session)){
+		if(isset($this->_session->username) || $this->_session->afterLogout || isset($this->_session)){
 			return true;
 		}else {
 			$this->redirectTo(array('controller'=>'index','action'=>'login'));
@@ -85,9 +86,9 @@ class LoginController extends BaseController	{
 		return $this->redirect()->toRoute('base',$route);
 	}
 	public function logoutAction(){
-		unset($this->session->username);
-		unset($this->session->userId);
-		$this->session->afterLogout = true;
+		unset($this->_session->username);
+		unset($this->_session->userId);
+		$this->_session->afterLogout = true;
 		$this->redirectTo(array('controller'=>'login','action'=>'login'));
 	}
 }
