@@ -44,10 +44,11 @@ class StatusService extends Common{
 						'status' => $report->status,
 						'description'=> $report->description,
 						'jiraTicketId'=>$report->task->jiraTicketId,
-						'title'=>$report->task->title,
-						'userId'=> $report->user->userId,
+						'title'=>$report->task->title,						
 						'reportDate'=> $reportDate
 					);
+			$reportArr[$reportDate]->userId = $report->user->userId;
+			$reportArr[$reportDate]->name = $report->user->firstName." ".$report->user->lastName;
 		}
 		return json_decode(json_encode($reportArr, true));
 	}

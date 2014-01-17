@@ -13,17 +13,7 @@
 }?>
 	</div>
 	<div id="report_content" class="report_content">
-		<div id="report_data1" class="report_data">
-			<h4>Narendra Singh</h4>
-				1. <a href="http://jira.theorchard.com/browse/ASC-455" target="_blank">ASC-455</a> : 
-				Change Store Genre Spreadsheet Uploader rules
-				<span class="status_cont">Status : Under Review</span>
-				<div class="desc_cont">
-	               The speadsheet uploader on this page should not reject files because they do not have all fields completed 
-	               that are configured on the DMS page. They should allow those fields to be accepted, but some stores 
-	               (Google for example) have just a genre or genre/sub-genre combinations that will need to be uploaded.
-	    		</div>
-		</div>
+		
 	</div>
 	<div class="clear"></div>
 </div>
@@ -38,9 +28,9 @@ function getUserReport(userId)
 	       	type:"POST",
 	        url:"<?php echo $this->url('base', array('controller'=>'status','action'=>'getUserReport')) ?>",
 	        data:{userId:userId, reportDate : date},
-	        success: function(data){
-		        if(data){
-			        var userReportHtml = produceReportHtml(data);
+	        success: function(userReportObj){
+		        if(userReportObj){
+			        var userReportHtml = produceReportHtml(userReportObj);
 		          	$("#report_content").append(userReportHtml);
 		        }
 			}
@@ -48,14 +38,30 @@ function getUserReport(userId)
 	}
 	else
 	{
-		alert('unchecked');
+		$('#reportData'+userId).remove();
 	}
 }
 
-function produceReportHtml(data)
+function produceReportHtml(userReportObj)
 {
-	var reportHtml = '<div id="report_data1" class="report_data">';
-	
+	var reportHtml = '';
+	$.each(userReportObj, function(index, userReport){
+		$.each(userReport, function(key, report){
+			reportHtml += '<div id="reportData'+report.userId+'" class="report_data">';
+			reportHtml += '<h4>'+report.name+'</h4>';
+			$.each(report, function(key, r){
+				if(typeof(r)=="object"){				
+					reportHtml += '1. <a href="http://jira.theorchard.com/browse/'+r.jiraTicketId+'" target="_blank">'+r.jiraTicketId+'</a> :';
+					reportHtml += r.title; 
+					reportHtml += '<span class="status_cont">Status : '+r.status+'</span>';
+					reportHtml += '<div class="desc_cont">'+r.description;
+					reportHtml += '</div>';
+				}					
+			});
+			reportHtml += '</div>';
+		});
+	});
+	return reportHtml;
 }
 
 </script>
