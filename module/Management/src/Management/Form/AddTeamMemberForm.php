@@ -16,15 +16,15 @@ class AddTeamMemberForm extends Form
 			'name' => 'Team',
 			'attributes' =>  array(
 				'id' => 'Team',
-				'class' => 'select2',
+				'class' => 'select3',
 			),
 			'options' => array(
 				'label' => 'Team',
-				'value_options' => $adminService->getTeamDropdown(),
-				'empty_option'  => '--- please choose Team ---',
 				'label_attributes' => array(
 					'class' => 'label2'
-				)
+				),
+				'value_options' => $adminService->getTeamDropdown(),
+				'empty_option'  => 'Choose Team'
 			),
 		));
 		$this->add(array(

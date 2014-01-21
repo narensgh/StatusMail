@@ -40,7 +40,7 @@ class StatusController extends BaseController{
 
     public function indexAction(){
     	$this->isLoggedIn();
-        $statusForm = new StatusForm();
+        $statusForm = new StatusForm($this->getEntityManager());
 
         if ($this->getRequest()->isPost()){
         	$post = $this->getRequest()->getPost();
@@ -58,11 +58,8 @@ class StatusController extends BaseController{
 	public function saveStatus($postData){
     	$this->isLoggedIn();
 		$user = $this->getEntityManager()->find('Management\Model\Entity\User', $this->session->userId);
-// 		$statusForm = new StatusForm();
-
-// 		echo "<pre>";print_r($postData);exit;
-
-		$jiraTicket = $this->getJiraTicket($postData->ticketType."-".$postData->ticketNumber, $postData);
+		$ticketType = $this->getEntityManager()->find('Management\Model\Entity\Team', $postData->ticketType);
+		$jiraTicket = $this->getJiraTicket($ticketType->getTeamAbbr()."-".$postData->ticketNumber, $postData);
 		$status = new Status();
 		$status->setDescription($postData->description);
 		$status->setUser($user);

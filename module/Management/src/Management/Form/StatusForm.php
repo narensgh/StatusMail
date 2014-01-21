@@ -12,32 +12,29 @@
  */
 namespace Management\Form;
 use Zend\Form\Form;
+use Management\Service\AdminService;
 
 class StatusForm extends Form
 {
-    function __construct()
+    function __construct($em)
     {
         parent::__construct();
+        $adminService = new AdminService($em);
         $this->setAttribute('method', 'post');
         $this->add(array(
         		'type' => 'Select',
         		'name' => 'ticketType',
         		'attributes' =>  array(
-        				'id' => 'ticketType',
-        				'class' => 'select2',
-        				'options' => array(
-        						'' => '---Select Ticket Type---',
-        						'ASC' => 'ASC',
-        						'LNC' =>'LNC',
-        						'MOV' => 'MOV',
-        						'VAPI' => 'VAPI'
-        				),
+        			'id' => 'ticketType',
+        			'class' => 'select3'        			
         		),
         		'options' => array(
         				'label' => 'Ticket No',
         				'label_attributes' => array(
         						'class' => 'label1'
-        				)
+        				),
+        				'value_options' => $adminService->getTeamDropdown(),
+        				'empty_option'  => 'Choose Team',
         		),
         ));
         $this->add(array(
