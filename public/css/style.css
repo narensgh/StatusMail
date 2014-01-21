@@ -6,6 +6,7 @@ label
 {
     margin: 0;
 }
+
 .login_wrapper{
     width:467px;
     margin: 20px;
@@ -56,8 +57,16 @@ label
 }
 .select2
 {
+	width:100px;
 	padding:3px;
 	margin-right: 3px;
+}
+.label2
+{
+	display: inline-block;
+    font-size: 15px;
+    font-weight: normal;
+    width: 140px; 
 }
 .label1
 {
@@ -101,6 +110,12 @@ label
     margin-left: 120px;
     color: #FEFEFE;
 }
+.move{
+	color:#333333;
+	font-size:12px;
+  	line-height:18px;
+  	padding:3px 9px;	
+}
 
 .report_container
 {
@@ -114,7 +129,7 @@ label
 }
 .desc_cont
 {
-    margin-left: 33px;
+    margin-left: 75px;
 }
 .logout
 {
@@ -163,4 +178,36 @@ label
 	width : 91%;
 	cursor : pointer;
 	
+}.
+.report_data
+{
+	padding : 5px 10px;
+	border-bottom : 1px dotted #E2916C;	
+}
+/*==================Working for Admin part=============================*/
+
+.Admin_wrapper{
+	float: right;
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+}
+.team_wrapper
+{
+	float: left;
+    width: 600px;
+}
+.team_member
+{
+	margin-left: auto;
+    margin-right: auto;
+    width: 700px;
+}
+.odd
+{
+	background : #C1D2E7;
+}
+.even
+{
+	background :#DAE1E4;
 }

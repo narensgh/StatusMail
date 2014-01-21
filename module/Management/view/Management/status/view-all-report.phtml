@@ -49,14 +49,14 @@ function produceReportHtml(userReportObj)
 		$.each(userReport, function(key, report){
 			reportHtml += '<div id="reportData'+report.userId+'" class="report_data">';
 			reportHtml += '<h4>'+report.name+'</h4>';
-			$.each(report, function(key, r){
-				if(typeof(r)=="object"){				
-					reportHtml += '1. <a href="http://jira.theorchard.com/browse/'+r.jiraTicketId+'" target="_blank">'+r.jiraTicketId+'</a> :';
+			var reportNo = 1;
+			$.each(report.report, function(key, r){
+					reportHtml += reportNo + '. <a href="http://jira.theorchard.com/browse/'+r.jiraTicketId+'" target="_blank">'+r.jiraTicketId+'</a> :';
 					reportHtml += r.title; 
 					reportHtml += '<span class="status_cont">Status : '+r.status+'</span>';
 					reportHtml += '<div class="desc_cont">'+r.description;
 					reportHtml += '</div>';
-				}					
+					reportNo ++;
 			});
 			reportHtml += '</div>';
 		});

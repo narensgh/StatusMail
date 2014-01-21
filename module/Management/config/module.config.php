@@ -62,6 +62,7 @@ namespace Management;
 						'Management\Controller\Index' => 'Management\Controller\IndexController',
 						'Management\Controller\Status' => 'Management\Controller\StatusController',
 						'Management\Controller\Login' => 'Management\Controller\LoginController',
+						'Management\Controller\Admin' => 'Management\Controller\AdminController',
 				),
 		),
 		'view_manager' => array(

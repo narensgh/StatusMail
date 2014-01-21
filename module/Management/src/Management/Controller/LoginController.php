@@ -8,13 +8,11 @@ namespace Management\Controller;
 
 use Management\Model\Entity\User;
 use Doctrine\ORM\EntityManager;
-use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
 use Management\Model\Entity\UserInfo;
 use Management\Form\LoginForm;
 use Management\Form\SignUpForm;
-use Management\Form\SignUpFilter;
 use Management\Service\LoginService;
 
 class LoginController extends BaseController	{
@@ -63,7 +61,8 @@ class LoginController extends BaseController	{
 				$this->redirectTo($result);
 			}else if($post['submit']=="Sign Up"){
 				$result = $serviceLogin->signUp($post, $signUpForm);
-				$this->redirectTo($result);
+				if($result['action']=='index')
+					$this->redirectTo($result);
 			}
 		}
 		return new ViewModel(

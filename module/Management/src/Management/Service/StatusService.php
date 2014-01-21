@@ -40,7 +40,7 @@ class StatusService extends Common{
 		{
 			$statusId = $report->statusId;
 			$reportDate = date('Y-m-d',strtotime($report->dateAdded->date));
-			$reportArr[$reportDate]->$statusId = array(
+			$reportArr[$reportDate]->report->$statusId = array(
 						'status' => $report->status,
 						'description'=> $report->description,
 						'jiraTicketId'=>$report->task->jiraTicketId,
