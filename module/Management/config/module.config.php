@@ -65,6 +65,11 @@ namespace Management;
 						'Management\Controller\Admin' => 'Management\Controller\AdminController',
 				),
 		),
+ 		'controller_plugins' => array(
+ 				'invokables' => array(
+ 						'Managementplugin' => 'Management\Controller\Plugin\Managementplugin',
+ 				)
+ 		),
 		'view_manager' => array(
 				'display_not_found_reason' => true,
 				'display_exceptions'       => true,

@@ -26,7 +26,8 @@ class Module
 {
     public function onBootstrap(MvcEvent $e)
     {
-        $eventManager        = $e->getApplication()->getEventManager();
+        $eventManager        = $e->getApplication()->getEventManager();        
+        $eventManager->attach('route', array($this, 'loadConfiguration'), 2);
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
 		        
@@ -46,6 +47,34 @@ class Module
         $platform->registerDoctrineTypeMapping('enum', 'string');
     }
 
+    public function loadConfiguration(MvcEvent $e)
+    {
+    	$application   = $e->getApplication();
+    	$sm            = $application->getServiceManager();
+    	$sharedManager = $application->getEventManager()->getSharedManager();
+    	 
+    	$router = $sm->get('router');
+    	$request = $sm->get('request');
+    	 
+    	$matchedRoute = $router->match($request);    	
+    	if (null !== $matchedRoute) {
+    		$sharedManager->attach('Zend\Mvc\Controller\AbstractActionController','dispatch',
+    				function($e) use ($sm) {
+    			$sm->get('ControllerPluginManager')->get('Managementplugin')
+    			->doAuthorization($e); //pass to the plugin...
+    		},2
+    		);
+    	}
+    	else{
+    		$url    = $router->assemble(array('controller'=>'login','action'=>'login'), array('name' => 'base'));
+    		$response = $e->getResponse();
+    		$response->setStatusCode(302);    		
+    		$response->getHeaders()->addHeaderLine('Location', $url);
+    		$response->sendHeaders();
+    		$e->stopPropagation();
+    	}    		
+    }
+    
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
