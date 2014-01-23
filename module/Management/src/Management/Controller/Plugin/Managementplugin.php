@@ -21,8 +21,10 @@ class Managementplugin extends AbstractPlugin
      
     public function doAuthorization($e)
     {            
-       $requestUri=$e->getRequest()->getRequestUri();
-      	if($requestUri !='/management/login/login'){
+       $routeMatch = $e->getRouteMatch();
+       $controller=$routeMatch->getParam('controller');
+       $action=$routeMatch->getParam('action');      
+       if(($controller !='Management\Controller\Login') &&  ($action!='login')){
       		if(!(isset($this->getSessContainer()->username ) && isset($this->getSessContainer()->userId))){
       			$router = $e->getRouter();
       			$url    = $router->assemble(array('controller'=>'login','action'=>'login'), array('name' => 'base'));      			
