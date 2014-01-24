@@ -8,12 +8,8 @@ use Zend\Session\Container;
 
 class LoginService extends Common{
 
-	protected $_em;
-	protected $session;
-
 	public function __construct($em){
-		$this->_em = $em;
-		$this->session = new Container('appl');
+		parent::__construct($em);
 	}
 
 	public function login($post){
@@ -21,10 +17,11 @@ class LoginService extends Common{
 			$modelLogin = new Login($this->_em);
 			$userObj = $modelLogin->isValidLoginData($post);
 			if (!empty($userObj)){
-				$this->session->username = $userObj->getUserName();
-				$this->session->userId = $userObj->getUserId();
-				$this->session->firstName = $userObj->getFirstName();
-				$this->session->lastName = $userObj->getLastName();
+				$this->_session->username = $userObj->getUserName();
+				$this->_session->userId = $userObj->getUserId();
+				$this->_session->firstName = $userObj->getFirstName();
+				$this->_session->lastName = $userObj->getLastName();
+				$this->_session->afterLogout = false;
 				return  array('controller' => 'status', 'action' => 'index');
 			} else
 				return array('controller' => 'login', 'action' => 'login');
@@ -40,10 +37,11 @@ class LoginService extends Common{
 			$modelLogin = new Login($this->_em);
 			$userObj = $modelLogin->createUser($post);
 			if ($userObj){
-				$this->session->username = $userObj->getUsername();
-				$this->session->userId = $userObj->getUserId();
-				$this->session->firstName = $userObj->getFirstName();
-				$this->session->lastName = $userObj->getLastName();
+				$this->_session->username = $userObj->getUsername();
+				$this->_session->userId = $userObj->getUserId();
+				$this->_session->firstName = $userObj->getFirstName();
+				$this->_session->lastName = $userObj->getLastName();
+				$this->_session->afterLogout = false;
 				return array('controller'=>'status','action'=>'index');
 			}else
 				return array('controller' => 'login', 'action' => 'login');
