@@ -47,4 +47,16 @@ class AdminService extends Common{
 		}
 		return $teamDropdown;
 	}
+        public function fetchUserMapping()
+        {
+            $admin = new Admin($this->_em);
+            $userMapping = $admin->fetchUserMapping();
+            return json_encode($userMapping, true);
+        }
+        public function mapTeam($post, $AddTeamMemberForm)
+        {
+            $modelAdmin = new Admin($this->_em);
+            $modelAdmin->mapTeam($post);
+            return array('controller' => 'admin', 'action' => 'manageteam');			
+        }
 }

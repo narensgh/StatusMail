@@ -37,4 +37,20 @@ class Admin {
 		$result = $qb->getQuery()->getArrayResult();
 		return $result;
 	}
+        public function fetchUserMapping(){
+            $qb = $this->_em->createQueryBuilder();
+            $qb->add('select', 'u')
+               ->add('from', 'Management\Model\Entity\User u');
+            return $qb->getQuery()->getArrayResult();
+	}
+        public function mapTeam($post)
+        {
+            print_r($post);die;
+            $team = new Team();
+            $team->setTeamName($post->teamName);
+            $team->setTeamAbbr($post->teamAbbr);
+            $this->_em->persist($team);
+            $this->_em->flush();
+            return $team;
+        }
 }

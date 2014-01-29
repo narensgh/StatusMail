@@ -28,7 +28,7 @@ class AddTeamMemberForm extends Form
 			),
 		));
 		$this->add(array(
-			'type' => 'Select',
+			'type' => 'select',
 			'name' => 'TeamMember',
 			'attributes' =>  array(
 				'id' => 'TeamMember',
@@ -38,7 +38,7 @@ class AddTeamMemberForm extends Form
 			),
 		));
 		$this->add(array(
-			'type' => 'Select',
+			'type' => 'select',
 			'name' => 'SelectedTeamMember',
 			'attributes' =>  array(
 				'id' => 'SelectedTeamMember',

@@ -28,11 +28,26 @@ class AdminController extends BaseController
 		return new ViewModel(array('AddTeamForm'=>$addTeamForm,'teamObj'=> $teamObj));
 
 	}
-	public function addteammemeberAction()
+	public function manageteamAction()
 	{
-		$AddTeamMemberForm = new AddTeamMemberForm($this->getEntityManager());
-		return new ViewModel(array('AddTeamMemberForm'=>$AddTeamMemberForm));
+            $AddTeamMemberForm = new AddTeamMemberForm($this->getEntityManager());
+            $request = $this->getRequest();
+            $serviceAdmin = new AdminService($this->getEntityManager());
+            if($request->isPost()){
+                $post = $request->getPost();
+                print_r($post);die;
+                $mappiingResponse = $serviceAdmin->mapTeam($post, $AddTeamMemberForm);
+                if($mappiingResponse){
+                    $this->redirectTo($mappiingResponse);
+                }
+            }
+            $userMapping = $serviceAdmin->fetchUserMapping();
+            return new ViewModel(array('AddTeamMemberForm'=>$AddTeamMemberForm, 'userMapping' => $userMapping));
 	}
+        public function mapTeamUserAction()
+        {
+            
+        }
 }
 
 ?>

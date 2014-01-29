@@ -1,12 +1,14 @@
 <?php
-    $title = 'Add Team Member';
+    $title = 'Manage Team Member';
     $this->headTitle($title);
 ?>
 <script type="text/javascript">
 $(document).ready(function() {
+    var userMapping = <?php echo (!empty($this->userMapping)) ? $this->userMapping : ""  ?>;
+    processUserMapping(userMapping);
 	$('#add').click(function() {
 		$("#msg").html("");
-		if($('#TeamMember :selected').size()==0)
+		if($('#TeamMember :selected').size()===0)
 			$("#msg").html("Please select at least one employee");
 		$('#SelectedTeamMember').append($('#TeamMember :selected'));
 		$('#SelectedTeamMember :selected').each(function(i, selected){
@@ -15,13 +17,18 @@ $(document).ready(function() {
 	});
 	$('#remove').click(function() {
 		$("#msg").html("");
-		if($('#SelectedTeamMember :selected').size()==0)
+		if($('#SelectedTeamMember :selected').size()===0)
 			$("#msg").html("Please select at least one employee");
 		$('#TeamMember').append($('#SelectedTeamMember :selected'));
 
 	});
 });
-
+function processUserMapping(userMapping)
+{
+    $.each(userMapping, function(key, user){
+        $('#TeamMember').append($('<option>', { value : user.userId }).text(user.firstName +" "+ user.lastName));
+    });
+}
 </script>
 <div class="team_member">
     <div class="sign_title">
