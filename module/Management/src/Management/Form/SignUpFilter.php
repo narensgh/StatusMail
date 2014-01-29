@@ -17,6 +17,10 @@ class SignUpFilter extends InputFilter
 						'domain' => true,
 					),
 				),
+
+				array(
+					'name'	=>	'Management\Custom\Validator\EmailValidatorSynergy'
+				),
 			),
 		));
 
