@@ -31,6 +31,9 @@ class SignUpFilter extends InputFilter
 				array(
 					'name'    => 'StripTags',
 				),
+				array(
+					'name'	=>	'Management\Custom\Filter\MyFilter'
+				),
 			),
 			'validators' => array(
 				array(

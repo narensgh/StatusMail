@@ -36,4 +36,11 @@ class Status{
 		return $qb->getQuery()->getArrayResult();
 	}
 
+	public function fetchAllUsers(){
+		$qb = $this->_em->createQueryBuilder();
+		$qb->add('select', 'u')
+		   ->add('from', 'Management\Model\Entity\User u');
+		return $qb->getQuery()->getArrayResult();
+	}
+
 }

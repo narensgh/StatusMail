@@ -51,17 +51,24 @@ class StatusController extends BaseController{
 
     public function viewAllReportAction(){
     	$serviceStatus = new StatusService($this->getEntityManager());
-    	$serviceStatus->getAllReports();
+    	$reports = $serviceStatus->getAllReports();
     	return new ViewModel(array('teamUser' => json_decode(json_encode($reports, true))));
     }
 
     public function getUserReportAction(){
     	$request = $this->getRequest();
     	if ($request->isXmlHttpRequest()){
+    		$allParams = $this->params()->fromQuery();
     		$serviceStatus = new StatusService($this->getEntityManager());
     		$userId = $request->getPost('userId');
     		$reportDate = $request->getPost('reportDate');
-    		$userReport = $serviceStatus->getUserReport($userId, $reportDate );
+    		$userReport = $serviceStatus->getUserReport($userId);
+    	}else {
+    		$serviceStatus = new StatusService($this->getEntityManager());
+    		$allParams = $this->params()->fromQuery();
+    		$userId = $allParams['userId'];
+    		$reportDate = $request->getPost('reportDate');
+    		$userReport = $serviceStatus->getUserReport($userId);echo "<pre>";print_r($userReport);exit;
     	}
     	return new JsonModel(array('userReport'=>$userReport));
     }

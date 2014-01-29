@@ -15,7 +15,7 @@ class StatusService extends Common{
 
 	public function getUserReport($userId, $fromDate=null, $toDate=null){
 		if (!$fromDate)
-			$fromDate = date('Y-m-d', strtotime("-14 days",strtotime(date('Y-m-d'))));
+			$fromDate = date('Y-m-d', strtotime("-30 days",strtotime(date('Y-m-d'))));
 		if (!$toDate)
 			$toDate = date('Y-m-d', strtotime("+1 days",strtotime(date('Y-m-d'))));
 
@@ -41,7 +41,8 @@ class StatusService extends Common{
 
 	public function getAllReports(){
 		$statusModel = new Status($this->_em);
-		$allReports = $statusModel->fetchAllReports();
+		$allReports = $statusModel->fetchAllUsers();
+		return $allReports;
 	}
 
 	public function saveStatus($postData){

@@ -2,10 +2,9 @@
 namespace Management\Form;
 use Zend\Form\Form;
 
-class LoginForm extends Form
-{
-	public function __construct()
-	{
+class LoginForm extends Form{
+
+	public function __construct(){
 		parent::__construct();
 		$this->setAttribute('method', 'post');
 		$this->add(array(

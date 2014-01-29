@@ -3,17 +3,17 @@
 <?php if(!empty($this->teamUser)){
 	foreach ($this->teamUser as $user){
 ?>
-	<div class="suser">	
+	<div class="suser">
 			<input onchange="javascript:getUserReport('<?php echo $user->userId ?>')" id="user<?php echo $user->userId ?>" type="checkbox" name="users" value="<?php echo $user->userId ?>"/>
 			<label class="user_title" for="user<?php echo $user->userId ?>">
-				<?php echo $user->firstName ?>	
+				<?php echo $user->firstName ?>
 			</label>
 	</div>
 <?php }
 }?>
 	</div>
 	<div id="report_content" class="report_content">
-		
+
 	</div>
 	<div class="clear"></div>
 </div>
@@ -52,7 +52,7 @@ function produceReportHtml(userReportObj)
 			var reportNo = 1;
 			$.each(report.report, function(key, r){
 					reportHtml += reportNo + '. <a href="http://jira.theorchard.com/browse/'+r.jiraTicketId+'" target="_blank">'+r.jiraTicketId+'</a> :';
-					reportHtml += r.title; 
+					reportHtml += r.title;
 					reportHtml += '<span class="status_cont">Status : '+r.status+'</span>';
 					reportHtml += '<div class="desc_cont">'+r.description;
 					reportHtml += '</div>';

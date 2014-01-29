@@ -1,17 +1,23 @@
 <?php
 namespace Management\Form;
 
+use Management\Custom\Filter\MyFilter;
+
 use Zend\Form\Form;
 
-class SignUpForm extends Form
-{
-	function __construct()
-	{
+class SignUpForm extends Form{
+
+	function __construct(){
 		parent::__construct();
 		$this->setAttribute('method', 'post');
 		$this->add(array(
 				'name' => 'firstName',
 				'type' => 'Text',
+				'filters' => array(
+					array(
+						'name'	=>	'Management\Custom\Filter\MyFilter'
+					),
+				),
 				'attributes' =>array(
 						'class' => 'textbox',
 						'id' => 'fullname'
