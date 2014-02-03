@@ -1,11 +1,10 @@
 <?php
+//print_r(json_decode($this->userMapping));die;
     $title = 'Manage Team Member';
     $this->headTitle($title);
 ?>
 <script type="text/javascript">
 $(document).ready(function() {
-    var userMapping = <?php echo (!empty($this->userMapping)) ? $this->userMapping : ""  ?>;
-    processUserMapping(userMapping);
 	$('#add').click(function() {
 		$("#msg").html("");
 		if($('#TeamMember :selected').size()===0)
@@ -23,11 +22,28 @@ $(document).ready(function() {
 
 	});
 });
-function processUserMapping(userMapping)
+function processUserMapping(team)
 {
-    $.each(userMapping, function(key, user){
-        $('#TeamMember').append($('<option>', { value : user.userId }).text(user.firstName +" "+ user.lastName));
+	var userMapping = <?php echo (!empty($this->userMapping)) ? $this->userMapping : ""  ?>;
+	var unMappedUser = <?php echo (!empty($this->unMappedUser)) ? $this->unMappedUser : ""  ?>;
+	teamId = $(team).val();
+	$('#SelectedTeamMember').empty();
+	$('#TeamMember').empty();
+    $.each(userMapping, function(key, users){
+        if(key == teamId){
+	       	 $.each(users, function(index, user){
+		       		$('#SelectedTeamMember').append($('<option>', { value : user.userId }).text(user.firstName +" "+ user.lastName));
+	       	 });
+        }
+        else{
+	       	 $.each(users, function(index, user){
+		       		$('#TeamMember').append($('<option>', { value : user.userId }).text(user.firstName +" "+ user.lastName));
+	    	 });
+        }
     });
+    $.each(unMappedUser, function(index, user){
+   		$('#TeamMember').append($('<option>', { value : user.userId }).text(user.firstName +" "+ user.lastName));
+ })
 }
 </script>
 <div class="team_member">
@@ -42,7 +58,7 @@ function processUserMapping(userMapping)
         echo $this->form()->openTag($AddTeamMemberForm);
     ?>
     <div class="content">
-        <?php echo $this->formRow($AddTeamMemberForm->get('Team'));?>
+        <?php echo $this->formRow($AddTeamMemberForm->get('team'));?>
         <hr>
       	<table>
 	      	<tr>
@@ -51,13 +67,13 @@ function processUserMapping(userMapping)
 	      		<td style="text-align:center;">Selected Users</td>
 	      	</tr>
 	      	<tr>
-	      		<td><?php echo $this->formRow($AddTeamMemberForm->get('TeamMember'));?></td>
+	      		<td><?php echo $this->formRow($AddTeamMemberForm->get('teamMember'));?></td>
 	      		<td style="vertical-align: middle; text-align: center;">
 		      		<input type="button" id="add" name="Add" value=">>" class='move'>
 					<br>
 					<input type="button" id="remove" name="Remove" value="&lt&lt" class='move' >
 				</td>
-	      		<td><?php  echo $this->formRow($AddTeamMemberForm->get('SelectedTeamMember')); ?></td>
+	      		<td><?php  echo $this->formRow($AddTeamMemberForm->get('selectedTeamMember')); ?></td>
 	      	</tr>
          </table>
          <?php   echo $this->formSubmit($AddTeamMemberForm->get('submit'));?>

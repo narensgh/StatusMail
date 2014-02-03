@@ -35,14 +35,14 @@ class AdminController extends BaseController
             $serviceAdmin = new AdminService($this->getEntityManager());
             if($request->isPost()){
                 $post = $request->getPost();
-                print_r($post);die;
-                $mappiingResponse = $serviceAdmin->mapTeam($post, $AddTeamMemberForm);
-                if($mappiingResponse){
-                    $this->redirectTo($mappiingResponse);
+                $mappingResponse = $serviceAdmin->mapTeam($post, $AddTeamMemberForm);
+                if($mappingResponse){
+                    $this->redirectTo($mappingResponse);
                 }
             }
             $userMapping = $serviceAdmin->fetchUserMapping();
-            return new ViewModel(array('AddTeamMemberForm'=>$AddTeamMemberForm, 'userMapping' => $userMapping));
+            $unMappedUser = $serviceAdmin->fetchUnmappedUser();
+            return new ViewModel(array('AddTeamMemberForm'=>$AddTeamMemberForm, 'userMapping' => $userMapping, 'unMappedUser' => $unMappedUser));
 	}
         public function mapTeamUserAction()
         {

@@ -49,9 +49,25 @@ class AdminService extends Common{
 	}
         public function fetchUserMapping()
         {
+        	$userMapping = array();
             $admin = new Admin($this->_em);
-            $userMapping = $admin->fetchUserMapping();
-            return json_encode($userMapping, true);
+            $userMappings = $admin->fetchUserMapping();
+            $userMappings = json_decode(json_encode($userMappings, true));
+            foreach ($userMappings as $mapping) 
+            {
+            	$team = $mapping->team;
+            	$user = $mapping->user;
+            	$userMapping[$team->teamId][$user->userId]->teamMemberId = $mapping->teamMemberId;
+            	$userMapping[$team->teamId][$user->userId]->userId = $user->userId;
+            	$userMapping[$team->teamId][$user->userId]->firstName = $user->firstName;
+            	$userMapping[$team->teamId][$user->userId]->lastName = $user->lastName;
+            }
+            return json_encode($userMapping);
+        }
+        public function fetchUnmappedUser()
+        {
+        	$admin = new Admin($this->_em);
+        	return json_encode($admin->fetchUnmappedUser(),true);
         }
         public function mapTeam($post, $AddTeamMemberForm)
         {

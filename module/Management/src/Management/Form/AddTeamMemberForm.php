@@ -13,10 +13,11 @@ class AddTeamMemberForm extends Form
 		$this->setAttribute('method', 'post');
 		$this->add(array(
 			'type' => 'Select',
-			'name' => 'Team',
+			'name' => 'team',
 			'attributes' =>  array(
 				'id' => 'Team',
 				'class' => 'select3',
+				'onchange'=> 'processUserMapping(this)'
 			),
 			'options' => array(
 				'label' => 'Team',
@@ -29,7 +30,7 @@ class AddTeamMemberForm extends Form
 		));
 		$this->add(array(
 			'type' => 'select',
-			'name' => 'TeamMember',
+			'name' => 'teamMember',
 			'attributes' =>  array(
 				'id' => 'TeamMember',
 				'class' => 'select1',
@@ -39,7 +40,7 @@ class AddTeamMemberForm extends Form
 		));
 		$this->add(array(
 			'type' => 'select',
-			'name' => 'SelectedTeamMember',
+			'name' => 'selectedTeamMember',
 			'attributes' =>  array(
 				'id' => 'SelectedTeamMember',
 				'class' => 'select1',
