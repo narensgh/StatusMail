@@ -34,7 +34,6 @@ class LoginController extends BaseController	{
 
 	function __construct(){
 		$this->_session = new Container('appl');
-		//$this->isLogedIn();
 	}
 
 	public function indexAction(){
