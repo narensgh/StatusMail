@@ -1,7 +1,4 @@
-<?php echo $this->doctype();
-$actController = str_replace('managementcontroller', "", strtolower(stripslashes($this->controller)));
-$actAction = strtolower($this->action);
-?>
+<?php echo $this->doctype();?>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -22,34 +19,8 @@ $actAction = strtolower($this->action);
         <?php echo $this->headScript()->prependFile($this->basePath() . '/js/jquery.min.js'); ?>
     </head>
     <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="<?php echo $this->url('base') ?>"><img src="<?php echo $this->basePath('img/zf2-logo.png') ?>" alt="Zend Framework 2"/>&nbsp;<?php // echo $this->translate('Skeleton Application') ?></a>
-                </div>
-               <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <?php if(!empty($_SESSION['appl'])) { ?>
-                        <?php if ($_SESSION['appl']['username']){ ?>
-                        	<li<?php echo activeMenu(array('controller'=>'index','action'=>'index'))?>><a href="<?php echo $this->url('base') ?>"><?php echo ($_SESSION['appl']['firstName'])." ".($_SESSION['appl']['lastName']); ?></a></li>
-							<li<?php echo activeMenu(array('controller'=>'status','action'=>'index'))?>><a href="<?php echo $this->url('base', array('controller'=>'status','action'=>'index')) ?>">New Report</a></li>
-							<li<?php echo activeMenu(array('controller'=>'status','action'=>'report'))?>><a href="<?php echo $this->url('base', array('controller'=>'status','action'=>'report')) ?>">View Report</a></li>
-
-						<?php }?>
-           				<?php if($_SESSION['appl']['userType'] == 2 || $_SESSION['appl']['userType'] == 1 ){?>
-           					<li<?php echo activeMenu(array('controller'=>'status','action'=>'viewallreport'))?>><a href="<?php echo $this->url('base',array('controller'=>'status','action'=>'viewallreport')) ?>">View All Reports</a></li>
-           				<?php }?>
-                        <?php if($_SESSION['appl']['userType'] == 1){?>
-                        	<li<?php echo activeMenu(array('controller'=>'admin','action'=>'addteam'))?>><a href="<?php echo $this->url('base', array('controller'=>'admin','action'=>'addteam')) ?>">Add Team</a></li>
-							<li<?php echo activeMenu(array('controller'=>'admin','action'=>'manageteam'))?>><a href="<?php echo $this->url('base', array('controller'=>'admin','action'=>'manageteam')) ?>">Manage Team</a></li>
-                         <?php }?>
-                         <?php if ($_SESSION['appl']['username']){?>
-                         	<li class="logout"><a href="<?php echo $this->url('base',array('controller'=>'login','action'=>'logout')) ?>">Logout</a></li><?php }?>
-                         <?php } ?>
-                    </ul>
-                </div><!--/.nav-collapse -->
-            </div>
-        </nav>
+    	<?php echo $this->partial('menu'); ?>
+        
         <div class="container">
             <?php echo $this->content; ?>
             <hr>
@@ -59,27 +30,3 @@ $actAction = strtolower($this->action);
         <?php echo $this->inlineScript() ?>
     </body>
 </html>
-
-<?php 
-function activeMenu($route = array())
-{
-	$class = ' class="active"';
-	return $class;
-	$actController= "";
-	$actAction = "";
-	if($route['controller'] == $actController){
-		if($route['action'] == $actAction){
-			return $class;
-		}else{
-			return "";
-		}
-	}else{
-		return "";
-	}
-}
-
-function route($route)
-{
-	
-}
-?>
