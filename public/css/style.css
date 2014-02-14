@@ -61,6 +61,12 @@ label
 	padding:3px;
 	margin-right: 3px;
 }
+.select3
+{
+	width:200px;
+	padding:3px;
+	margin-right: 3px;
+}
 .label2
 {
 	display: inline-block;
@@ -155,6 +161,11 @@ label
     padding: 5px;
     width: 900px;
 	
+}
+.report
+{
+	padding:6px 2px;
+	border-bottom : 1px solid #DCEAF8;
 }
 .clear{
 	clear:both;

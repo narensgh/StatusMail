@@ -74,6 +74,15 @@ class User
     private $status;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="user_type", type="string", length=15, nullable=false)
+     */
+    
+    private $userType;
+    
+    
+    /**
      * Get userId
      *
      * @return integer
@@ -219,5 +228,28 @@ class User
     public function getContactNo()
     {
         return $this->contactNo;
+    }
+    
+    
+    /**
+     * Set userType
+     *
+     * @param string $userType
+     * @return User
+     */
+    public function setUserType($userType)
+    {
+    	$this->userType = $userType;
+    
+    	return $this;
+    }
+    /**
+     * Get userType
+     *
+     * @return string
+     */
+    public function getUserType()
+    {
+    	return $this->userType;
     }
 }

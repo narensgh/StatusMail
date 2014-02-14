@@ -21,6 +21,7 @@ class LoginService extends Common{
 				$this->_session->userId = $userObj->getUserId();
 				$this->_session->firstName = $userObj->getFirstName();
 				$this->_session->lastName = $userObj->getLastName();
+				$this->_session->userType = $userObj->getUserType();
 				$this->_session->afterLogout = false;
 				return  array('controller' => 'status', 'action' => 'index');
 			} else
@@ -41,6 +42,7 @@ class LoginService extends Common{
 				$this->_session->userId = $userObj->getUserId();
 				$this->_session->firstName = $userObj->getFirstName();
 				$this->_session->lastName = $userObj->getLastName();
+				$this->_session->userType = 1;
 				$this->_session->afterLogout = false;
 				return array('controller'=>'status','action'=>'index');
 			}else

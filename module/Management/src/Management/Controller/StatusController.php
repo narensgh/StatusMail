@@ -22,10 +22,10 @@ use ZendTest\View\Helper\Placeholder\StandaloneContainerTest;
 
 class StatusController extends BaseController{
 
-	private $session;
+	private $_session;
 
     function __construct(){
-    	$this->session = new Container('appl');
+    	$this->_session = new Container('appl');
     }
 
     public function indexAction(){
@@ -36,7 +36,8 @@ class StatusController extends BaseController{
         	if ($statusForm->isValid()){
         		$serviceStatus = new StatusService($this->getEntityManager());
         		if($post['submit'] == 'Save'){
-        			$serviceStatus->saveStatus($post);
+        			$response = $serviceStatus->saveStatus($post);
+        			$this->redirectTo($response);
         		}
         	}
         }
@@ -45,11 +46,11 @@ class StatusController extends BaseController{
 
     public function reportAction(){
     	$serviceStatus = new StatusService($this->getEntityManager());
-    	$userReport = $serviceStatus->getUserReport($this->session->userId);
+    	$userReport = $serviceStatus->getUserReport($this->_session->userId);
     	return new ViewModel(array('reportObj' => $userReport));
     }
 
-    public function viewAllReportAction(){
+    public function viewallreportAction(){
     	$serviceStatus = new StatusService($this->getEntityManager());
     	$reports = $serviceStatus->getAllReports();
     	return new ViewModel(array('teamUser' => json_decode(json_encode($reports, true))));
@@ -62,7 +63,7 @@ class StatusController extends BaseController{
     		$serviceStatus = new StatusService($this->getEntityManager());
     		$userId = $request->getPost('userId');
     		$reportDate = $request->getPost('reportDate');
-    		$userReport = $serviceStatus->getUserReport($userId);
+    		$userReport = $serviceStatus->getUserReport($userId, $reportDate);
     	}else {
     		$serviceStatus = new StatusService($this->getEntityManager());
     		$allParams = $this->params()->fromQuery();

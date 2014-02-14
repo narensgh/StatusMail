@@ -1,11 +1,16 @@
 <?php
 
+/**
+ * Description of StatusService
+ *
+ * @author Narendra
+ */
 namespace Management\Service;
 
 use Management\Form\SignUpFilter;
 use Management\Model\Login;
 use Management\Model\Status;
-use Zend\Session\Container;
+use Zend\_session\Container;
 
 class StatusService extends Common{
 
@@ -19,7 +24,7 @@ class StatusService extends Common{
 		if (!$toDate)
 			$toDate = date('Y-m-d', strtotime("+1 days",strtotime(date('Y-m-d'))));
 
-		$modelStatus = new Status($this->_em);
+		$modelStatus = new Status($this->_em, $this->_session);
 		$reports = $modelStatus->getUserReportData($userId, $fromDate, $toDate);
 		$reports = json_decode(json_encode($reports, true));
 		$reportArr = array();
@@ -40,33 +45,14 @@ class StatusService extends Common{
 	}
 
 	public function getAllReports(){
-		$statusModel = new Status($this->_em);
+		$statusModel = new Status($this->_em, $this->_session);
 		$allReports = $statusModel->fetchAllUsers();
 		return $allReports;
 	}
 
 	public function saveStatus($postData){
-		$user = $this->_em->find('Management\Model\Entity\User', $this->session->userId);
-		$ticketType = $this->_em->find('Management\Model\Entity\Team', $postData->ticketType);
-		$jiraTicket = $this->getJiraTicket($ticketType->getTeamAbbr()."-".$postData->ticketNumber, $postData);
-		$status = new \Management\Model\Entity\Status();
-		$status->setDescription($postData->description);
-		$status->setUser($user);
-		$status->setStatus($postData->status);
-		$status->setTask($jiraTicket);
-
-		$this->_em->persist($status);
-		$this->_em->flush();
-		$this->redirectTo(array('controller'=>'status','action'=>'report'));
-	}
-
-	public function getJiraTicket($ticketNum, $postData){
-		$jiraTicket = $this->_em->getRepository('Management\Model\Entity\Task')->findOneByJiraTicketId($ticketNum);
-		if (!$jiraTicket){
-			$jiraTicket = new Task();
-			$jiraTicket->setJiraTicketId($ticketNum);
-			$jiraTicket->setTitle($postData->title);
-		}
-		return $jiraTicket;
+		$modelStatus = new Status($this->_em, $this->_session);
+		$response = $modelStatus->saveStatus($postData);
+		return $response;
 	}
 }

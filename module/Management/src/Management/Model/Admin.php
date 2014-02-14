@@ -51,7 +51,7 @@ public function fetchUserMapping(){
         	return $qb->getQuery()->getArrayResult();
 		}
 		public function fetchUnmappedUser(){
-			 $sql = "SELECT user_id as userId , first_name as firstName, last_name as lastName FROM user where user_id NOT IN(SELECT user_id FROM team_member)";
+			$sql = "SELECT user_id as userId , first_name as firstName, last_name as lastName FROM user where user_id NOT IN(SELECT user_id FROM team_member)";
 			$stmt = $this->_em->getConnection()->prepare($sql);
 			$stmt->execute();
 			return $stmt->fetchAll(); 
@@ -73,10 +73,11 @@ public function fetchUserMapping(){
         public function mapTeam($post)
         {
             $team = $this->_em->find('Management\Model\Entity\Team', $post->team);
-            $user = $this->_em->find('Management\Model\Entity\User', $post->selectedTeamMember);
             foreach ( $post->selectedTeamMember as $member){
             	$teamMember = new TeamMember();
-            	$teamMemberExist = $em->getRepository('Management\Model\Entity\TeamMember')->findBy(array('user' => $user->getUser()));
+            	$user = $this->_em->find('Management\Model\Entity\User', $member);
+            	$teamMemberExist = $this->_em->getRepository('Management\Model\Entity\TeamMember')->findByUser($user);
+            	print_r($teamMemberExist);die;
             	$teamMember->setTeam($team);
             	$user = $this->_em->find('Management\Model\Entity\User', $member);
 	            $teamMember->setUser($user);

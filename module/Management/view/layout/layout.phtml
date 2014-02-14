@@ -1,5 +1,4 @@
-<?php echo $this->doctype(); ?>
-
+<?php echo $this->doctype(); echo $this->action;die; ?>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -28,13 +27,21 @@
                <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
                         <?php if(!empty($_SESSION['appl'])) { ?>
-                        <?php if ($_SESSION['appl']['username']){?><li class="active"><a href="<?php echo $this->url('base') ?>"><?php echo ($_SESSION['appl']['firstName'])." ".($_SESSION['appl']['lastName']); ?></a></li>
-			<li class="active"><a href="<?php echo $this->url('base', array('controller'=>'status','action'=>'index')) ?>">New Report</a></li>
-			<li class="active"><a href="<?php echo $this->url('base', array('controller'=>'status','action'=>'report')) ?>">View Report</a></li>
+                        <?php if ($_SESSION['appl']['username']){ ?>
+                        	<li <?php echo activeMenu('')?>><a href="<?php echo $this->url('base') ?>"><?php echo ($_SESSION['appl']['firstName'])." ".($_SESSION['appl']['lastName']); ?></a></li>
+							<li <?php echo activeMenu(array('controller'=>'status','action'=>'index'))?>><a href="<?php echo $this->url('base', array('controller'=>'status','action'=>'index')) ?>">New Report</a></li>
+							<li class="active"><a href="<?php echo $this->url('base', array('controller'=>'status','action'=>'report')) ?>">View Report</a></li>
 
-			<?php }?>
-                         <?php if($_SESSION['appl']['userType'] == 2){?><li class="active"><a href="<?php echo $this->url('base',array('controller'=>'status','action'=>'viewAllReport')) ?>">View All Reports</a></li><?php }?>
-                         <?php if ($_SESSION['appl']['username']){?><li class="active"><a href="<?php echo $this->url('base',array('controller'=>'login','action'=>'logout')) ?>">Logout</a></li><?php }?>
+						<?php }?>
+           				<?php if($_SESSION['appl']['userType'] == 2 || $_SESSION['appl']['userType'] == 1 ){?>
+           					<li class="active"><a href="<?php echo $this->url('base',array('controller'=>'status','action'=>'viewallreport')) ?>">View All Reports</a></li>
+           				<?php }?>
+                        <?php if($_SESSION['appl']['userType'] == 1){?>
+                        	<li class="active"><a href="<?php echo $this->url('base', array('controller'=>'admin','action'=>'addteam')) ?>">Add Team</a></li>
+							<li class="active"><a href="<?php echo $this->url('base', array('controller'=>'admin','action'=>'manageteam')) ?>">Manage Team</a></li>
+                         <?php }?>
+                         <?php if ($_SESSION['appl']['username']){?>
+                         	<li class="active"><a href="<?php echo $this->url('base',array('controller'=>'login','action'=>'logout')) ?>">Logout</a></li><?php }?>
                          <?php } ?>
                     </ul>
                 </div><!--/.nav-collapse -->
@@ -49,3 +56,18 @@
         <?php echo $this->inlineScript() ?>
     </body>
 </html>
+
+<?php 
+function activeMenu($route)
+{
+	if($route['controller']=== $this->controller)
+	{
+		if()
+	}
+}
+
+function route($route)
+{
+	
+}
+?>
