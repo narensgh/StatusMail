@@ -1,10 +1,13 @@
 <?php
 namespace Management\Controller;
 
+use Zend\Validator\Explode;
+
 use Management\Form\AddTeamMemberForm;
 use Management\Form\AddTeamForm;
 
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 
 use Management\Service\AdminService;
 
@@ -25,7 +28,8 @@ class AdminController extends BaseController
 				$this->redirectTo($teamResponse);
 		}
 		$teamObj = $serviceAdmin->getTeams();
-		return new ViewModel(array('AddTeamForm'=>$addTeamForm,'teamObj'=> $teamObj));
+		$userArray = $serviceAdmin->getUsers();
+		return new ViewModel(array('AddTeamForm'=>$addTeamForm,'teamObj'=> $teamObj, 'userArray'=>$userArray));
 
 	}
 	public function manageteamAction()
@@ -44,10 +48,17 @@ class AdminController extends BaseController
             $unMappedUser = $serviceAdmin->fetchUnmappedUser();
             return new ViewModel(array('AddTeamMemberForm'=>$AddTeamMemberForm, 'userMapping' => $userMapping, 'unMappedUser' => $unMappedUser));
 	}
-        public function mapTeamUserAction()
-        {
-            
-        }
+ 	public function mapTeamLeadAction()
+    {
+		$mappingData =  $this->getRequest()->getPost('mappingData');
+       	if(!empty($mappingData))
+       	{
+       		list($teamId,$userId) = explode(":", $mappingData);
+       		$serviceAdmin = new AdminService($this->getEntityManager());
+       		$response = $serviceAdmin->mapTeamLead($teamId,$userId);
+       	}
+       	return new JsonModel(array('response'=>$response));
+    }
 }
 
 ?>

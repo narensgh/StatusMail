@@ -4,6 +4,7 @@ namespace Management\Service;
 
 use Management\Model\Team;
 use Management\Model\Admin;
+use Management\Model\Status;
 
 use Management\Form\AddTeamFilter;
 use Zend\Session\Container;
@@ -74,5 +75,39 @@ class AdminService extends Common{
             $modelAdmin = new Admin($this->_em);
             $modelAdmin->mapTeam($post);
             return array('controller' => 'admin', 'action' => 'manageteam');			
+        }
+        public function getUsers()
+        {
+        	$modelStatus = new Status($this->_em, $this->_session);
+        	$users = $modelStatus->fetchAllUsers();
+        	$userArray = array();
+        	foreach ($users as $user)
+        	{
+        		$userArray[$user['userId']]->userId = $user['userId'];
+        		$userArray[$user['userId']]->firstName = $user['firstName'];
+        	}
+        	return $userArray;
+        }
+        public function mapTeamLead($teamId,$userId)
+        {
+        	if(!empty($teamId) && !empty($userId))
+        	{
+        		$modelAdmin = new Admin($this->_em);
+        		$response = $modelAdmin->mapTeamLead($teamId,$userId);
+        		if(true == $response)
+        		{
+        			//$modelAdmin->mapUserType($userId);
+        			return "Data Saved ..!!";
+        		}
+        		else 
+        		{
+        			return "Some Error Occured..!!";
+        		}
+        	}
+        	else
+        	{
+        		return "invalid Parameter";	
+        	}
+        	
         }
 }

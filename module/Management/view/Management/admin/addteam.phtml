@@ -27,8 +27,17 @@
 						<td><?php echo $sr ?> .</td>
 						<td><?php echo $team->teamName?></td>
 						<td><?php echo $team->teamAbbr?></td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
+						<td>
+							<select class="select" id="users" onchange="mapTeamLead(this)">
+								<option value="">Select User</option>
+								<?php if(!empty($this->userArray)){
+									foreach ($this->userArray as $user){?>
+										<option value="<?php echo $team->teamId.":".$user->userId ?>"><?php echo $user->firstName ?></option>	
+								<?php }
+								}?>
+							</select>
+						</td>
+						<td><?php echo date('jS M, Y', strtotime($team->createdOn->date))?></td>
 			<?php $sr++;
 					}
 				}?>
@@ -60,3 +69,24 @@
     ?>
 </div>
 <div class="clear"></div>
+
+	<script>
+		function mapTeamLead(user)
+		{
+			var mappingData = $(user).val();
+			if(mappingData)
+			{
+				$.ajax({
+					url: "<?php echo $this->url('base', array('controller'=>'admin','action'=>'mapTeamLead'))?>",
+			        type: "post",
+			        data: {mappingData : mappingData},
+			        success: function(){
+			            alert("success");
+			        },
+			        error:function(){
+			            alert("failure");
+			        }
+				});
+			}
+		}
+    </script>
