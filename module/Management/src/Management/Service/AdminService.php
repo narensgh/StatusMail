@@ -48,12 +48,17 @@ class AdminService extends Common{
 		}
 		return $teamDropdown;
 	}
+	private function fetchTeamUserMappings()
+	{
+		$admin = new Admin($this->_em);
+		$userMappings = $admin->fetchUserMapping();
+		$userMappings = json_decode(json_encode($userMappings, true));
+		return $userMappings;
+	}
         public function fetchUserMapping()
         {
+        	$userMappings = $this->fetchTeamUserMappings();
         	$userMapping = array();
-            $admin = new Admin($this->_em);
-            $userMappings = $admin->fetchUserMapping();
-            $userMappings = json_decode(json_encode($userMappings, true));
             foreach ($userMappings as $mapping) 
             {
             	$team = $mapping->team;
@@ -73,41 +78,104 @@ class AdminService extends Common{
         public function mapTeam($post, $AddTeamMemberForm)
         {
             $modelAdmin = new Admin($this->_em);
-            $modelAdmin->mapTeam($post);
+            
+            $team = $modelAdmin->findTeamByTeamId($post->team);
+            $removedMember = $post->removedMember;
+            if($removedMember)
+            {
+            	$removedMember = explode(',', $removedMember);
+            }
+            foreach ($removedMember as $userId)
+            {
+            	$user = $modelAdmin->finUserByUserId($userId);
+            	$teamMemberExist = $modelAdmin->teamMemberExist($team, $user);
+            	if(count($teamMemberExist) > 0)
+            	{
+            		$modelAdmin->removeTeamUser($teamMemberExist);
+            	}            	
+            }
+            foreach ($post->selectedTeamMember as $userId )
+            {
+            	$user = $modelAdmin->finUserByUserId($userId);
+            	$teamMemberExist = $modelAdmin->teamMemberExist($team, $user);
+            	if(count($teamMemberExist) == 0) 
+            	{
+					$modelAdmin->mapTeamUserLead ( $team, $user, 0 );
+				}
+			}
             return array('controller' => 'admin', 'action' => 'manageteam');			
         }
-        public function getUsers()
+        public function getTeamLeadMappings()
         {
-        	$modelStatus = new Status($this->_em, $this->_session);
-        	$users = $modelStatus->fetchAllUsers();
-        	$userArray = array();
-        	foreach ($users as $user)
-        	{
-        		$userArray[$user['userId']]->userId = $user['userId'];
-        		$userArray[$user['userId']]->firstName = $user['firstName'];
-        	}
-        	return $userArray;
+        	$teamLeadMappings = $this->fetchTeamUserMappings();
+        	$unmappedUsers = $this->fetchUnmappedUser();
+        	$userMapping = array();
+        	foreach ($teamLeadMappings as $leadMapping) 
+            {
+            	$team = $leadMapping->team;
+            	$user = $leadMapping->user;
+            	$userMapping[$user->userId]->userId = $user->userId;
+            	$userMapping[$user->userId]->firstName = $user->firstName;
+            	$userMapping[$user->userId]->isLead = $leadMapping->isLead;
+            	$userMapping[$user->userId]->teamId = $leadMapping->team->teamId;
+            }
+            $unmappedUsers = json_decode($unmappedUsers);
+            $userMapping = array_merge($userMapping, $unmappedUsers);
+        	return $userMapping;
         }
         public function mapTeamLead($teamId,$userId)
         {
         	if(!empty($teamId) && !empty($userId))
         	{
         		$modelAdmin = new Admin($this->_em);
-        		$response = $modelAdmin->mapTeamLead($teamId,$userId);
+        		$team = $modelAdmin->findTeamByTeamId($teamId);
+        		$user = $modelAdmin->finUserByUserId($userId);
+        		$teamMemberExist = $modelAdmin->teamMemberExist($team, $user);
+        		if(count($teamMemberExist)>0)
+        		{
+        			$teamLeadExixts = $modelAdmin->teamLeadExixts($team);
+        			if(count($teamLeadExixts) > 0)
+        			{
+        				$response = $modelAdmin->updateTeamMapping($team, null, 0);
+        				if($response)
+        				{
+        					$response = $modelAdmin->updateTeamMapping($team, $user, 1);
+        				}
+        			}
+        			else
+        			{
+        				$response = $modelAdmin->updateTeamMapping($team, $user, 1);
+        			}
+        		}
+        		else
+        		{
+        			$teamLeadExixts = $modelAdmin->teamLeadExixts($team);
+        			if(count($teamLeadExixts) > 0)
+        			{
+        				$response = $modelAdmin->updateTeamMapping($team, null, 0);
+        				if($response)
+        				{
+        					$response = $modelAdmin->mapTeamUserLead($team, $user, 1);
+        				}
+        			}
+        			else
+        			{
+        				$response = $modelAdmin->mapTeamUserLead($team, $user, 1);
+        			}
+        		}        		
         		if(true == $response)
         		{
-        			//$modelAdmin->mapUserType($userId);
+        			$modelAdmin->mapUserType($userId);
         			return "Data Saved ..!!";
         		}
         		else 
         		{
-        			return "Some Error Occured..!!";
+        			return "Some Error Occured ..!!";
         		}
         	}
         	else
         	{
         		return "invalid Parameter";	
-        	}
-        	
+        	}        	
         }
 }

@@ -52,7 +52,7 @@ public function fetchUserMapping(){
         	return $qb->getQuery()->getArrayResult();
 		}
 		public function fetchUnmappedUser(){
-			$sql = "SELECT user_id as userId , first_name as firstName, last_name as lastName FROM user where user_id NOT IN(SELECT user_id FROM team_member)";
+			$sql = "SELECT user_id as userId , first_name as firstName, last_name as lastName, '' as isLead, '' as teamId FROM user where user_id NOT IN(SELECT user_id FROM team_member)";
 			$stmt = $this->_em->getConnection()->prepare($sql);
 			$stmt->execute();
 			return $stmt->fetchAll();
@@ -72,18 +72,18 @@ public function fetchUserMapping(){
             }
             $this->_em->flush();
         }
-        private function teamMemberExist($team,$user)
+        public function teamMemberExist($team,$user)
         {
         	$teamMemberExist = $this->_em->getRepository('Management\Model\Entity\TeamMember')->findOneBy(array('team'=>$team, 'user'=>$user));
         	return $teamMemberExist;
         }
         
-        private function teamLeadExixts($team)
+        public function teamLeadExixts($team)
         {
         	$teamLeadExixts= $this->_em->getRepository('Management\Model\Entity\TeamMember')->findOneBy(array('team'=>$team));
         	return $teamLeadExixts;
         }
-        private function updateTeamMapping($team, $user = null, $isLead)
+        public function updateTeamMapping($team, $user = null, $isLead)
         {
         	$qb = $this->_em->createQueryBuilder();
         	$qb->update('Management\Model\Entity\TeamMember', 'tm')
@@ -103,49 +103,27 @@ public function fetchUserMapping(){
         	$response = $q->execute();
         	return $response;
         }
-        public function mapTeamLead($teamId,$userId)
+        public function findTeamByTeamId($teamId)
         {
         	$team = $this->_em->find('Management\Model\Entity\Team', $teamId);
+        	return $team;
+        }
+        public function finUserByUserId($userId)
+        {
         	$user = $this->_em->find('Management\Model\Entity\User', $userId);
-        	$teamMemberExist = $this->teamMemberExist($team, $user);
-        	if(count($teamMemberExist)>0)
-        	{	
-        		$teamLeadExixts = $this->teamLeadExixts($team);
-        		if(count($teamLeadExixts) > 0)
-        		{
-        			$response = $this->updateTeamMapping($team, null, 0);
-        			if($response)
-        			{
-        				$response = $this->updateTeamMapping($team, $user, 1);
-        				return $response;
-        			}
-        		}
-        		else 
-        		{
-        			$response = $this->updateTeamMapping($team, $user, 1);
-        			return $response;
-        		}
-        	}
-        	else 
-        	{     
-        		$teamLeadExixts = $this->teamLeadExixts($team);
-        		if(count($teamLeadExixts) > 0)
-        		{
-        			$response = $this->updateTeamMapping($team, null, 0);
-        			if($response)
-        			{   	
-			        	$teamMember = new TeamMember();
-			        	$teamMember->setTeam($team);
-			        	$teamMember->setUser($user);
-			        	$teamMember->setIsLead(1);
-			        	$this->_em->persist($teamMember);
-			        	$this->_em->flush();
-			        	return true;
-        			}
-        		}
-        	}
+        	return $user;
         }
         
+        public function mapTeamUserLead($team, $user, $islead)
+        {
+        	$teamMember = new TeamMember();
+        	$teamMember->setTeam($team);
+        	$teamMember->setUser($user);
+        	$teamMember->setIsLead($islead);
+        	$this->_em->persist($teamMember);
+        	$this->_em->flush();
+        	return true;
+        }
         public function mapUserType($userId)
         {
         	$qb = $this->_em->createQueryBuilder();
@@ -156,5 +134,10 @@ public function fetchUserMapping(){
         	->setParameter(2, $userId)
         	->getQuery();
         	$p = $q->execute();        	
+        }
+        public function removeTeamUser( $teamMemberExist)
+        {
+        	$this->_em->remove($teamMemberExist);
+        	$this->_em->flush();
         }
 }

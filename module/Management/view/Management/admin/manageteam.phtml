@@ -1,10 +1,10 @@
 <?php
-//print_r(json_decode($this->userMapping));die;
     $title = 'Manage Team Member';
     $this->headTitle($title);
 ?>
 <script type="text/javascript">
 $(document).ready(function() {
+	var removedMember = [];
 	$('#add').click(function() {
 		$("#msg").html("");
 		if($('#TeamMember :selected').size()===0)
@@ -18,6 +18,11 @@ $(document).ready(function() {
 		$("#msg").html("");
 		if($('#SelectedTeamMember :selected').size()===0)
 			$("#msg").html("Please select at least one employee");
+		removedEle = $('#SelectedTeamMember').val();
+		$.each(removedEle,function (index, removed){
+			removedMember.push(removed);
+		});
+		$('#removedMember').val(removedMember);
 		$('#TeamMember').append($('#SelectedTeamMember :selected'));
 
 	});
@@ -60,6 +65,7 @@ function processUserMapping(team)
     <div class="content">
         <?php echo $this->formRow($AddTeamMemberForm->get('team'));?>
         <hr>
+        <td><?php echo $this->formRow($AddTeamMemberForm->get('removedMember'));?></td>
       	<table>
 	      	<tr>
 	      		<td style="text-align:center;">Select Users</td>
@@ -67,6 +73,7 @@ function processUserMapping(team)
 	      		<td style="text-align:center;">Selected Users</td>
 	      	</tr>
 	      	<tr>
+	      	
 	      		<td><?php echo $this->formRow($AddTeamMemberForm->get('teamMember'));?></td>
 	      		<td style="vertical-align: middle; text-align: center;">
 		      		<input type="button" id="add" name="Add" value=">>" class='move'>

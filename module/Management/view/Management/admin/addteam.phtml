@@ -1,4 +1,5 @@
 <?php
+// print_R($this->teamObj);DIE;
     $title = 'Add Team';
     $this->headTitle($title);
 ?>
@@ -32,7 +33,9 @@
 								<option value="">Select User</option>
 								<?php if(!empty($this->userArray)){
 									foreach ($this->userArray as $user){?>
-										<option value="<?php echo $team->teamId.":".$user->userId ?>"><?php echo $user->firstName ?></option>	
+										<option <?php echo (($team->teamId == $user->teamId) && $user->isLead) ? "selected" : "" ?> value="<?php echo $team->teamId.":".$user->userId ?>">
+											<?php echo $user->firstName ?>
+										</option>	
 								<?php }
 								}?>
 							</select>
@@ -80,11 +83,11 @@
 					url: "<?php echo $this->url('base', array('controller'=>'admin','action'=>'mapTeamLead'))?>",
 			        type: "post",
 			        data: {mappingData : mappingData},
-			        success: function(){
-			            alert("success");
+			        success: function(data){
+			            alert(data.response);
 			        },
 			        error:function(){
-			            alert("failure");
+			            alert("Some Error Occured.. !!");
 			        }
 				});
 			}

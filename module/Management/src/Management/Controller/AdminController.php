@@ -27,26 +27,28 @@ class AdminController extends BaseController
 			if($teamResponse)
 				$this->redirectTo($teamResponse);
 		}
-		$teamObj = $serviceAdmin->getTeams();
-		$userArray = $serviceAdmin->getUsers();
-		return new ViewModel(array('AddTeamForm'=>$addTeamForm,'teamObj'=> $teamObj, 'userArray'=>$userArray));
-
+		$teamObj = $serviceAdmin->getTeams ();
+		$userArray = $serviceAdmin->getTeamLeadMappings ();
+		return new ViewModel ( array ('AddTeamForm' => $addTeamForm, 'teamObj' => $teamObj, 'userArray' => $userArray ) );
+	
 	}
-	public function manageteamAction()
+	public function manageteamAction() 
 	{
-            $AddTeamMemberForm = new AddTeamMemberForm($this->getEntityManager());
-            $request = $this->getRequest();
-            $serviceAdmin = new AdminService($this->getEntityManager());
-            if($request->isPost()){
-                $post = $request->getPost();
-                $mappingResponse = $serviceAdmin->mapTeam($post, $AddTeamMemberForm);
-                if($mappingResponse){
-                    $this->redirectTo($mappingResponse);
-                }
-            }
-            $userMapping = $serviceAdmin->fetchUserMapping();
-            $unMappedUser = $serviceAdmin->fetchUnmappedUser();
-            return new ViewModel(array('AddTeamMemberForm'=>$AddTeamMemberForm, 'userMapping' => $userMapping, 'unMappedUser' => $unMappedUser));
+		$AddTeamMemberForm = new AddTeamMemberForm ( $this->getEntityManager () );
+		$request = $this->getRequest ();
+		$serviceAdmin = new AdminService ( $this->getEntityManager () );
+		if ($request->isPost ()) 
+		{
+			$post = $request->getPost ();
+			$mappingResponse = $serviceAdmin->mapTeam ( $post, $AddTeamMemberForm );
+			if ($mappingResponse) 
+			{
+				$this->redirectTo ( $mappingResponse );
+			}
+		}
+		$userMapping = $serviceAdmin->fetchUserMapping ();
+		$unMappedUser = $serviceAdmin->fetchUnmappedUser();
+        return new ViewModel(array('AddTeamMemberForm'=>$AddTeamMemberForm, 'userMapping' => $userMapping, 'unMappedUser' => $unMappedUser));
 	}
  	public function mapTeamLeadAction()
     {

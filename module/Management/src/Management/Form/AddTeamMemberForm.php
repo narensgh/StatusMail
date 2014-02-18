@@ -38,6 +38,14 @@ class AddTeamMemberForm extends Form
 				'multiple'=>true,
 			),
 		));
+		
+		$this->add(array(
+				'type' => 'hidden',
+				'name' => 'removedMember',
+				'attributes' =>  array(
+						'id' => 'removedMember',
+				),
+		));
 		$this->add(array(
 			'type' => 'select',
 			'name' => 'selectedTeamMember',
