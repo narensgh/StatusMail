@@ -103,5 +103,18 @@ namespace Management;
 
 // 				configuring doctrine
 		'doctrine' => array(
+				'driver' => array(
+						'management_entities' => array(
+								'class' =>'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+								'cache' => 'array',
+								'paths' => array(__DIR__ . '/../src/Management/Model/Entity')
+						),
+				
+						'orm_default' => array(
+								'drivers' => array(
+										'Management\Model\Entity' => 'management_entities'
+								)
+						)
+				)
 				),
 	);

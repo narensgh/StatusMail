@@ -62,8 +62,10 @@ class StatusController extends BaseController{
     		$allParams = $this->params()->fromQuery();
     		$serviceStatus = new StatusService($this->getEntityManager());
     		$userId = $request->getPost('userId');
-    		$reportDate = $request->getPost('reportDate');
-    		$userReport = $serviceStatus->getUserReport($userId, $reportDate);
+    		$curDate = $request->getPost('curDate');
+    		$dateRange = $request->getPost('dateRange');
+    		$fromDate = date('Y-m-d',strtotime("-".$dateRange." days", strtotime($curDate)));
+    		$userReport = $serviceStatus->getUserReport($userId, $fromDate, $curDate);
     	}else {
     		$serviceStatus = new StatusService($this->getEntityManager());
     		$allParams = $this->params()->fromQuery();

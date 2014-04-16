@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * TeamMember
  *
- * @ORM\Table(name="team_member", uniqueConstraints={@ORM\UniqueConstraint(name="user_id", columns={"user_id"}), @ORM\UniqueConstraint(name="team_id", columns={"team_id"})})
+ * @ORM\Table(name="team_member", uniqueConstraints={@ORM\UniqueConstraint(name="team_id", columns={"team_id", "user_id"})}, indexes={@ORM\Index(name="team_id_2", columns={"team_id"}), @ORM\Index(name="user_id", columns={"user_id"})})
  * @ORM\Entity
  */
 class TeamMember
@@ -29,16 +29,6 @@ class TeamMember
     private $isLead = '0';
 
     /**
-     * @var \Management\Model\Entity\User
-     *
-     * @ORM\ManyToOne(targetEntity="Management\Model\Entity\User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
-     * })
-     */
-    private $user;
-
-    /**
      * @var \Management\Model\Entity\Team
      *
      * @ORM\ManyToOne(targetEntity="Management\Model\Entity\Team")
@@ -47,6 +37,16 @@ class TeamMember
      * })
      */
     private $team;
+
+    /**
+     * @var \Management\Model\Entity\User
+     *
+     * @ORM\ManyToOne(targetEntity="Management\Model\Entity\User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     * })
+     */
+    private $user;
 
 
 
@@ -69,7 +69,7 @@ class TeamMember
     public function setIsLead($isLead)
     {
         $this->isLead = $isLead;
-    
+
         return $this;
     }
 
@@ -84,29 +84,6 @@ class TeamMember
     }
 
     /**
-     * Set user
-     *
-     * @param \Management\Model\Entity\User $user
-     * @return TeamMember
-     */
-    public function setUser(\Management\Model\Entity\User $user = null)
-    {
-        $this->user = $user;
-    
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \Management\Model\Entity\User 
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
      * Set team
      *
      * @param \Management\Model\Entity\Team $team
@@ -115,7 +92,7 @@ class TeamMember
     public function setTeam(\Management\Model\Entity\Team $team = null)
     {
         $this->team = $team;
-    
+
         return $this;
     }
 
@@ -127,5 +104,28 @@ class TeamMember
     public function getTeam()
     {
         return $this->team;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \Management\Model\Entity\User $user
+     * @return TeamMember
+     */
+    public function setUser(\Management\Model\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Management\Model\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

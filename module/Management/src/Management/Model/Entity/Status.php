@@ -43,16 +43,6 @@ class Status
     private $dateAdded;
 
     /**
-     * @var \Management\Model\Entity\Task
-     *
-     * @ORM\ManyToOne(targetEntity="Management\Model\Entity\Task", cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="task_id", referencedColumnName="task_id")
-     * })
-     */
-    private $task;
-
-    /**
      * @var \Management\Model\Entity\User
      *
      * @ORM\ManyToOne(targetEntity="Management\Model\Entity\User")
@@ -62,12 +52,22 @@ class Status
      */
     private $user;
 
+    /**
+     * @var \Management\Model\Entity\Task
+     *
+     * @ORM\ManyToOne(targetEntity="Management\Model\Entity\Task")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="task_id", referencedColumnName="task_id")
+     * })
+     */
+    private $task;
+
 
 
     /**
      * Get statusId
      *
-     * @return integer
+     * @return integer 
      */
     public function getStatusId()
     {
@@ -90,7 +90,7 @@ class Status
     /**
      * Get status
      *
-     * @return string
+     * @return string 
      */
     public function getStatus()
     {
@@ -113,7 +113,7 @@ class Status
     /**
      * Get description
      *
-     * @return string
+     * @return string 
      */
     public function getDescription()
     {
@@ -136,34 +136,11 @@ class Status
     /**
      * Get dateAdded
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getDateAdded()
     {
         return $this->dateAdded;
-    }
-
-    /**
-     * Set task
-     *
-     * @param \Management\Model\Entity\Task $task
-     * @return Status
-     */
-    public function setTask(\Management\Model\Entity\Task $task = null)
-    {
-        $this->task = $task;
-
-        return $this;
-    }
-
-    /**
-     * Get task
-     *
-     * @return \Management\Model\Entity\Task
-     */
-    public function getTask()
-    {
-        return $this->task;
     }
 
     /**
@@ -182,10 +159,33 @@ class Status
     /**
      * Get user
      *
-     * @return \Management\Model\Entity\User
+     * @return \Management\Model\Entity\User 
      */
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set task
+     *
+     * @param \Management\Model\Entity\Task $task
+     * @return Status
+     */
+    public function setTask(\Management\Model\Entity\Task $task = null)
+    {
+        $this->task = $task;
+
+        return $this;
+    }
+
+    /**
+     * Get task
+     *
+     * @return \Management\Model\Entity\Task 
+     */
+    public function getTask()
+    {
+        return $this->task;
     }
 }

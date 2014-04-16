@@ -20,8 +20,10 @@ class Admin {
 	public function addteam($post)
 	{
 		$team = new Team();
+		$curDate = new \DateTime("now");
 		$team->setTeamName($post->teamName);
 		$team->setTeamAbbr($post->teamAbbr);
+		$team->setCreatedOn($curDate);
 		$this->_em->persist($team);
 		$this->_em->flush();
 		return $team;
@@ -80,25 +82,17 @@ public function fetchUserMapping(){
         
         public function teamLeadExixts($team)
         {
-        	$teamLeadExixts= $this->_em->getRepository('Management\Model\Entity\TeamMember')->findOneBy(array('team'=>$team));
+        	$teamLeadExixts= $this->_em->getRepository('Management\Model\Entity\TeamMember')->findOneBy(array('team'=>$team, 'isLead'=> 1));
         	return $teamLeadExixts;
         }
-        public function updateTeamMapping($team, $user = null, $isLead)
+        public function updateTeamLead($teamLeadExixts, $isLead)
         {
         	$qb = $this->_em->createQueryBuilder();
         	$qb->update('Management\Model\Entity\TeamMember', 'tm')
         	->set('tm.isLead', '?1')
-        	->where('tm.team = ?2');
-        	if($user)
-        	{
-        		$qb->andWhere('tm.user = ?3');
-        	}
+        	->where('tm.teamMemberId = ?2');        	
         	$qb->setParameter(1, $isLead)
-        	->setParameter(2, $team);
-        	if($user)
-        	{
-        		$qb->setParameter(3, $user);
-        	}
+        		->setParameter(2, $teamLeadExixts->getTeamMemberId());
         	$q = $qb->getQuery();
         	$response = $q->execute();
         	return $response;
@@ -116,7 +110,11 @@ public function fetchUserMapping(){
         
         public function mapTeamUserLead($team, $user, $islead)
         {
-        	$teamMember = new TeamMember();
+        	$teamMember = $this->_em->getRepository('Management\Model\Entity\TeamMember')->findOneBy(array('team'=>$team, 'user' => $user));
+        	if(empty($teamMember))
+        	{
+        		$teamMember = new TeamMember();
+        	}
         	$teamMember->setTeam($team);
         	$teamMember->setUser($user);
         	$teamMember->setIsLead($islead);

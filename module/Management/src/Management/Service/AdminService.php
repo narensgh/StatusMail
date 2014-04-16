@@ -136,23 +136,23 @@ class AdminService extends Common{
         			$teamLeadExixts = $modelAdmin->teamLeadExixts($team);
         			if(count($teamLeadExixts) > 0)
         			{
-        				$response = $modelAdmin->updateTeamMapping($team, null, 0);
+        				$response = $modelAdmin->updateTeamLead($teamLeadExixts, 0);
         				if($response)
-        				{
-        					$response = $modelAdmin->updateTeamMapping($team, $user, 1);
+        				{        					
+        					$response = $modelAdmin->mapTeamUserLead($team, $user, 1);
         				}
         			}
         			else
         			{
-        				$response = $modelAdmin->updateTeamMapping($team, $user, 1);
+        				$response = $modelAdmin->mapTeamUserLead($team, $user, 1);
         			}
         		}
         		else
-        		{
+        		{ 
         			$teamLeadExixts = $modelAdmin->teamLeadExixts($team);
         			if(count($teamLeadExixts) > 0)
         			{
-        				$response = $modelAdmin->updateTeamMapping($team, null, 0);
+        				$response = $modelAdmin->updateTeamLead($teamLeadExixts , 0);
         				if($response)
         				{
         					$response = $modelAdmin->mapTeamUserLead($team, $user, 1);
@@ -162,7 +162,7 @@ class AdminService extends Common{
         			{
         				$response = $modelAdmin->mapTeamUserLead($team, $user, 1);
         			}
-        		}        		
+        		}      		
         		if(true == $response)
         		{
         			$modelAdmin->mapUserType($userId);

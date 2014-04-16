@@ -129,6 +129,32 @@ label
     margin-bottom: 5px;
     padding: 10px;
 }
+.report_filter
+{
+	border: 1px solid #666;
+	margin : 0 auto;
+	width : 798px;
+}
+.report_filter label
+{
+	color : #333;
+	width : 196px;
+	font-family : verdana;
+	padding : 8px 5px;
+	text-align : center;
+	font-weight : normal;
+	border-right: 1px solid #666;
+	cursor :pointer;
+	background : #F0F9FE;
+}
+#lbl30
+{
+	background : #007BE3;
+}
+.report_filter input[type="radio"] 
+{
+    display: none;
+}
 .status_cont{
     margin-left: 33px;
     display: block;

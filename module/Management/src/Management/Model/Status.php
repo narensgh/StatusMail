@@ -10,7 +10,7 @@
 namespace Management\Model;
 
 use Management\Model\Entity\User;
-use \Management\Model\Entity\Task;
+use Management\Model\Entity\Task;
 use Zend\_session\Container;
 
 class Status{
@@ -25,6 +25,7 @@ class Status{
 
 	public function saveStatus($postData)
 	{
+		$curDate = new \DateTime('now');
 		$user = $this->_em->find('Management\Model\Entity\User', $this->_session->userId);
 		$ticketType = $this->_em->find('Management\Model\Entity\Team', $postData->ticketType);
 		$jiraTicket = $this->getJiraTicket($ticketType->getTeamAbbr()."-".$postData->ticketNumber, $postData);
@@ -32,19 +33,21 @@ class Status{
 		$status->setDescription($postData->description);
 		$status->setUser($user);
 		$status->setStatus($postData->status);
-		$status->setTask($jiraTicket);		
+		$status->setTask($jiraTicket);
+		$status->setDateAdded($curDate);
 		$this->_em->persist($status);
 		$this->_em->flush();
 		return array('controller'=>'status','action'=>'report');
 	}
 	
-	private function getJiraTicket($ticketNum, $postData){
+	private function getJiraTicket($ticketNum, $postData){		
 		$jiraTicket = $this->_em->getRepository('Management\Model\Entity\Task')->findOneByJiraTicketId($ticketNum);
 		if (!$jiraTicket){
 			$jiraTicket = new Task();
 			$jiraTicket->setJiraTicketId($ticketNum);
 			$jiraTicket->setTitle($postData->title);
 		}
+		$this->_em->persist($jiraTicket);
 		return $jiraTicket;
 	}
 	public function getUserReportData($userId, $fromDate=null, $toDate=null){

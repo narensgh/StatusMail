@@ -34,13 +34,14 @@ class Team
      * @ORM\Column(name="team_abbr", type="string", length=6, nullable=true)
      */
     private $teamAbbr;
-    
+
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="created_on", type="datetime", nullable=true)
+     * @ORM\Column(name="created_on", type="datetime", nullable=false)
      */
     private $createdOn;
+
 
 
     /**
@@ -62,7 +63,7 @@ class Team
     public function setTeamName($teamName)
     {
         $this->teamName = $teamName;
-    
+
         return $this;
     }
 
@@ -85,7 +86,7 @@ class Team
     public function setTeamAbbr($teamAbbr)
     {
         $this->teamAbbr = $teamAbbr;
-    
+
         return $this;
     }
 
@@ -98,29 +99,27 @@ class Team
     {
         return $this->teamAbbr;
     }
-    
+
     /**
      * Set createdOn
      *
-     * @param datetime $createdOn
+     * @param \DateTime $createdOn
      * @return Team
      */
     public function setCreatedOn($createdOn)
     {
-    	$this->createdOn = $createdOn;
-    
-    	return $this;
+        $this->createdOn = $createdOn;
+
+        return $this;
     }
-    
+
     /**
      * Get createdOn
      *
-     * @return datetime
+     * @return \DateTime 
      */
     public function getCreatedOn()
     {
-    	return $this->createdOn;
+        return $this->createdOn;
     }
-    
 }
-

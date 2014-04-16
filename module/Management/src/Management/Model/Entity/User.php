@@ -52,7 +52,7 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=30, nullable=false)
+     * @ORM\Column(name="password", type="string", length=32, nullable=false)
      */
     private $password;
 
@@ -64,28 +64,18 @@ class User
     private $contactNo;
 
     /**
-     * @var \Management\Model\Entity\Status
-     *
-     * @ORM\OneToMany(targetEntity="Management\Model\Entity\Status", mappedBy="user")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
-     * })
-     */
-    private $status;
-
-    /**
      * @var string
      *
-     * @ORM\Column(name="user_type", type="string", length=15, nullable=false)
+     * @ORM\Column(name="user_type", type="string", nullable=false)
      */
-    
-    private $userType;
-    
-    
+    private $userType = '3';
+
+
+
     /**
      * Get userId
      *
-     * @return integer
+     * @return integer 
      */
     public function getUserId()
     {
@@ -108,7 +98,7 @@ class User
     /**
      * Get firstName
      *
-     * @return string
+     * @return string 
      */
     public function getFirstName()
     {
@@ -131,7 +121,7 @@ class User
     /**
      * Get lastName
      *
-     * @return string
+     * @return string 
      */
     public function getLastName()
     {
@@ -154,7 +144,7 @@ class User
     /**
      * Get email
      *
-     * @return string
+     * @return string 
      */
     public function getEmail()
     {
@@ -177,7 +167,7 @@ class User
     /**
      * Get username
      *
-     * @return string
+     * @return string 
      */
     public function getUsername()
     {
@@ -192,7 +182,7 @@ class User
      */
     public function setPassword($password)
     {
-        $this->password = md5($password);
+        $this->password = $password;
 
         return $this;
     }
@@ -200,7 +190,7 @@ class User
     /**
      * Get password
      *
-     * @return string
+     * @return string 
      */
     public function getPassword()
     {
@@ -223,14 +213,13 @@ class User
     /**
      * Get contactNo
      *
-     * @return string
+     * @return string 
      */
     public function getContactNo()
     {
         return $this->contactNo;
     }
-    
-    
+
     /**
      * Set userType
      *
@@ -239,17 +228,18 @@ class User
      */
     public function setUserType($userType)
     {
-    	$this->userType = $userType;
-    
-    	return $this;
+        $this->userType = $userType;
+
+        return $this;
     }
+
     /**
      * Get userType
      *
-     * @return string
+     * @return string 
      */
     public function getUserType()
     {
-    	return $this->userType;
+        return $this->userType;
     }
 }
