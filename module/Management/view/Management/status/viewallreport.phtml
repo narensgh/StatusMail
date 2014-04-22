@@ -16,14 +16,17 @@
 	<div id="report_content" class="report_content">
 	<div class="report_filter" id="report_filter">
 		<input type="radio" name ="report_filter" value="1" id="days1"/>
-		<label id="lbl1" for="days1">Today</label> 
+		<label id="lbl1" class="report-filter-label filter-img" for="days1">Today</label> 
 		<input type="radio" name ="report_filter" value="7" id="days7"/>
-		<label id="lbl7" for="days7">7 Days</label> 
+		<label id="lbl7" class="report-filter-label filter-img" for="days7">7 Days</label> 
 		<input type="radio" name ="report_filter" value="15" id="days15"/>
-		<label id="lbl15" for="days15">15 Days</label> 
+		<label id="lbl15" class="report-filter-label filter-img" for="days15">15 Days</label> 
 		<input type="radio" name ="report_filter" value="30" id="days30"/>
-		<label id="lbl30" for="days30">30 Days</label> 
+		<label id="lbl30" class="report-filter-label filter-img" for="days30">30 Days</label> 
 </div>
+	<div id="report_body" class="report_body">
+	
+	</div>
 	</div>
 	<div class="clear"></div>
 </div>
@@ -35,14 +38,16 @@ $(document).ready(function(){
 		selectedId = $(this).val();
 		dateRange = selectedId;
 		setActiveLabelFilter(selectedId);
+		getUserReport(userId);
 	});
 });
 
 function setActiveLabelFilter(id)
 {
-	$('.report_filter label').css('background','#F0F9FE');
+	//$('.report-filter-label').addClass('filter-img');
 	hassId = '#lbl'+id;
-	$(hassId).css('background','#007BE3');
+	$(hassId).removeClass('filter-img');
+	$(hassId).addClass('active-filter');
 }
 function getUserReport(userId)
 {
@@ -56,7 +61,7 @@ function getUserReport(userId)
 	        success: function(userReportObj){
 		        if(userReportObj){
 			        var userReportHtml = produceReportHtml(userReportObj);
-		          	$("#report_content").append(userReportHtml);
+		          	$("#report_body").append(userReportHtml);
 		        }
 			}
 		 });
@@ -71,21 +76,29 @@ function produceReportHtml(userReportObj)
 {
 	var reportHtml = '';
 	$.each(userReportObj, function(index, userReport){
-		$.each(userReport, function(key, report){
-			reportHtml += '<div id="reportData'+report.userId+'" class="report_data">';
-			reportHtml += '<h4>'+report.name+'</h4>';
+		reportHtml += '<div id="reportData'+userReport.userId+'" class="viewBlock">';
+		reportHtml += '<h4>';
+		if(userReport.name){			
+			reportHtml += userReport.name;
+			delete userReport.name;
+			delete userReport.userId;
+		}
+		reportHtml += '</h4>';
+		$.each(userReport, function(key, report){	
+			reportHtml += '<dl class="dl-horizontal dl-cust dl-style-1"><dt></dt><dd class="date">'+ key +'</dd>';
 			var reportNo = 1;
 			$.each(report.report, function(key, r){
-					reportHtml += '<div class="report">';
-					reportHtml += reportNo + '. <a href="http://jira.theorchard.com/browse/'+r.jiraTicketId+'" target="_blank"> '+r.jiraTicketId+'</a> : ';
+					reportHtml += '<dt>';
+					reportHtml += reportNo + '. <a href="http://jira.theorchard.com/browse/'+r.jiraTicketId+'" target="_blank"> '+r.jiraTicketId+'</a> : </dt><dd> ';
 					reportHtml += r.title;
-					reportHtml += '<span class="status_cont">Status : '+r.status+'</span>';
-					reportHtml += '<div class="desc_cont">'+r.description;
-					reportHtml += '</div></div>';
+					reportHtml += '</dd><dt>Status : </dt><dd>'+r.status+'</dd><dt></dt>';
+					reportHtml += '<dd>'+r.description;
+					reportHtml += '</dd>';
 					reportNo ++;
 			});
-			reportHtml += '</div>';
+			reportHtml += '</dl>';
 		});
+		reportHtml += '</div>';
 	});
 	return reportHtml;
 }

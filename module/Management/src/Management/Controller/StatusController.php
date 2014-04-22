@@ -52,7 +52,9 @@ class StatusController extends BaseController{
 
     public function viewallreportAction(){
     	$serviceStatus = new StatusService($this->getEntityManager());
-    	$reports = $serviceStatus->getAllReports();
+    	$teamLeadId = $this->_session->userId;
+//     	echo $teamLeadId;die;
+    	$reports = $serviceStatus->getTeamMembers(null);
     	return new ViewModel(array('teamUser' => json_decode(json_encode($reports, true))));
     }
 

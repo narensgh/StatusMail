@@ -38,16 +38,16 @@ class StatusService extends Common{
 						'title'=>$report->task->title,
 						'reportDate'=> $reportDate
 					);
-			$reportArr[$reportDate]->userId = $report->user->userId;
-			$reportArr[$reportDate]->name = $report->user->firstName." ".$report->user->lastName;
+			$reportArr['userId'] = $report->user->userId;
+			$reportArr['name'] = $report->user->firstName." ".$report->user->lastName;
 		}
 		return json_decode(json_encode($reportArr, true));
 	}
 
-	public function getAllReports(){
+	public function getTeamMembers($teamLeadId){
 		$statusModel = new Status($this->_em, $this->_session);
-		$allReports = $statusModel->fetchAllUsers();
-		return $allReports;
+		$teamMembers = $statusModel->fetchAllUsers($teamLeadId);
+		return $teamMembers;
 	}
 
 	public function saveStatus($postData){
