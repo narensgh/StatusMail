@@ -56,12 +56,12 @@ class Status{
 		->add('from', 'Management\Model\Entity\Status s')
 		->innerJoin('s.task', 't')
 		->innerJoin('s.user', 'u')
-		->where('u.userId = :userId')
-		->andWhere('s.dateAdded BETWEEN :from AND :to')
+		->where('s.dateAdded BETWEEN :from AND :to')
+		->andWhere('u.userId IN(:userId)')
 		->setParameter('userId', $userId)
 		->setParameter('from', $fromDate)
-		->setParameter('to', $toDate)
-		->orderBy('s.dateAdded');
+ 		->setParameter('to', $toDate)
+ 		->orderBy('s.dateAdded');
 		return $qb->getQuery()->getArrayResult();
 	}
 
@@ -70,14 +70,37 @@ class Status{
 		$qb->add('select', 's,t,u')
 			->add('from', 'Management\Model\Entity\Status s')
 			->innerJoin('s.task', 't')
-			->innerJoin('s.user', 'u');
-		return $qb->getQuery()->getArrayResult();
+			->innerJoin('s.user', 'u' );
+		return $qb->getQuery ()->getArrayResult ();
 	}
-
-	public function fetchAllUsers(){
+	public function findUserByUserId($userId)
+	{
+		$user = $this->_em->find('Management\Model\Entity\User', $userId);
+		return $user;
+	}
+	public function findTeamByUser($user, $isLead = null) 
+	{
+		$team = $this->_em->getRepository('Management\Model\Entity\TeamMember')->findOneBy(array('user' => $user,'isLead'=>$isLead));
+        return $team;
+    }
+	public function fetchAllUsers($teamLeadId = null)
+	{
 		$qb = $this->_em->createQueryBuilder();
+		if($teamLeadId == null){
 		$qb->add('select', 'u')
 		   ->add('from', 'Management\Model\Entity\User u');
+		} else {
+			$user = $this->findUserByUserId($teamLeadId);
+			$teamMemder = $this->findTeamByUser($user, 1);
+			
+			$teamId = $teamMemder->getTeam()->getTeamId();
+			$qb->add('select', 'u.userId, u.firstName')
+			->add('from', 'Management\Model\Entity\TeamMember tm')
+			->leftJoin('tm.user', 'u');
+			$qb->where('tm.team = :team')
+				->setParameter('team',  $teamMemder->getTeam());
+		}
+		$qb->orderBy('u.firstName');
 		return $qb->getQuery()->getArrayResult();
 	}
 

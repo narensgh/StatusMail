@@ -151,10 +151,8 @@ label
 	width : 706px;
 }
 .active-filter{
-	background-image: url("../img/btn-gray.png");
-}
-.filter-img{
-	background-image: url("../img/btn-green.png");
+	background-image: url("../img/btn-gray.png") !important;
+	color: #333 !important;
 }
 .report-filter-label
 {
@@ -167,6 +165,7 @@ label
     padding: 8px 5px;
     text-align: center;
     width: 173px;
+	background-image: url("../img/btn-green.png");
 }
 
 .report_filter input[type="radio"] 

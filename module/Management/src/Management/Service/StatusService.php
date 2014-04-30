@@ -31,15 +31,15 @@ class StatusService extends Common{
 		foreach ($reports as $report){
 			$statusId = $report->statusId;
 			$reportDate = date('Y-m-d',strtotime($report->dateAdded->date));
-			$reportArr[$reportDate]->report->$statusId = array(
+			$reportArr[$report->user->userId][$reportDate]->report->$statusId = array(
 						'status' => $report->status,
 						'description'=> $report->description,
 						'jiraTicketId'=>$report->task->jiraTicketId,
 						'title'=>$report->task->title,
 						'reportDate'=> $reportDate
 					);
-			$reportArr['userId'] = $report->user->userId;
-			$reportArr['name'] = $report->user->firstName." ".$report->user->lastName;
+			$reportArr[$report->user->userId]['userId'] = $report->user->userId;
+			$reportArr[$report->user->userId]['name'] = $report->user->firstName." ".$report->user->lastName;
 		}
 		return json_decode(json_encode($reportArr, true));
 	}

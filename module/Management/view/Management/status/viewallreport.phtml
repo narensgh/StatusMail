@@ -5,7 +5,7 @@
 	foreach ($this->teamUser as $user){
 ?>
 	<div class="suser">
-			<input onchange="javascript:getUserReport('<?php echo $user->userId ?>')" id="user<?php echo $user->userId ?>" type="checkbox" name="users" value="<?php echo $user->userId ?>"/>
+			<input onchange="javascript:getReportByUser('<?php echo $user->userId ?>')" id="user<?php echo $user->userId ?>" type="checkbox" name="users" value="<?php echo $user->userId ?>"/>
 			<label class="user_title" for="user<?php echo $user->userId ?>">
 				<?php echo $user->firstName ?>
 			</label>
@@ -16,13 +16,13 @@
 	<div id="report_content" class="report_content">
 	<div class="report_filter" id="report_filter">
 		<input type="radio" name ="report_filter" value="1" id="days1"/>
-		<label id="lbl1" class="report-filter-label filter-img" for="days1">Today</label> 
+		<label id="lbl1" onclick="javascript:getReportByDate()" class="report-filter-label" for="days1">Today</label> 
 		<input type="radio" name ="report_filter" value="7" id="days7"/>
-		<label id="lbl7" class="report-filter-label filter-img" for="days7">7 Days</label> 
+		<label id="lbl7" onclick="javascript:getReportByDate()" class="report-filter-label" for="days7">7 Days</label> 
 		<input type="radio" name ="report_filter" value="15" id="days15"/>
-		<label id="lbl15" class="report-filter-label filter-img" for="days15">15 Days</label> 
+		<label id="lbl15" onclick="javascript:getReportByDate()" class="report-filter-label" for="days15">15 Days</label> 
 		<input type="radio" name ="report_filter" value="30" id="days30"/>
-		<label id="lbl30" class="report-filter-label filter-img" for="days30">30 Days</label> 
+		<label id="lbl30" onclick="javascript:getReportByDate()" class="report-filter-label" for="days30">30 Days</label> 
 </div>
 	<div id="report_body" class="report_body">
 	
@@ -33,43 +33,22 @@
 
 <script>
 var dateRange = 1;
-$(document).ready(function(){
-	$("#report_filter input[type='radio']").click(function(){
-		selectedId = $(this).val();
-		dateRange = selectedId;
-		setActiveLabelFilter(selectedId);
-		getUserReport(userId);
-	});
-});
-
-function setActiveLabelFilter(id)
-{
-	//$('.report-filter-label').addClass('filter-img');
-	hassId = '#lbl'+id;
-	$(hassId).removeClass('filter-img');
-	$(hassId).addClass('active-filter');
-}
 function getUserReport(userId)
 {
-	if($('#user'+userId).is(':checked'))
-	{
-		var curDate = '<?php echo date('Y-m-d H:i:s', strtotime("+6 hours",strtotime(date('Y-m-d H:i:s')))) ; ?>';
+	var userReportHtml;
+	var curDate = '<?php echo date('Y-m-d H:i:s', strtotime("+6 hours",strtotime(date('Y-m-d H:i:s')))) ; ?>';
 		 $.ajax({
+			async: false,
 	       	type:"POST",
 	        url:"<?php echo $this->url('base', array('controller'=>'status','action'=>'getUserReport')) ?>",
 	        data:{userId : userId, curDate : curDate, dateRange : dateRange},
 	        success: function(userReportObj){
-		        if(userReportObj){
-			        var userReportHtml = produceReportHtml(userReportObj);
-		          	$("#report_body").append(userReportHtml);
+		        if(userReportObj.userReport.length != 0){
+			        userReportHtml = produceReportHtml(userReportObj.userReport);
 		        }
 			}
 		 });
-	}
-	else
-	{
-		$('#reportData'+userId).remove();
-	}
+	return userReportHtml;
 }
 
 function produceReportHtml(userReportObj)
@@ -99,8 +78,38 @@ function produceReportHtml(userReportObj)
 			reportHtml += '</dl>';
 		});
 		reportHtml += '</div>';
-	});
+	});	
 	return reportHtml;
 }
+function getReportByDate(){
+	$("#report_filter input[type='radio']").click(function(){
+		selectedId = $(this).val();
+		dateRange = selectedId;
+		setActiveLabelFilter(selectedId);
+		var selectedUsers = [];
+		$("input:checkbox[name=users]:checked").each(function(){
+			selectedUsers.push($(this).val());
+		});
+		var userReportHtml = getUserReport(selectedUsers);
+		var reportBody = '<div id="report_body" class="report_body">';
+		reportBody += userReportHtml + "</div>";
+		$("#report_body").replaceWith(reportBody);
+	});
+}
 
+function getReportByUser(userId){
+	if($('#user'+userId).is(':checked')){
+		var userReportHtml = getUserReport(userId);
+		$('#report_body').append();
+	} else {
+		$('#reportData'+userId).remove();
+	}
+		
+}
+function setActiveLabelFilter(id)
+{
+	$('.report-filter-label').removeClass('active-filter');
+	hassId = '#lbl'+id;
+	$(hassId).addClass('active-filter');
+}
 </script>
