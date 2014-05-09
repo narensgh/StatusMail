@@ -24,6 +24,7 @@
 		<input type="radio" name ="report_filter" value="30" id="days30"/>
 		<label id="lbl30" onclick="javascript:getReportByDate()" class="report-filter-label" for="days30">30 Days</label> 
 </div>
+<input type="button" onclick="sendStatusMail()" value="Send Report"/>
 	<div id="report_body" class="report_body">
 	
 	</div>
@@ -105,6 +106,27 @@ function getReportByUser(userId){
 		$('#reportData'+userId).remove();
 	}
 		
+}
+
+function sendStatusMail(){
+	var dateRange = $("input:radio[name=report_filter]:checked").val();
+	var selectedUsers = [];
+	$("input:checkbox[name=users]:checked").each(function(){
+		selectedUsers.push($(this).val());
+	});
+	var curDate = '<?php echo date('Y-m-d H:i:s', strtotime("+6 hours",strtotime(date('Y-m-d H:i:s')))) ; ?>';
+	 $.ajax({
+		async: false,
+     	type:"POST",
+      url:"<?php echo $this->url('base', array('controller'=>'status','action'=>'sendreport')) ?>",
+      data:{userId : selectedUsers, curDate : curDate, dateRange : dateRange},
+      success: function(userReportObj){
+	        if(userReportObj.userReport.length != 0){
+		        userReportHtml = produceReportHtml(userReportObj.userReport);
+	        }
+		}
+	 });
+return userReportHtml;
 }
 function setActiveLabelFilter(id)
 {
