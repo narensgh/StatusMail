@@ -17,11 +17,39 @@ class SignUpFilter extends InputFilter
 						'domain' => true,
 					),
 				),
+
+				array(
+					'name'	=>	'Management\Custom\Validator\EmailValidatorSynergy'
+				),
 			),
 		));
 
 		$this->add(array(
-			'name'       => 'fullname',
+			'name'       => 'firstName',
+			'required'   => true,
+			'filters'    => array(
+				array(
+					'name'    => 'StripTags',
+				),
+			),
+			'validators' => array(
+				array(
+					'name'    => 'StringLength',
+					'options' => array(
+						'encoding' => 'UTF-8',
+						'min'      => 2,
+						'max'      => 20,
+						'messages' => array(
+							\Zend\Validator\StringLength::TOO_SHORT => 'First name cannot be less than 2 characters',
+							\Zend\Validator\StringLength::TOO_LONG => 'First name cannot be more than 20 characters',
+						),
+					),
+				),
+			),
+		));
+
+		$this->add(array(
+			'name'       => 'lastName',
 			'required'   => true,
 			'filters'    => array(
 				array(

@@ -1,0 +1,69 @@
+<?php 
+$actController = str_replace('managementcontroller', "", strtolower(stripslashes($this->controller)));
+$actAction = strtolower($this->action);
+$activeArray = array(
+			'controller' => $actController,
+			'action' => $actAction
+		);
+$routeArray = array(
+			'sIndex' => array('controller'=>'status','action'=>'index'),
+			'sReport' => array('controller'=>'status','action'=>'report'),
+			'sViewAllReport' => array('controller'=>'status','action'=>'viewallreport'),
+			'aAddteam' => array('controller'=>'admin','action'=>'addteam'),
+			'aManageteam' => array('controller'=>'admin','action'=>'manageteam'),
+			'lLogout' =>array('controller'=>'login','action'=>'logout')
+		);
+?>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+     <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="<?php echo $this->url('base') ?>"><img src="<?php echo $this->basePath('img/zf2-logo.png') ?>" alt="Zend Framework 2"/>&nbsp;<?php // echo $this->translate('Skeleton Application') ?></a>
+                </div>
+               <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <?php if(!empty($_SESSION['appl'])) { ?>
+                        <?php if ($_SESSION['appl']['username']){ ?>
+                        	<li<?php // echo activeMenu()?>><a href="<?php echo $this->url('base') ?>"><?php echo ($_SESSION['appl']['firstName'])." ".($_SESSION['appl']['lastName']); ?></a></li>
+							<li<?php echo activeMenu($routeArray['sIndex'], $activeArray)?>><a href="<?php echo route($routeArray['sIndex'], $this) ?>">New Report</a></li>
+							<li<?php echo activeMenu($routeArray['sReport'], $activeArray)?>><a href="<?php echo route($routeArray['sReport'], $this) ?>">View Report</a></li>
+
+						<?php }?>
+           				<?php if($_SESSION['appl']['userType'] == 2 || $_SESSION['appl']['userType'] == 1 ){?>
+           					<li<?php echo activeMenu($routeArray['sViewAllReport'], $activeArray)?>><a href="<?php echo route($routeArray['sViewAllReport'], $this) ?>">View All Reports</a></li>
+           				<?php }?>
+                        <?php if($_SESSION['appl']['userType'] == 1){?>
+                        	<li<?php echo activeMenu($routeArray['aAddteam'], $activeArray)?>><a href="<?php echo route($routeArray['aAddteam'], $this) ?>">Add Team</a></li>
+							<li<?php echo activeMenu($routeArray['aManageteam'], $activeArray)?>><a href="<?php echo route($routeArray['aManageteam'], $this) ?>">Manage Team</a></li>
+                         <?php }?>
+                         <?php if ($_SESSION['appl']['username']){?>
+                         	<li class="logout"><a href="<?php echo $this->url('base',$routeArray['lLogout']) ?>">Logout</a></li><?php }?>
+                         <?php } ?>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+</nav>
+
+<?php 
+function activeMenu($route = array(), $active = array())
+{
+	$class = ' class="active"';
+	if($route['controller'] == $active['controller']){
+		if($route['action'] == $active['action']){
+			return $class;
+		}else{
+			return "";
+		}
+	}else{
+		return "";
+	}
+}
+
+function route($route = array(), $that)
+{
+	if(!empty($route)){
+		return $that->url('base', array('controller'=>$route['controller'],'action'=>$route['action']));
+	}else{
+		return "";
+	}
+}
+?>

@@ -9,7 +9,6 @@ namespace Management\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
-use Management\Model\User;
 use Management\Model\Entity\Login;
 use Management\Model\Entity\UserInfo;
 use Management\Form\LoginForm;
@@ -23,15 +22,18 @@ class IndexController extends AbstractActionController
     function __construct()
     {
         $this->session = new Container('appl');
-        $this->isLogedIn();
+        //$this->isLogedIn();
     }
 
     public function indexAction()
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->add('select', 'l')
-           ->add('from', 'Management\Model\Entity\Login l');
-        $result = $qb->getQuery()-> getArrayResult();
+        $qb->add('select', 'ui, l')
+           ->add('from', 'Management\Model\Entity\UserInfo ui')
+           ->innerJoin('ui.loginid', 'l')
+           ->where('l.loginid = :id')
+           ->setParameter('id', $this->session->userId);
+        $result = $qb->getQuery()-> getSingleResult();
         return new ViewModel(array('results' => $result));
     }
     public function getEntityManager()

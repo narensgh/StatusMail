@@ -1,16 +1,16 @@
 <?php
 namespace Management;
- 
+
  return array(
 			'router' => array(
-			    'routes' => array(			    		
+			    'routes' => array(
 			        'management' => array(
 			            'type'    => 'Zend\Mvc\Router\Http\Literal',
 			            'options' => array(
 			                'route'    => '/',
 			                'defaults' => array(
-			                    'controller'    => 'Management\Controller\Index',
-			                    'action'        => 'index',
+			                    'controller'    => 'Management\Controller\Login',
+			                    'action'        => 'login',
 			                ),
 			            ),
 			            'may_terminate' => true,
@@ -24,8 +24,8 @@ namespace Management;
 			                            'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
 			                        ),
 			                        'defaults' => array(
-			                        		'controller'    => 'Management\Controller\Index',
-			                        		'action'        => 'index',
+			                        		'controller'    => 'Management\Controller\Login',
+			                    			'action'        => 'login',
 			                        ),
 			                    ),
 			                ),
@@ -41,7 +41,7 @@ namespace Management;
     						),
     						'defaults' => array(
     								'__NAMESPACE__' => 'Management\Controller',
-    								'controller'    => 'Index',
+    								'controller'    => 'Login',
     								'action'        => 'index',
     						),
 	    				),
@@ -60,9 +60,16 @@ namespace Management;
 		'controllers' => array(
 				'invokables' => array(
 						'Management\Controller\Index' => 'Management\Controller\IndexController',
-						'Management\Controller\Status' => 'Management\Controller\StatusController'
+						'Management\Controller\Status' => 'Management\Controller\StatusController',
+						'Management\Controller\Login' => 'Management\Controller\LoginController',
+						'Management\Controller\Admin' => 'Management\Controller\AdminController',
 				),
 		),
+ 		'controller_plugins' => array(
+ 				'invokables' => array(
+ 						'Managementplugin' => 'Management\Controller\Plugin\Managementplugin',
+ 				)
+ 		),
 		'view_manager' => array(
 				'display_not_found_reason' => true,
 				'display_exceptions'       => true,
@@ -72,11 +79,15 @@ namespace Management;
 				'template_map' => array(
 						'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
 						'management/index/index' => __DIR__ . '/../view/management/index/index.phtml',
+						'menu'					=>	__DIR__ . '/../view/layout/menu.phtml',
 						'error/404'               => __DIR__ . '/../view/error/404.phtml',
 						'error/index'             => __DIR__ . '/../view/error/index.phtml',
 				),
 				'template_path_stack' => array(
 						__DIR__ . '/../view',
+				),
+				'strategies' => array(
+						'ViewJsonStrategy',
 				),
 		),
 		'translator' => array(
@@ -89,19 +100,21 @@ namespace Management;
 						),
 				),
 		),
-				
+
 // 				configuring doctrine
-				'doctrine' => array(
-						'driver' => array(
-								'management_entities' => array(
-										'class' =>'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-										'cache' => 'array',
-										'paths' => array(__DIR__ . '/../src')
-								),
+		'doctrine' => array(
+				'driver' => array(
+						'management_entities' => array(
+								'class' =>'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+								'cache' => 'array',
+								'paths' => array(__DIR__ . '/../src/Management/Model/Entity')
+						),
 				
-								'orm_default' => array(
-										'drivers' => array(
-												'Management\Model\Entity' => 'management_entities'
-										)
-								))),
+						'orm_default' => array(
+								'drivers' => array(
+										'Management\Model\Entity' => 'management_entities'
+								)
+						)
+				)
+				),
 	);

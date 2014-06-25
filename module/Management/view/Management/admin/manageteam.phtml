@@ -1,0 +1,91 @@
+<?php
+    $title = 'Manage Team Member';
+    $this->headTitle($title);
+?>
+<script type="text/javascript">
+$(document).ready(function() {
+	var removedMember = [];
+	$('#add').click(function() {
+		$("#msg").html("");
+		if($('#TeamMember :selected').size()===0)
+			$("#msg").html("Please select at least one employee");
+		$('#SelectedTeamMember').append($('#TeamMember :selected'));
+		$('#SelectedTeamMember :selected').each(function(i, selected){
+			   $(selected).attr("selected",false);
+			});
+	});
+	$('#remove').click(function() {
+		$("#msg").html("");
+		if($('#SelectedTeamMember :selected').size()===0)
+			$("#msg").html("Please select at least one employee");
+		removedEle = $('#SelectedTeamMember').val();
+		$.each(removedEle,function (index, removed){
+			removedMember.push(removed);
+		});
+		$('#removedMember').val(removedMember);
+		$('#TeamMember').append($('#SelectedTeamMember :selected'));
+
+	});
+});
+function processUserMapping(team)
+{
+	var userMapping = <?php echo (!empty($this->userMapping)) ? $this->userMapping : ""  ?>;
+	var unMappedUser = <?php echo (!empty($this->unMappedUser)) ? $this->unMappedUser : ""  ?>;
+	teamId = $(team).val();
+	$('#SelectedTeamMember').empty();
+	$('#TeamMember').empty();
+    $.each(userMapping, function(key, users){
+        if(key == teamId){
+	       	 $.each(users, function(index, user){
+		       		$('#SelectedTeamMember').append($('<option>', { value : user.userId }).text(user.firstName +" "+ user.lastName));
+	       	 });
+        }
+        else{
+	       	 $.each(users, function(index, user){
+		       		$('#TeamMember').append($('<option>', { value : user.userId }).text(user.firstName +" "+ user.lastName));
+	    	 });
+        }
+    });
+    $.each(unMappedUser, function(index, user){
+   		$('#TeamMember').append($('<option>', { value : user.userId }).text(user.firstName +" "+ user.lastName));
+ })
+}
+</script>
+<div class="team_member">
+    <div class="sign_title">
+        <?php
+            echo $this->escapeHtml($title);
+        ?>
+    </div>
+     <?php
+        $AddTeamMemberForm = $this->AddTeamMemberForm;
+        $AddTeamMemberForm->prepare();
+        echo $this->form()->openTag($AddTeamMemberForm);
+    ?>
+    <div class="content">
+        <?php echo $this->formRow($AddTeamMemberForm->get('team'));?>
+        <hr>
+        <td><?php echo $this->formRow($AddTeamMemberForm->get('removedMember'));?></td>
+      	<table>
+	      	<tr>
+	      		<td style="text-align:center;">Select Users</td>
+	      		<th></th>
+	      		<td style="text-align:center;">Selected Users</td>
+	      	</tr>
+	      	<tr>
+	      	
+	      		<td><?php echo $this->formRow($AddTeamMemberForm->get('teamMember'));?></td>
+	      		<td style="vertical-align: middle; text-align: center;">
+		      		<input type="button" id="add" name="Add" value=">>" class='move'>
+					<br>
+					<input type="button" id="remove" name="Remove" value="&lt&lt" class='move' >
+				</td>
+	      		<td><?php  echo $this->formRow($AddTeamMemberForm->get('selectedTeamMember')); ?></td>
+	      	</tr>
+         </table>
+         <?php   echo $this->formSubmit($AddTeamMemberForm->get('submit'));?>
+    </div>
+    <?php
+        echo $this->form()->closeTag();
+    ?>
+</div>
