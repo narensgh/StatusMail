@@ -39,44 +39,44 @@ label
 }
 .status_wrapper
 {
-	width:750px;
-	margin : 20px auto;
+    width:750px;
+    margin : 20px auto;
 }
 #title
 {
-	width:500px;
+    width:500px;
 }
 .select1
 {
-	width:300px;
-	padding:3px;
+    width: 250px;
+    padding:3px;
 }
 #status
 {
-	margin-right:250px;
+    margin-right:20px;
 }
 .select2
 {
-	width:100px;
-	padding:3px;
-	margin-right: 3px;
+    width:100px;
+    padding:3px;
+    margin-right: 3px;
 }
 .select3
 {
-	width:200px;
-	padding:3px;
-	margin-right: 3px;
+    width:200px;
+    padding:3px;
+    margin-right: 3px;
 }
 .label2
 {
-	display: inline-block;
+    display: inline-block;
     font-size: 15px;
     font-weight: normal;
     width: 140px; 
 }
 .label1
 {
-	display: inline-block;
+    display: inline-block;
     font-size: 16px;
     font-weight: normal;
     width: 140px; 
@@ -90,8 +90,8 @@ label
     height: 28px;
     border-radius: 5px;
     border: 1px solid #596571;
-	line-height:28px;
-  	padding:2px;
+    line-height:28px;
+    padding:2px;
 }
 .textbox:focus
 {
@@ -117,10 +117,10 @@ label
     color: #FEFEFE;
 }
 .move{
-	color:#333333;
-	font-size:12px;
-  	line-height:18px;
-  	padding:3px 9px;	
+    color:#333333;
+    font-size:12px;
+    line-height:18px;
+    padding:3px 9px;	
 }
 
 .report_container
@@ -131,120 +131,142 @@ label
 }
 .report_filter
 {
-	border: 1px solid #666;
-	margin : 0 auto;
-	width : 798px;
+    border: 1px solid #666;
+    margin : 0 auto;
+    width : 798px;
 }
 .report_filter label
 {
-	color : #333;
-	width : 196px;
-	font-family : verdana;
-	padding : 8px 5px;
-	text-align : center;
-	font-weight : normal;
-	border-right: 1px solid #666;
-	cursor :pointer;
-	background : #F0F9FE;
+    color : #333;
+    width : 196px;
+    font-family : verdana;
+    padding : 8px 5px;
+    text-align : center;
+    font-weight : normal;
+    border-right: 1px solid #666;
+    cursor :pointer;
+    background : #F0F9FE;
 }
 #lbl30
 {
-	background : #007BE3;
+    background : #007BE3;
 }
 .report_filter input[type="radio"] 
 {
     display: none;
 }
 .status_cont{
-    margin-left: 33px;
+    margin-left: 41px;
     display: block;
+}
+.editor{
+    height: 180px;
+    width: 545px;
 }
 .desc_cont
 {
-    margin-left: 75px;
+    margin-left: 97px;
+}
+.desc_cont ol, ul{
+    padding: 0px;
+}
+.desc_cont li {
+    margin-top: 5px;
 }
 .logout
 {
-	float:right;
+    float:right;
 }
 #reportGraph
 {
-	min-height: 400px;
+    min-height: 400px;
 }
 
 /* =============================working for reports ===================*/
 .user_content
 {
-	float: left;
+    float: left;
     height: 398px;
     overflow-y: scroll;
     width: 220px;
 }
 .report_content
 {
-	border-left: 1px solid #29547F;
+    border-left: 1px solid #29547F;
     float: right;
     padding: 5px;
     width: 900px;
-	
+
 }
 .report
 {
-	padding:6px 2px;
-	border-bottom : 1px solid #DCEAF8;
+    padding:6px 2px;
+    border-bottom : 1px solid #DCEAF8;
 }
 .clear{
-	clear:both;
+    clear:both;
 }
 .suser
 {
-	background: #B0B0B0;
+    background: #B0B0B0;
     border-bottom: 1px solid #FEFEFE;
     padding: 5px;
     width: 100%;
-	color : #fefefe;
-	font-weight:normal;
+    color : #fefefe;
+    font-weight:normal;
 }
 .suser:hover
 {
-	color : #888;
+    color : #888;
 }
 .suser .user_title
 {
-	display : inline-block;
-	width : 91%;
-	cursor : pointer;
-	
-}.
+    display : inline-block;
+    width : 91%;
+    cursor : pointer;
+
+}
 .report_data
 {
-	padding : 5px 10px;
-	border-bottom : 1px dotted #E2916C;	
+    padding : 5px 10px;
+    border-bottom : 1px dotted #E2916C;	
+    margin-left: 20px;
+}
+.report_data h3{
+    font-size: 14px;
+    font-weight: bold;
+}
+.reportMsg{
+    font-family: serif;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 5px 0 0 25px;
+    padding: 5px;
 }
 /*==================Working for Admin part=============================*/
 
 .Admin_wrapper{
-	float: right;
+    float: right;
     margin-left: auto;
     margin-right: auto;
     width: 500px;
 }
 .team_wrapper
 {
-	float: left;
+    float: left;
     width: 600px;
 }
 .team_member
 {
-	margin-left: auto;
+    margin-left: auto;
     margin-right: auto;
     width: 700px;
 }
 .odd
 {
-	background : #C1D2E7;
+    background : #C1D2E7;
 }
 .even
 {
-	background :#DAE1E4;
+    background :#DAE1E4;
 }
