@@ -1,0 +1,77 @@
+
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<?php	$name = $results->getFullname(); ?>
+<script>
+$(function () {
+        $('#reportGraph').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Monthly Average Tickets Assigned'
+            },
+            subtitle: {
+                text: '<?php echo $name;?>'
+            },
+            xAxis: {
+                categories: [
+                    'Jan',
+                    'Feb',
+                    'Mar',
+                    'Apr',
+                    'May',
+                    'Jun',
+                    'Jul',
+                    'Aug',
+                    'Sep',
+                    'Oct',
+                    'Nov',
+                    'Dec'
+                ]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Ticket(s)'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:f}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'ASC',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+            }, {
+                name: 'LNC',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+            }, {
+                name: 'MOV',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+            }, {
+                name: 'VAPI',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 8, 10]
+
+            }]
+        });
+    });
+</script>
+<div class="status_wrapper">
+<div class="sign_title">Report Graph</div>
+<div id="reportGraph" class="content">
+
+</div>
+</div>

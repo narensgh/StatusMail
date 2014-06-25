@@ -1,0 +1,50 @@
+<?php
+    $title = 'User Login';
+    $this->headTitle($title);
+?>
+<div class="login_wrapper">
+    <div class="sign_title">
+        <?php
+            echo $this->escapeHtml($title);
+        ?>
+    </div>
+    <?php
+        $loginForm = $this->loginForm;
+        $loginForm->setAttribute('action', $this->url('base', array('controller' => 'login', 'action' => 'login')));
+        $loginForm->prepare();
+        echo $this->form()->openTag($loginForm);
+    ?>
+    <div class="content">
+        <?php
+            echo $this->formRow($loginForm->get('username'));
+            echo $this->formRow($loginForm->get('password'));
+            echo $this->formSubmit($loginForm->get('submit'));
+         ?>
+    </div>
+    <?php
+        echo $this->form()->closeTag();
+    ?>
+</div>
+<div class="signup_wrapper">
+    <div class="sign_title"><?php echo $this->escapeHtml('User Sign Up'); ?></div>
+    <?php
+        $signUpForm = $this->signUpForm;
+        $signUpForm->setAttribute('action', $this->url('base', array('controller' => 'login', 'action' => 'login')));
+        $signUpForm->prepare();
+        echo $this->form()->openTag($signUpForm);
+    ?>
+    <div class="content">
+        <?php
+            echo $this->formRow($signUpForm->get('firstName'));
+            echo $this->formRow($signUpForm->get('lastName'));
+            echo $this->formRow($signUpForm->get('emailid'));
+            echo $this->formRow($signUpForm->get('contact'));
+            echo $this->formRow($signUpForm->get('username'));
+            echo $this->formRow($signUpForm->get('password'));
+            echo $this->formSubmit($signUpForm->get('submit'));
+        ?>
+    </div>
+    <?php
+        echo $this->form()->closeTag();
+    ?>
+</div>

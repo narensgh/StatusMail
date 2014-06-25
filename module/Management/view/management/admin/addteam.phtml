@@ -1,0 +1,95 @@
+<?php
+// print_R($this->teamObj);DIE;
+    $title = 'Add Team';
+    $this->headTitle($title);
+?>
+<div class="team_wrapper">
+<div class="sign_title">
+        <?php
+            echo $this->escapeHtml("Orchard Teams");
+        ?>
+    </div>
+    <div class="content">
+		<table width="100%">
+			<tr>
+				<th>Sr No.</th>
+				<th>Team Name</th>
+				<th>Team Abbr</th>
+				<th>Team Lead</th>
+				<th>created On</th>
+			</tr>
+			<?php if(!empty($this->teamObj)){
+				$sr = 1;
+				$class = "even";
+				foreach ($this->teamObj as $team){
+					$class = ($class == "even") ? "odd":"even"; 
+					?>
+					<tr class="<?php echo $class?>">
+						<td><?php echo $sr ?> .</td>
+						<td><?php echo $team->teamName?></td>
+						<td><?php echo $team->teamAbbr?></td>
+						<td>
+							<select class="select" id="users" onchange="mapTeamLead(this)">
+								<option value="">Select User</option>
+								<?php if(!empty($this->userArray)){
+									foreach ($this->userArray as $user){?>
+										<option <?php echo (($team->teamId == $user->teamId) && $user->isLead) ? "selected" : "" ?> value="<?php echo $team->teamId.":".$user->userId ?>">
+											<?php echo $user->firstName ?>
+										</option>	
+								<?php }
+								}?>
+							</select>
+						</td>
+						<td><?php echo date('jS M, Y', strtotime($team->createdOn->date))?></td>
+			<?php $sr++;
+					}
+				}?>
+		</table>
+	</div>
+</div>
+<div class="Admin_wrapper">
+    <div class="sign_title">
+        <?php
+            echo $this->escapeHtml($title);
+        ?>
+    </div>
+     <?php
+        $AddTeamForm = $this->AddTeamForm;
+        $AddTeamForm->prepare();
+        echo $this->form()->openTag($AddTeamForm);
+    ?>
+    <div class="content">
+        <?php
+            echo $this->formRow($AddTeamForm->get('teamName'));
+            echo "<br/>";
+            echo $this->formRow($AddTeamForm->get('teamAbbr'));
+            echo "<br/>";
+            echo $this->formSubmit($AddTeamForm->get('submit'));
+         ?>
+    </div>
+    <?php
+        echo $this->form()->closeTag();
+    ?>
+</div>
+<div class="clear"></div>
+
+	<script>
+		function mapTeamLead(user)
+		{
+			var mappingData = $(user).val();
+			if(mappingData)
+			{
+				$.ajax({
+					url: "<?php echo $this->url('base', array('controller'=>'admin','action'=>'mapTeamLead'))?>",
+			        type: "post",
+			        data: {mappingData : mappingData},
+			        success: function(data){
+			            alert(data.response);
+			        },
+			        error:function(){
+			            alert("Some Error Occured.. !!");
+			        }
+				});
+			}
+		}
+    </script>
