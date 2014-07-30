@@ -8,9 +8,7 @@ label
 }
 .navbar-inverse
 {
-	background-color: #2a2b21;
-	@include filter-gradient(#2a2b21, #000a05, vertical);
-	@include background-image(linear-gradient(top,  #2a2b21 11%,#000a05 61%,#000a05 100%));	
+	background-color: #2a2b21;	
 }
 .container
 {
@@ -52,7 +50,7 @@ label
 }
 .status_wrapper
 {
-	width:100%;
+	width:795px;
 	margin : 20px auto;
 }
 #title
@@ -233,7 +231,7 @@ label
 	width : 90%;
 	cursor : pointer;
 	
-}.
+}
 .report_data
 {
 	padding : 5px 10px;
@@ -243,19 +241,20 @@ label
 
 .Admin_wrapper{
 	float: right;
-    margin-left: auto;
-    margin-right: auto;
-    width: 500px;
+    margin-top: 20px;
+    width: 437px;
 }
 .team_wrapper
 {
 	float: left;
-    width: 600px;
+    width: 490px;
+    margin-top: 20px;
 }
 .team_member
 {
 	margin-left: auto;
     margin-right: auto;
+    margin-top: 20px;
     width: 700px;
 }
 .odd
@@ -300,5 +299,5 @@ label
 	background: #EEEEEE;
 	color:#333;
 	text-align:right;
-	padding:8px;'
+	padding:8px;
 }
