@@ -1,0 +1,41 @@
+<?php
+if ($this->reportObj) {
+    $reportObj = $this->reportObj;
+}
+?>
+
+<div class="report_container">
+    <?php
+    if (!empty($reportObj)) {
+        foreach ($reportObj as $object) {
+            unset($object->userId);
+            unset($object->name);
+            foreach ($object as $reportDate => $reports) {
+                ?> 			
+                <h4><?php echo date('jS F Y', strtotime($reportDate)) ?></h4>
+                <?php
+                $reportNo = 1;
+                foreach ($reports->report as $report) {
+                    ?>
+                    <dl class="dl-horizontal dl-cust dl-style-1">
+                        <dt>
+                        <?php echo $reportNo ?>. <a href="http://jira.theorchard.com/browse/<?php echo $report->jiraTicketId ?>"target="_blank"><?php echo $report->jiraTicketId ?></a> :
+                        </dt>
+                        <dd>
+                            <?php echo $report->title ?>
+                        </dd>
+                        <dt>Status : </dt>
+                        <dd><?php echo $report->status ?> </dd>
+                        <dt></dt>
+                        <dd>
+                            <?php echo $report->description ?>
+                        </dd>
+                    </dl>
+                    <?php
+                    $reportNo++;
+                }
+            }
+        }
+    }
+    ?>
+</div>

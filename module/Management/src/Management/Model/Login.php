@@ -2,6 +2,8 @@
 
 namespace Management\Model;
 
+use Zend\Validator\File\Md5;
+
 use Management\Model\Entity\User;
 
 class Login{
@@ -27,7 +29,7 @@ class Login{
 
 	public function createUser($data){
 		$user = new User();
-		$user->setPassword($data->password);
+		$user->setPassword(md5($data->password));
 		$user->setUsername($data->username);
 		$user->setEmail($data->emailid);
 		$user->setContactNo($data->contact);
