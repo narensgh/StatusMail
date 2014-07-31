@@ -1,11 +1,12 @@
 <div class="report_container">
+
     <div class="user_content">
-        <?php 
+        <?php
         if (!empty($this->teamUser)) {
             foreach ($this->teamUser as $user) {
                 ?>
                 <div class="suser">
-                    <input onchange="javascript:getUserReport('<?php echo $user->userId ?>')" id="user<?php echo $user->userId ?>" type="checkbox" name="users" value="<?php echo $user->userId ?>"/>
+                    <input onchange="javascript:getReportByUser('<?php echo $user->userId ?>')" id="user<?php echo $user->userId ?>" type="checkbox" name="users" value="<?php echo $user->userId ?>"/>
                     <label class="user_title" for="user<?php echo $user->userId ?>">
         <?php echo $user->firstName ?>
                     </label>
@@ -15,18 +16,18 @@
         ?>
     </div>
     <div id="report_content" class="report_content">
-<!--        <div class="report_filter" id="report_filter">
+        <div class="report_filter" id="report_filter">
             <input type="radio" name ="report_filter" value="1" id="days1"/>
-            <label id="lbl1" for="days1">Today</label> 
+            <label id="lbl1" onclick="javascript:getReportByDate()" class="report-filter-label" for="days1">Today</label> 
             <input type="radio" name ="report_filter" value="7" id="days7"/>
-            <label id="lbl7" for="days7">7 Days</label> 
+            <label id="lbl7" onclick="javascript:getReportByDate()" class="report-filter-label" for="days7">7 Days</label> 
             <input type="radio" name ="report_filter" value="15" id="days15"/>
-            <label id="lbl15" for="days15">15 Days</label> 
+            <label id="lbl15" onclick="javascript:getReportByDate()" class="report-filter-label" for="days15">15 Days</label> 
             <input type="radio" name ="report_filter" value="30" id="days30"/>
-            <label id="lbl30" for="days30">30 Days</label> 
-        </div>-->
-        <div id="reportMsg" class="reportMsg">
-            ORCHARD - Status Update  <?php echo date('jS F') ?>
+            <label id="lbl30" onclick="javascript:getReportByDate()" class="report-filter-label" for="days30">30 Days</label> 
+        </div>
+        <div id="report_body" class="report_body">
+
         </div>
     </div>
     <div class="clear"></div>
@@ -34,65 +35,83 @@
 
 <script>
     var dateRange = 1;
-    $(document).ready(function() {
-        $("#report_filter input[type='radio']").click(function() {
-            selectedId = $(this).val();
-            dateRange = selectedId;
-            setActiveLabelFilter(selectedId);
-        });
-    });
-
-    function setActiveLabelFilter(id)
-    {
-        $('.report_filter label').css('background', '#F0F9FE');
-        hassId = '#lbl' + id;
-        $(hassId).css('background', '#007BE3');
-    }
     function getUserReport(userId)
     {
-        if ($('#user' + userId).is(':checked'))
-        {
-            var curDate = '<?php echo date('Y-m-d H:i:s', strtotime("+6 hours", strtotime(date('Y-m-d H:i:s')))); ?>';
-            $.ajax({
-                type: "POST",
-                url: "<?php echo $this->url('base', array('controller' => 'status', 'action' => 'getUserReport')) ?>",
-                data: {userId: userId, curDate: curDate, dateRange: dateRange},
-                success: function(userReportObj) {
-                    if (userReportObj) {
-                        var userReportHtml = produceReportHtml(userReportObj);
-                        $("#report_content").append(userReportHtml);
-                    }
+        var userReportHtml;
+        var curDate = '<?php echo date('Y-m-d H:i:s', strtotime("+6 hours", strtotime(date('Y-m-d H:i:s')))); ?>';
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "<?php echo $this->url('base', array('controller' => 'status', 'action' => 'getUserReport')) ?>",
+            data: {userId: userId, curDate: curDate, dateRange: dateRange},
+            success: function(userReportObj) {
+                if (userReportObj.userReport.length != 0) {
+                    userReportHtml = produceReportHtml(userReportObj.userReport);
                 }
-            });
-        }
-        else
-        {
-            $('#reportData' + userId).remove();
-        }
+            }
+        });
+        return userReportHtml;
     }
 
     function produceReportHtml(userReportObj)
     {
         var reportHtml = '';
         $.each(userReportObj, function(index, userReport) {
+            reportHtml += '<div id="reportData' + userReport.userId + '" class="viewBlock">';
+            reportHtml += '<h3>Name :  ';
+            if (userReport.name) {
+                reportHtml += userReport.name;
+                delete userReport.name;
+                delete userReport.userId;
+            }
+            reportHtml += '</h3>';
             $.each(userReport, function(key, report) {
-                reportHtml += '<div id="reportData' + report.userId + '" class="report_data">';
-                reportHtml += '<h3>Name : ' + report.name + '</h3>';
+                reportHtml += '<dl class="dl-horizontal dl-cust dl-style-1"><dt></dt><dd class="date">' + key + '</dd>';
                 var reportNo = 1;
                 $.each(report.report, function(key, r) {
-                    reportHtml += '<div class="report">';
-                    reportHtml += reportNo + '. <a href="http://jira.theorchard.com/browse/' + r.jiraTicketId + '" target="_blank"> ' + r.jiraTicketId + '</a> : ';
+                    reportHtml += '<dt>';
+                    reportHtml += reportNo + '. <a href="http://jira.theorchard.com/browse/' + r.jiraTicketId + '" target="_blank"> ' + r.jiraTicketId + '</a> : </dt><dd> ';
                     reportHtml += r.title;
-                    reportHtml += '<div class="status_cont">Status : ' + r.status + '</div>';
-                    reportHtml += '<div class="desc_cont">' + r.description;
-                    reportHtml += '</div></div>';
+                    reportHtml += '</dd><dt>Status : </dt><dd>' + r.status + '</dd><dt></dt>';
+                    reportHtml += '<dd>' + r.description;
+                    reportHtml += '</dd>';
                     reportNo++;
                 });
-                reportHtml += '</div>';
+                reportHtml += '</dl>';
             });
+            reportHtml += '</div>';
         });
         return reportHtml;
     }
-    
+    function getReportByDate() {
+        $("#report_filter input[type='radio']").click(function() {
+            selectedId = $(this).val();
+            dateRange = selectedId;
+            setActiveLabelFilter(selectedId);
+            var selectedUsers = [];
+            $("input:checkbox[name=users]:checked").each(function() {
+                selectedUsers.push($(this).val());
+            });
+            var userReportHtml = getUserReport(selectedUsers);
+            var reportBody = '<div id="report_body" class="report_body">';
+            reportBody += userReportHtml + "</div>";
+            $("#report_body").replaceWith(reportBody);
+        });
+    }
 
+    function getReportByUser(userId) {
+        if ($('#user' + userId).is(':checked')) {
+            var userReportHtml = getUserReport(userId);
+            $('#report_body').append(userReportHtml);
+        } else {
+            $('#reportData' + userId).remove();
+        }
+
+    }
+    function setActiveLabelFilter(id)
+    {
+        $('.report-filter-label').removeClass('active-filter');
+        hassId = '#lbl' + id;
+        $(hassId).addClass('active-filter');
+    }
 </script>

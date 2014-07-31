@@ -5,6 +5,7 @@
  *
  * @author Narendra
  */
+
 namespace Management\Service;
 
 use Management\Form\SignUpFilter;
@@ -12,47 +13,47 @@ use Management\Model\Login;
 use Management\Model\Status;
 use Zend\_session\Container;
 
-class StatusService extends Common{
+class StatusService extends Common {
 
-	public function __construct($em){
-		parent::__construct($em);
-	}
+    public function __construct($em) {
+        parent::__construct($em);
+    }
 
-	public function getUserReport($userId, $fromDate=null, $toDate=null){
-		if (!$fromDate)
-			$fromDate = date('Y-m-d', strtotime("-30 days",strtotime(date('Y-m-d'))));
-		if (!$toDate)
-			$toDate = date('Y-m-d', strtotime("+1 days",strtotime(date('Y-m-d'))));
+    public function getUserReport($userId, $fromDate = null, $toDate = null) {
+        if (!$fromDate)
+            $fromDate = date('Y-m-d', strtotime("-30 days", strtotime(date('Y-m-d'))));
+        if (!$toDate)
+            $toDate = date('Y-m-d', strtotime("+1 days", strtotime(date('Y-m-d'))));
 
-		$modelStatus = new Status($this->_em, $this->_session);
-		$reports = $modelStatus->getUserReportData($userId, $fromDate, $toDate);
-		$reports = json_decode(json_encode($reports, true));
-		$reportArr = array();
-		foreach ($reports as $report){
-			$statusId = $report->statusId;
-			$reportDate = date('Y-m-d',strtotime($report->dateAdded->date));
-			$reportArr[$report->user->userId][$reportDate]->report->$statusId = array(
-						'status' => $report->status,
-						'description'=> $report->description,
-						'jiraTicketId'=>$report->task->jiraTicketId,
-						'title'=>$report->task->title,
-						'reportDate'=> $reportDate
-					);
-			$reportArr[$report->user->userId]['userId'] = $report->user->userId;
-			$reportArr[$report->user->userId]['name'] = $report->user->firstName." ".$report->user->lastName;
-		}
-		return json_decode(json_encode($reportArr, true));
-	}
+        $modelStatus = new Status($this->_em, $this->_session);
+        $reports = $modelStatus->getUserReportData($userId, $fromDate, $toDate);
+        $reports = json_decode(json_encode($reports, true));
+        $reportArr = array();
+        foreach ($reports as $report) {
+            $statusId = $report->statusId;
+            $reportDate = date('Y-m-d', strtotime($report->dateAdded->date));
+            $reportArr[$report->user->userId][$reportDate]->report->$statusId = array(
+                'status' => $report->status,
+                'description' => $report->description,
+                'jiraTicketId' => $report->task->jiraTicketId,
+                'title' => $report->task->title,
+                'reportDate' => $reportDate
+            );
+            $reportArr[$report->user->userId]['userId'] = $report->user->userId;
+            $reportArr[$report->user->userId]['name'] = $report->user->firstName . " " . $report->user->lastName;
+        }
+        return json_decode(json_encode($reportArr, true));
+    }
 
-	public function getTeamMembers($teamLeadId){
-		$statusModel = new Status($this->_em, $this->_session);
-		$teamMembers = $statusModel->fetchAllUsers($teamLeadId);
-		return $teamMembers;
-	}
+    public function getTeamMembers($teamLeadId) {
+        $statusModel = new Status($this->_em, $this->_session);
+        $teamMembers = $statusModel->fetchAllUsers($teamLeadId);
+        return $teamMembers;
+    }
 
-	public function saveStatus($postData){
-		$modelStatus = new Status($this->_em, $this->_session);
-		$response = $modelStatus->saveStatus($postData);
-		return $response;
-	}
+    public function saveStatus($postData) {
+        $modelStatus = new Status($this->_em, $this->_session);
+        $response = $modelStatus->saveStatus($postData);
+        return $response;
+    }
 }
