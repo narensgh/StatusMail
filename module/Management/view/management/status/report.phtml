@@ -23,7 +23,11 @@ if ($this->reportObj) {
                         </dt>
                         <dd>
                             <?php echo $report->title ?>
-                        </dd>
+                            <div class="action">
+                                <span title="Edit" class="edit" href="#edit"> &nbsp;</span >
+                                <span title="Delete" class="delete" href="#edit">&nbsp; </span >
+                        </div>
+                        </dd>                         
                         <dt>Status : </dt>
                         <dd><?php echo $report->status ?> </dd>
                         <dt></dt>

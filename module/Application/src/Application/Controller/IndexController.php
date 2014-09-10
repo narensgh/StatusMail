@@ -9,13 +9,30 @@
 
 namespace Application\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Zend\Mvc\Controller\AbstractRestfulController;
+use Zend\View\Model\JsonModel;
 
-class IndexController extends AbstractActionController
+class IndexController extends AbstractRestfulController
 {
-    public function indexAction()
+	function __construct()
+	{
+		$this->identifierName = 'id';
+		$this->getIdentifierName();
+	}
+    
+    public function getList()
     {
-        return new ViewModel();
+    	return new JsonModel(array('name' =>'narendra'));
+    }
+    public function get($id)
+    {
+//     	die('get');
+    	return new JsonModel(array('name' =>'narendra', "id" =>$id));
+    }
+    
+    public function create($data)
+    {
+    	$post = $this->getRequest()->getPost();
+    	print_r($post);die('tested');
     }
 }
