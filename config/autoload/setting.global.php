@@ -2,9 +2,18 @@
 
 return array(
     "mailer" => array(
+        "smtpDebug" => 0,
+        "debugoutput" => "html",
+        "host" => "ssl://smtp.gmail.com",
+        "smtpSecure" => "ssl",
+        "port"=> 465,
+        "smtpAuth" => true,
         "username" => "narendra.singh@synergytechservices.com",
         "password" => "",
-        "fromName" => "notify@gmail.com"
+        "fromEmail" => "notify@gmail.com",
+        "fromName" => "notify",
+        "replyToEmail" => "noreply@gmail.com",
+        "replyToName" => "noreply",
     ),
     'session' => array(
         'cache_expire' => 100,

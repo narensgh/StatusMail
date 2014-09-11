@@ -10,10 +10,10 @@ use Management\Model\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
-use Management\Model\Entity\UserInfo;
 use Management\Form\LoginForm;
 use Management\Form\SignUpForm;
 use Management\Service\LoginService;
+use Libs\SendMail;
 
 class LoginController extends BaseController {
     /**
@@ -89,6 +89,21 @@ class LoginController extends BaseController {
 //        $this->_session->afterLogout = true;
         $this->_session->getManager()->getStorage()->clear('appl');
         $this->redirectTo(array('controller' => 'login', 'action' => 'login'));
+    }
+    public function forgotpasswordAction ()
+    {
+        $post = $this->getRequest()->getPost();
+        if (!empty($post['email'])) {
+            $serviceLogin = new LoginService(null);
+            $response = $serviceLogin->resetPassword($this->getEntityManager(), $post['email']);
+            if ($response) {
+                $config = $this->getServiceLocator()->get('Config');
+                $serviceLogin->sendNewPassword($config, $response);
+                $this->redirectTo(array('controller' => 'login', 'action' => 'login'));
+            } else {
+               $this->redirectTo(array('controller' => 'login', 'action' => 'forgetpassword'));
+            }
+        }
     }
 
 }
