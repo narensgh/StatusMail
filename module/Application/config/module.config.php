@@ -72,7 +72,8 @@ return array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
             'Application\Controller\Pmfield' => 'Application\Controller\PmfieldController',
-            'Application\Controller\Pmproject' => 'Application\Controller\PmprojectController'
+            'Application\Controller\Pmproject' => 'Application\Controller\PmprojectController',
+             'Application\Controller\user' => 'Application\Controller\UserController'
         ),
     ),
     'view_manager'    => array(
