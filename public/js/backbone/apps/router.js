@@ -1,12 +1,16 @@
 define(['jquery', 'backbone', 'apps/views/timesheet/signupView', 'apps/views/timesheet/userinfoView',
-    'apps/views/pm/templateView', 'apps/views/pm/projectView'],
-        function($, Backbone, SignupView, UserinfoView, PmTemplateView, PmProjectView) {
+    'apps/views/pm/templateView', 'apps/views/pm/projectView', 'apps/views/user/changepasswordView',
+    'apps/views/user/userprofileView'],
+        function($, Backbone, SignupView, UserinfoView, PmTemplateView, PmProjectView, UserchangepasswordView,
+                UserprofileView) {
             var Router = Backbone.Router.extend({
                 routes: {
                     "": "index",
 					"project": "project",
                     "template": "template",
-                    'userinfo': 'userinfo'
+                    'userinfo': 'userinfo',
+                    'changepassword': 'changepassword',
+                    'userprofile': 'userprofile'
                 },
                 el: $('body'),
                 index: function() {
@@ -20,6 +24,12 @@ define(['jquery', 'backbone', 'apps/views/timesheet/signupView', 'apps/views/tim
 				},
                 template: function() {
                     new PmTemplateView();
+                },
+                changepassword: function() {
+                    new UserchangepasswordView();
+                },
+                userprofile: function() {
+                    new UserprofileView();
                 }
             });
             return Router;
