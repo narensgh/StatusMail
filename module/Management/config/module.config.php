@@ -64,7 +64,8 @@ return array(
             'Management\Controller\Status' => 'Management\Controller\StatusController',
             'Management\Controller\Login' => 'Management\Controller\LoginController',
             'Management\Controller\Admin' => 'Management\Controller\AdminController',
-            'Management\Controller\Pm' => 'Management\Controller\PmController'
+            'Management\Controller\Pm' => 'Management\Controller\PmController',
+            'Management\Controller\Error' => 'Management\Controller\ErrorController'
         ),
     ),
     'controller_plugins' => array(
