@@ -25,7 +25,7 @@ class AccessControl
      * @param type $roles
      * @return \Zend\Permissions\Acl $acl
      */
-    public function setRole (\Zend\Permissions\Acl $acl, $roles)
+    public function setRole (\Zend\Permissions\Acl\Acl $acl, $roles)
     {
         foreach ($roles as $role) {
             $acl->addRole(new Role($role->getRoleId()));
@@ -39,7 +39,7 @@ class AccessControl
      * @param type $rolePermissions
      * @return \Zend\Permissions\Acl $acl
      */
-    public function setRolePermission (\Zend\Permissions\Acl $acl, $rolePermissions)
+    public function setRolePermission (\Zend\Permissions\Acl\Acl $acl, $rolePermissions)
     {
         $temp = "";
         foreach ($rolePermissions as $rolePermission) {
@@ -62,7 +62,7 @@ class AccessControl
      * @param type $targetEvent
      * @return boolean
      */
-    public function isPrivilegeAllowed (\Zend\Permissions\Acl $acl, $targetEvent, $roleId = 0)
+    public function isPrivilegeAllowed (\Zend\Permissions\Acl\Acl $acl, $targetEvent, $roleId = 0)
     {
         if ($acl->isAllowed($roleId, $targetEvent->module, $targetEvent->controller . ':' . $targetEvent->action)) {
             return true;

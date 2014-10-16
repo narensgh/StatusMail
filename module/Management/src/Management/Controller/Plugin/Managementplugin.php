@@ -43,7 +43,7 @@ class Managementplugin extends AbstractPlugin
             if (!(isset($this->getSessContainer()->username) && isset($this->getSessContainer()->userId))) {
                 $this->setRedirect($event, $resource);
             }
-            //$this->checkPrivilege($event);
+            $this->checkPrivilege($event);
         }
     }
 
@@ -55,7 +55,7 @@ class Managementplugin extends AbstractPlugin
             $resource = $permission->getResource()->getModule();
             $roleId = $rolePermission->getRole()->getRoleId();
             if ($roleId == $this->getSessContainer()->userType) {
-                $userMenu[$resource][$permission->getResource()->getResourceName()][] = $permission->getPrivilege()->getPrivilegeName();
+                $userMenu[$resource][$permission->getResource()->getResourceName()][$permission->getPrivilege()->getPrivilegeName()] = $permission->getPrivilege()->getDescription();
             }
         }
         return $userMenu;
@@ -94,8 +94,10 @@ class Managementplugin extends AbstractPlugin
         $acl = $accessControl->setRole($acl, $roles);
         $rolePermissions = $ServiceAcl->getAclRolePermission();
         $userMenu = $this->getUserMenu($rolePermissions);
+        $activeMenu = $this->getControllerAction($event);
         $viewModel = $event->getViewModel();
         $viewModel->setVariable('userMenu', $userMenu);
+        $viewModel->setVariable('activeMenu', $activeMenu);
         $acl = $accessControl->setRolePermission($acl, $rolePermissions);
         $targetEvent = $this->getControllerAction($event);
         $allowed = $accessControl->isPrivilegeAllowed($acl, $targetEvent, $this->getSessContainer()->userType);
