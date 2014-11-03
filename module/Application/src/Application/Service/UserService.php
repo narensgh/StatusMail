@@ -31,17 +31,33 @@ class UserService
         }
     }
 
-    public function getUserById($userId)
+    public function getUserById ($userId)
     {
-        $userObject = new \stdClass();
         $userModel = new UserModel($this->_em);
         $user = $userModel->getUserById($userId);
-        $userObject->userId = $user->getUserId();
-        $userObject->firstName = $user->getFirstName();
-        $userObject->lastName = $user->getLastName();
-        $userObject->username = $user->getUsername();
-        $userObject->contactNo = $user->getContactNo();
-        $userObject->email = $user->getEmail();
+        $userObject = $this->processUser($user);
+        return $userObject;
+    }
+
+    protected function processUser ($user)
+    {
+        $userObject = new \stdClass();
+        if(!empty($user)){
+            $userObject->userId = $user->getUserId();
+            $userObject->firstName = $user->getFirstName();
+            $userObject->lastName = $user->getLastName();
+            $userObject->username = $user->getUsername();
+            $userObject->contactNo = $user->getContactNo();
+            $userObject->email = $user->getEmail();
+        }
+        return $userObject;
+    }
+
+    public function getUserByIdAndPassword($userId, $password)
+    {
+        $userModel = new UserModel($this->_em);
+        $user = $userModel->getUserByIdAndPassword($userId, $password);
+        $userObject = $this->processUser($user);
         return $userObject;
     }
 }

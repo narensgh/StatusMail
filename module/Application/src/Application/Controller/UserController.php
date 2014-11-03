@@ -29,7 +29,12 @@ class UserController extends BaseController
     public function get($userId)
     {
         $userService = new UserService($this->getEntityManager());
-        $user = $userService->getUserById($userId);
+        $password = $this->params()->fromQuery('password');
+        if (isset($password)) {
+            $user = $userService->getUserByIdAndPassword($userId, $password);
+        } else {
+            $user = $userService->getUserById($userId);
+        }
         return new JsonModel(array($user));
     }
     public function getList()
@@ -38,5 +43,12 @@ class UserController extends BaseController
         $PmprojectService = new PmprojectService($this->getEntityManager());
         $pmproject = $PmprojectService->getProject();
         return new JsonModel($pmproject);
+    }
+
+    public function update($userId, $data)
+    {
+        return new JsonModel(array(
+            $userId, $data
+        ));
     }
 }

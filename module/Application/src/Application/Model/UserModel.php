@@ -37,4 +37,14 @@ class UserModel
             throw new \Exception($exc->getMessage());
         }
     }
+
+    public function getUserByIdAndPassword($userId, $password)
+    {
+        try {
+             $user = $this->_em->getRepository('Application\Model\Entity\User')->findOneBy(array('userId'=> $userId, 'password' => $password));
+             return $user;
+        } catch (Exception $exc) {
+            throw new \Exception($exc->getMessage());
+        }
+    }
 }
