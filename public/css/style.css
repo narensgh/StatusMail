@@ -202,6 +202,10 @@ label
 .report_content .report_body {
 	border-left:1px solid #ddd;
 }
+#report_body h3{
+    font-size: 15px;
+    font-weight: bold;
+}
 .report
 {
 	padding:6px 2px;
@@ -236,6 +240,25 @@ label
 {
 	padding : 5px 10px;
 	border-bottom : 1px dotted #E2916C;	
+}
+
+div.action {
+    display: inline-block;
+    float: right;
+    width: 75px;
+}
+div.action span{
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+div.action .edit {
+    background-image: url('../img/edit.png');
+}
+
+div.action .delete {
+    background-image: url('../img/delete.png');
 }
 /*==================Working for Admin part=============================*/
 

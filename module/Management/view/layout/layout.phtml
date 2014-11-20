@@ -19,11 +19,11 @@
         <?php echo $this->headScript()->prependFile($this->basePath() . '/js/jquery.min.js'); ?>
     </head>
     <body>
-    	<?php echo $this->partial('menu'); ?>
+    	<?php  echo $this->partial('menu', array('userMenu' => $userMenu)); ?>
         <div class="main-wrapper">
         <div class="container">
             <?php echo $this->content; ?>
-            
+
             <footer> </footer>
         </div> <!-- /container -->
         </div>

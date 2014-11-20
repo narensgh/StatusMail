@@ -19,11 +19,11 @@
             echo $this->formRow($loginForm->get('username'));
             echo $this->formRow($loginForm->get('password'));
             echo $this->formSubmit($loginForm->get('submit'));
-         ?>
+            echo $this->form()->closeTag();
+        ?>
+         <a href="<?php echo $this->url('base', array('controller' => 'login', 'action' => 'forgotpassword'))?>" >Forgot Password... ?? </a>
     </div>
-    <?php
-        echo $this->form()->closeTag();
-    ?>
+
 </div>
 <div class="signup_wrapper">
     <div class="sign_title"><?php echo $this->escapeHtml('User Sign Up'); ?></div>

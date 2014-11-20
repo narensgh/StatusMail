@@ -1,4 +1,4 @@
-<?php 
+<?php
 $actController = str_replace('managementcontroller', "", strtolower(stripslashes($this->controller)));
 $actAction = strtolower($this->action);
 $activeArray = array(
@@ -16,10 +16,11 @@ $routeArray = array(
 ?>
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
      <div class="container">
-<!--                 <div class="navbar-header"> 
+<!--                 <div class="navbar-header">
                     <a class="navbar-brand" href="<?php echo $this->url('base') ?>"><img src="<?php echo $this->basePath('img/zf2-logo.png') ?>" alt="Zend Framework 2"/>&nbsp;<?php // echo $this->translate('Skeleton Application') ?></a>
                  </div> -->
                <div class="collapse navbar-collapse">
+                  <?php if($actController != "pm") { ?>
                     <ul class="nav navbar-nav">
                         <?php if(!empty($_SESSION['appl'])) { ?>
                         <?php if ($_SESSION['appl']['username']){ ?>
@@ -39,11 +40,19 @@ $routeArray = array(
                          	<li class="logout"><a href="<?php echo $this->url('base',$routeArray['lLogout']) ?>">Logout</a></li><?php }?>
                          <?php } ?>
                     </ul>
+                    <?php } else { ?>
+                    <ul class="nav navbar-nav">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#project">Project</a></li>
+                        <li><a href="#changepassword">Change Password</a></li>
+                        <li><a href="#userprofile">User Profile</a></li>
+                    </ul>
+                    <?php } ?>
                 </div><!--/.nav-collapse -->
             </div>
 </nav>
 
-<?php 
+<?php
 function activeMenu($route = array(), $active = array())
 {
 	$class = ' class="active"';

@@ -40,4 +40,23 @@ class Login{
 		return $user;
 	}
 
+    /**
+     *
+     * @param type $email
+     * @return type $user
+     */
+    public function findUserByEmail($email)
+    {
+        $user = $this->_em->getRepository('Management\Model\Entity\User')->findOneByEmail($email);
+        return $user;
+    }
+
+    public function resetPassword($user, $password)
+    {
+        $user->setPassword(md5($password));
+        $this->_em->persist($user);
+        $this->_em->flush();
+        return $user;
+    }
+
 }

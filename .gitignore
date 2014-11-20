@@ -1,0 +1,9 @@
+/nbproject/private/
+/vendor/bin/
+/vendor/composer/
+/vendor/doctrine/
+/vendor/phpmailer/
+/vendor/symfony/
+/vendor/Zendframework/
+/vendor/autoload.php
+/data/

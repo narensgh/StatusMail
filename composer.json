@@ -4,5 +4,10 @@
         "zendframework/zendframework": "2.2.2",
         "doctrine/doctrine-orm-module": "0.7",
 	 "phpmailer/phpmailer": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "Libs\\": "vendor/Custom/src/"
+        }
     }
 }

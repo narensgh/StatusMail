@@ -40,7 +40,7 @@ class Team
      *
      * @ORM\Column(name="created_on", type="datetime", nullable=false)
      */
-    private $createdOn;
+    private $createdOn = 'CURRENT_TIMESTAMP';
 
 
 
