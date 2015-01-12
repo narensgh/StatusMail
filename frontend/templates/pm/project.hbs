@@ -1,0 +1,30 @@
+<table>
+    <tr>
+        <td colspan="2" align="center">Enter project Name</td>
+    </tr>
+    <tr>
+        <td><input type="text" id="projectname" class="" /></td>
+        <td><div id="saveproject1" class="button">Save Project </div></td>
+    </tr>
+</table>
+
+
+<table border="1">
+    <tr>
+        <th>Sr. No.</th>
+        <th>Project Name</th>
+        <th>Description</th>
+        <th colspan="2">Action</th>
+    </tr>
+    {{#each pmProject.models}}
+    <tr class="explore-project">
+        <td></td>
+        <td id="explore-{{attributes.projectId}}">{{attributes.projectName}}</td>
+        <td>Description</td>
+        <td colspan="2">
+            <a href="#" id="edit-{{attributes.projectId}}">Delete</a>
+            <a href="#" id="delete-{{attributes.projectId}}" >Edit</a>
+        </td>
+    </tr>
+    {{/each}}
+</table>
