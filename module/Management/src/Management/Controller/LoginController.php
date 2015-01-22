@@ -13,6 +13,7 @@ use Zend\View\Model\ViewModel;
 use Management\Form\LoginForm;
 use Management\Form\SignUpForm;
 use Management\Service\LoginService;
+use Management\Service\AccessTokenService;
 use Libs\SendMail;
 
 class LoginController extends BaseController {
@@ -56,6 +57,11 @@ class LoginController extends BaseController {
 
             if ($post['submit'] == "Login") {
                 $result = $serviceLogin->login($post, $loginForm);
+                $post['peopleId'] = $this->_session->userId;
+                if ($result['action'] == 'index') {
+                    $accessTokenService = new AccessTokenService($this->getEntityManager());
+                    $accessTokenService->setAccessToken($post);
+                }
                 $this->redirectTo($result);
             } else if ($post['submit'] == "Sign Up") {
                 $result = $serviceLogin->signUp($post, $signUpForm);
