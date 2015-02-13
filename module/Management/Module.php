@@ -26,20 +26,20 @@ class Module
 {
     public function onBootstrap(MvcEvent $e)
     {
-        $eventManager        = $e->getApplication()->getEventManager();        
+        $eventManager        = $e->getApplication()->getEventManager();
         $eventManager->attach('route', array($this, 'loadConfiguration'), 2);
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
-		        
+
         $sharedEventManager = $eventManager->getSharedManager(); // The shared event manager
-        
+
         $sharedEventManager->attach(__NAMESPACE__, MvcEvent::EVENT_DISPATCH, function($e) {
         	$routeMatch = $e->getRouteMatch();
             $viewModel = $e->getViewModel();
             $viewModel->setVariable('controller', $routeMatch->getParam('controller'));
             $viewModel->setVariable('action', $routeMatch->getParam('action'));
         });
-        
+
 //         Entity manager for docrine
 
         $em = $e->getApplication()->getServiceManager()->get('Doctrine\ORM\EntityManager');
@@ -52,11 +52,13 @@ class Module
     	$application   = $e->getApplication();
     	$sm            = $application->getServiceManager();
     	$sharedManager = $application->getEventManager()->getSharedManager();
-    	 
+//        var_dump($e->getParam('module'));
+////echo $e->getRouteMatch()->getParam('module', 'test');
+//  die('55');
     	$router = $sm->get('router');
     	$request = $sm->get('request');
-    	 
-    	$matchedRoute = $router->match($request);    	
+
+    	$matchedRoute = $router->match($request);
     	if (null !== $matchedRoute) {
     		$sharedManager->attach('Zend\Mvc\Controller\AbstractActionController','dispatch',
     				function($e) use ($sm) {
@@ -68,13 +70,13 @@ class Module
     	else{
     		$url    = $router->assemble(array('controller'=>'login','action'=>'login'), array('name' => 'base'));
     		$response = $e->getResponse();
-    		$response->setStatusCode(302);    		
+    		$response->setStatusCode(302);
     		$response->getHeaders()->addHeaderLine('Location', $url);
     		$response->sendHeaders();
     		$e->stopPropagation();
-    	}    		
+    	}
     }
-    
+
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
@@ -89,5 +91,5 @@ class Module
                 ),
             ),
         );
-    }    
+    }
 }

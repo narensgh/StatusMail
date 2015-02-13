@@ -19,7 +19,7 @@
     {{#each pmProject.models}}
     <tr class="explore-project">
         <td></td>
-        <td id="explore-{{attributes.projectId}}">{{attributes.projectName}}</td>
+        <td id="explore-{{attributes.projectId}}"><label id="projectname-{{attributes.projectId}}" class="project_name">{{attributes.projectName}}</label></td>
         <td>Description</td>
         <td colspan="2">
             <a href="#" id="edit-{{attributes.projectId}}">Delete</a>

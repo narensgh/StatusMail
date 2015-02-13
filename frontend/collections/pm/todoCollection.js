@@ -1,9 +1,10 @@
-define(['collections/baseCollection', 'models/pm/todoModel'], function(BaseCollection, TodoModel) {
-    var TodoCollection = BaseCollection.extend({
-        model: TodoModel,
-        url: function() {
-            return this.apiBaseUrl + "todo";
-        }
-    });
-    return TodoCollection;
+var BaseCollection = require('../baseCollection'),
+    TodoModel = require('../../models/pm/todoModel');
+
+var TodoCollection = BaseCollection.extend({
+    model: TodoModel,
+    url: function() {
+        return this.apiBaseUrl + "todo";
+    }
 });
+module.exports = TodoCollection;

@@ -65,7 +65,8 @@ return array(
             'Management\Controller\Login' => 'Management\Controller\LoginController',
             'Management\Controller\Admin' => 'Management\Controller\AdminController',
             'Management\Controller\Pm' => 'Management\Controller\PmController',
-            'Management\Controller\Error' => 'Management\Controller\ErrorController'
+            'Management\Controller\Error' => 'Management\Controller\ErrorController',
+             'Management\Controller\Testb'=> 'Management\Controller\TestbController'
         ),
     ),
     'controller_plugins' => array(
@@ -85,6 +86,8 @@ return array(
             'menu' => __DIR__ . '/../view/layout/menu.phtml',
             'error/404' => __DIR__ . '/../view/error/404.phtml',
             'error/index' => __DIR__ . '/../view/error/index.phtml',
+            'api404error'           =>  __DIR__ . '/../../Application/view/error/api404error.phtml',
+            'front404error'           =>  __DIR__ . '/../view/error/front404error.phtml',
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',

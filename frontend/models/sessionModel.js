@@ -1,13 +1,21 @@
-var BaseModel = require('./baseModel');
-var SessionModel = BaseModel.extend({
+var _ = require('underscore'),
+    Backbone = require('backbone');
+//    BaseModel = require('./baseModel');
+var SessionModel = Backbone.Model.extend({
     defaults: {
-        pageId: '0'
+        pageId: '00'
     },
     url: "/taskmanager/management/pm/setsession",
-    sync: function(method, model, options)
-    {
-        options.url = "/taskmanager/management/pm/setsession?" + this.buildParam(method);
-        Backbone.sync.apply(this, arguments);
+//    sync: function(method, model, options)
+//    {
+//        alert(' sync tested123 ');
+//        options.url = "/taskmanager/management/pm/setsession?" + this.buildParam(method);
+////        console.log(this.buildParam(method));
+//        Backbone.sync.apply(this, arguments);
+//    },
+    toJSON: function() {
+        console.log('tested123 ');
+        return JSON.parse(JSON.stringify(this.attributes));
     },
     buildParam: function(method)
     {

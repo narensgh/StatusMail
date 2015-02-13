@@ -22,18 +22,26 @@ class Managementplugin extends AbstractPlugin
         }
         return $this->sesscontainer;
     }
-
-    private function setupSession ($e)
+    function setUpSession ()
     {
-        echo "setup session";
-        $config = $e->getApplication()->getServiceManager()->get('Config');
+        $config = array (
+            'cookie_domain' => 'dev.project-management.com',
+            'cookie_httponly' => true,
+            'use_cookies' => true,
+            'remember_me_seconds' => 30,
+            'cookie_lifetime' => 30,
+            'name' => 'project-management',
+            'cookie_path' => '/manage'
+        );
+
         $sessionConfig = new SessionConfig();
-        $sessionConfig->setOptions($config['session']);
+        $sessionConfig->setOptions($config);
         $sessionManager = new SessionManager($sessionConfig);
         $sessionManager->start();
-        SessionContainer::setDefaultManager($sessionManager);
-    }
 
+        Container::setDefaultManager($sessionManager, null, null);
+//        Container::getDefaultManager()->rememberMe(30);
+    }
     public function doAuthorization ($event)
     {
         $targetEvent = $this->getControllerAction($event);
@@ -42,12 +50,24 @@ class Managementplugin extends AbstractPlugin
         if (!(($targetEvent->controller == 'login') && (in_array($targetEvent->action, $actionAllowed)))) {
             if (!(isset($this->getSessContainer()->username) && isset($this->getSessContainer()->userId))) {
                 $this->setRedirect($event, $resource);
+            }else{
+                if($targetEvent->controller != 'pm'){
+                   // $this->checkPrivilege($event);
+                }
             }
-            $this->checkPrivilege($event);
         }
     }
 
-    public function getUserMenu ($rolePermissions)
+    public function getUserMenu()
+    {
+        $userMenu = array();
+        if(!empty($this->getSessContainer()->userMenu)) {
+            $userMenu = json_decode($this->getSessContainer()->userMenu);
+        }
+       return $userMenu;
+    }
+
+    public function setUserMenu ($rolePermissions)
     {
         $userMenu = array ();
         foreach ($rolePermissions as $rolePermission) {
@@ -58,7 +78,7 @@ class Managementplugin extends AbstractPlugin
                 $userMenu[$resource][$permission->getResource()->getResourceName()][$permission->getPrivilege()->getPrivilegeName()] = $permission->getPrivilege()->getDescription();
             }
         }
-        return $userMenu;
+        $this->getSessContainer()->userMenu =  (!empty($userMenu)) ? json_encode($userMenu): "";
     }
 
     public function getControllerAction ($event)
@@ -93,7 +113,11 @@ class Managementplugin extends AbstractPlugin
         $accessControl = new AccessControl();
         $acl = $accessControl->setRole($acl, $roles);
         $rolePermissions = $ServiceAcl->getAclRolePermission();
-        $userMenu = $this->getUserMenu($rolePermissions);
+        $userMenu = $this->getUserMenu();
+        if(empty($userMenu)) {
+            $this->setUserMenu($rolePermissions);
+            $userMenu = $this->getUserMenu();
+        }
         $activeMenu = $this->getControllerAction($event);
         $viewModel = $event->getViewModel();
         $viewModel->setVariable('userMenu', $userMenu);

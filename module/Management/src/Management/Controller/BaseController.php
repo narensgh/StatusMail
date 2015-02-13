@@ -3,13 +3,16 @@
 namespace Management\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Session\Container;
 
 
 class BaseController extends AbstractActionController{
 
 	protected $_em;
-
-	public function __construct(){
+        protected $session;
+	public function __construct()
+        {
+            $this->session = new Container('appl');
 	}
 
 	public function getEntityManager(){

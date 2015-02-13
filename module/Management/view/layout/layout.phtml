@@ -13,13 +13,14 @@
         <?php echo $this->headLink()
                         ->prependStylesheet($this->basePath() . '/css/style.css')
                         ->prependStylesheet($this->basePath() . '/css/bootstrap.css')
+            ->prependStylesheet($this->basePath() . '/css/jquery-ui.css')
                         ?>
 
         <!-- Scripts -->
-        <?php echo $this->headScript()->prependFile($this->basePath() . '/js/jquery.min.js'); ?>
+        <?php echo $this->headScript()->prependFile($this->basePath() . '/js/jquery.js'); ?>
     </head>
     <body>
-    	<?php  echo $this->partial('menu', array('userMenu' => $userMenu)); ?>
+    	<?php  echo $this->partial('menu', array('userMenu' => (isset($userMenu)) ? $userMenu: array(), 'activeMenu' => (isset($activeMenu)) ? $activeMenu: array() )); ?>
         <div class="main-wrapper">
         <div class="container">
             <?php echo $this->content; ?>

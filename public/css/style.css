@@ -15,7 +15,9 @@ label
 	width:960px;
 
 }
-
+.strike {
+    text-decoration: line-through;
+}
 .main-wrapper .container { }
 
 .login_wrapper{

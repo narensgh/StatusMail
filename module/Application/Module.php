@@ -14,11 +14,18 @@ use Zend\Mvc\MvcEvent;
 
 class Module
 {
-    public function onBootstrap(MvcEvent $e)
+    public function onBootstrap (MvcEvent $e)
     {
-        $eventManager        = $e->getApplication()->getEventManager();
+        date_default_timezone_set('Asia/Calcutta');
+        $sm = $e->getApplication()->getServiceManager();
+        $eventManager = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+        $eventManager->getSharedManager()->attach('Zend\Mvc\Controller\AbstractRestfulController', 'dispatch', function($e) use ($sm) {
+            $sm->get('ControllerPluginManager')->get('Apiplugin')
+                ->doAuthorization($e);
+        }
+        );
     }
 
     public function getConfig()

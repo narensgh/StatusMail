@@ -1,0 +1,15 @@
+<h1><?php echo $exceptionMessage['errorMessage']; ?></h1>
+<h2><?php echo $exceptionMessage['message']; ?></h2>
+<p><?php echo $exceptionMessage['reasonMessage'] ?></p>
+
+<?php if (isset($exceptionMessage['controller'])) { ?>
+    <dl>
+        <dt><?php echo $this->translate('Controller') ?>:</dt>
+        <dd><?php echo $this->escapeHtml($exceptionMessage['controller']) ?>
+            <?php
+            echo $exceptionMessage['controllerClassMsg'];
+            ?>
+        </dd>
+    </dl>
+<?php
+}

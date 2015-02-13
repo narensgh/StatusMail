@@ -48,9 +48,9 @@ class TodoService
                 $todo['todoId'] = $object->getTodoId();
                 $todo['description'] = $object->getDescription();
                 $todo['assignedTo'] = $object->getAssignedTo();
-                $todo['active'] = $object->getActive();
-                $todo['dateUpdated'] = $object->getDateAdded()->format('Y-m-d H:i:s');
-                $todo['dateAdded'] = $object->getDateAdded()->format('Y-m-d H:i:s');
+                $todo['active'] = ($object->getActive() === 'true') ? true : false;
+                $todo['dateUpdated'] = $object->getDateAdded()->format('jS M, Y');
+                $todo['dateAdded'] = $object->getDateAdded()->format('jS M, Y');
                 $todos[] = $todo;
             }
         }
@@ -98,7 +98,7 @@ class TodoService
         $todo->setTodoList($todoList);
         $todo->setDescription($data->description);
         $todo->setAssignedTo($data->assignedTo);
-        $todo->setActive($data->active);
+        $todo->setActive(($data->active)? 'true': 'false');
         $todo->setDateAdded($date);
         $todo->setDateUpdated($date);
         return $todo;

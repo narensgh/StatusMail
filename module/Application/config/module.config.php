@@ -73,21 +73,30 @@ return array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
             'Application\Controller\Pmfield' => 'Application\Controller\PmfieldController',
             'Application\Controller\Pmproject' => 'Application\Controller\PmprojectController',
-             'Application\Controller\user' => 'Application\Controller\UserController'
+             'Application\Controller\user' => 'Application\Controller\UserController',
+            'Application\Controller\todolist' => 'Application\Controller\TodolistController',
+            'Application\Controller\todo' => 'Application\Controller\TodoController',
+            'Application\Controller\Testb'=> 'Application\Controller\TestbController'
+
         ),
     ),
-    'view_manager'    => array(
+     'controller_plugins' => array(
+        'invokables' => array(
+            'Apiplugin' => 'Application\Controller\Plugin\Apiplugin',
+        )
+    ),
+    'view_manager1'    => array(
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
         'doctype'                  => 'HTML5',
-        'not_found_template'       => 'error/404',
-        'exception_template'       => 'error/index',
+        'not_found_template'       => 'error1/404',
+        'exception_template'       => 'error1/index',
         'template_map'             => array(
-            'layout/layout'          => __DIR__ . '/../view/layout/layout.phtml',
+            'layout/layout'          => __DIR__ . '/../view/layout/layoutwerfqwrqw.phtml',
             'management/index/index' => __DIR__ . '/../view/management/index/index.phtml',
             'menu'                   => __DIR__ . '/../view/layout/menu.phtml',
-            'error/404'              => __DIR__ . '/../view/error/404.phtml',
-            'error/index'            => __DIR__ . '/../view/error/index.phtml',
+            'error1/404'              => __DIR__ . '/../view/error/404.phtml',
+            'error1/index'            => __DIR__ . '/../view/error/index.phtml',
         ),
         'template_path_stack'      => array(
             __DIR__ . '/../view',

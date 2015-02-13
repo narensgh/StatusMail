@@ -1,0 +1,15 @@
+{{#each todos}}
+<li class="todo-content" id="todoli-{{attributes.todoId}}">
+    <div class="todos-action-button">
+        <span class="delete-todo" id="delete-{{attributes.todoListId}}-{{attributes.todoId}}">Delete</span>
+        {{#if attributes.active}}
+        <span class="edit-todo" id="edit-{{attributes.todoListId}}-{{attributes.todoId}}">Edit</span>
+        {{/if}}
+    </div>
+    <div class="desc-content">
+        <input type="checkbox" class="todo-check"id="todo-{{attributes.todoListId}}-{{attributes.todoId}}" />
+        <label class="todo-desc {{#if attributes.active}}{{else}}strike{{/if}}"  id="todolabel-{{attributes.todoId}}">{{attributes.description}}</label>
+        <label class="todo-time">{{#if attributes.active}}Created on : {{attributes.dateAdded}}{{else}}Completed on : {{attributes.dateUpdated}}{{/if}}
+    </div>
+</li>
+{{/each}}

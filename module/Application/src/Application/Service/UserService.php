@@ -60,4 +60,14 @@ class UserService
         $userObject = $this->processUser($user);
         return $userObject;
     }
+
+    public function getAllUser()
+    {
+        $users = array();
+        $allUsers = $this->_em->getRepository('Application\Model\Entity\User')->findAll();
+        foreach ($allUsers as $user) {
+            $users[] = (array) $this->processUser($user);
+        }
+        return $users;
+    }
 }

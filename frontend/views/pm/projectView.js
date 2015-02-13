@@ -4,14 +4,15 @@ var $ = require('jquery'),
     ProjectCollection = require('../../collections/pm/projectCollection'),
     ProjectModel = require('../../models/pm/projectModel'),
     SessionModel = require('../../models/sessionModel');
-    Template = require('../../templates/pm/project.hbs');
+Template = require('../../templates/pm/project.hbs');
 
-var ProjectView = Backbone.View.extend({ 
-    container: $("#content"),
-	template: Template,
+var ProjectView = Backbone.View.extend({
+    el: $('body'),
+    container: "#content",
+    template: Template,
     events: {
         "click #saveproject1": "saveProject",
-        'click .explore-project': "setProjectId"
+        'click .project_name': "setProjectId1"
     },
     els: {
         'projectName': '#projectname'
@@ -20,12 +21,10 @@ var ProjectView = Backbone.View.extend({
         this.collection = new ProjectCollection();
         this.collection.bind("reset", this.render, this);
         this.collection.fetch({reset: true});
-		this.render();
-		
+        this.render();
     },
     render: function() {
-		console.log(this.collection);
-        $("#content").html(this.template({pmProject: this.collection}));
+        $(this.container).html(this.template({pmProject: this.collection}));
         return true;
     },
     saveProject: function() {
@@ -33,23 +32,18 @@ var ProjectView = Backbone.View.extend({
         var project = {};
         project.projectName = projectName;
         var newproject = new ProjectModel(project);
-        newproject.save(newproject, {
+        newproject.save(project, {
             success: function(model, response, options) {
                 window.location.hash = "template";
             }
         });
         this.collection.add({project: project});
     },
-    setProjectId: function(e) {
+    setProjectId1: function(e) {
         var projectId = e.target.id.split('-')[1];
         var session = {};
         session.projectId = projectId;
-        var newsession = new SessionModel(session);
-        newsession.save(newsession, {
-            success: function(model, response, options) {
-                window.location.hash = "project/todolist";
-            }
-        });
+        window.location.hash = "project/todolist/" + projectId;
     }
 });
 module.exports = ProjectView;

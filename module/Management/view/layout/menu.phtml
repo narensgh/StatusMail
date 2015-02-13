@@ -1,78 +1,62 @@
-<?php
-$actController = str_replace('managementcontroller', "", strtolower(stripslashes($this->controller)));
-$actAction = strtolower($this->action);
-$activeArray = array(
-			'controller' => $actController,
-			'action' => $actAction
-		);
-$routeArray = array(
-			'sIndex' => array('controller'=>'status','action'=>'index'),
-			'sReport' => array('controller'=>'status','action'=>'report'),
-			'sViewAllReport' => array('controller'=>'status','action'=>'viewallreport'),
-			'aAddteam' => array('controller'=>'admin','action'=>'addteam'),
-			'aManageteam' => array('controller'=>'admin','action'=>'manageteam'),
-			'lLogout' =>array('controller'=>'login','action'=>'logout')
-		);
-?>
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
      <div class="container">
-<!--                 <div class="navbar-header">
-                    <a class="navbar-brand" href="<?php echo $this->url('base') ?>"><img src="<?php echo $this->basePath('img/zf2-logo.png') ?>" alt="Zend Framework 2"/>&nbsp;<?php // echo $this->translate('Skeleton Application') ?></a>
-                 </div> -->
                <div class="collapse navbar-collapse">
-                  <?php if($actController != "pm") { ?>
+                  <?php if(!empty($activeMenu->controller)) {
+                      if($activeMenu->controller != "pm") { ?>
                     <ul class="nav navbar-nav">
-                        <?php if(!empty($_SESSION['appl'])) { ?>
-                        <?php if ($_SESSION['appl']['username']){ ?>
-                        	<li<?php // echo activeMenu()?>><a href="<?php echo $this->url('base') ?>"><?php echo ($_SESSION['appl']['firstName'])." ".($_SESSION['appl']['lastName']); ?></a></li>
-							<li<?php echo activeMenu($routeArray['sIndex'], $activeArray)?>><a href="<?php echo route($routeArray['sIndex'], $this) ?>">New Report</a></li>
-							<li<?php echo activeMenu($routeArray['sReport'], $activeArray)?>><a href="<?php echo route($routeArray['sReport'], $this) ?>">View Report</a></li>
-
-						<?php }?>
-           				<?php if($_SESSION['appl']['userType'] == 2 || $_SESSION['appl']['userType'] == 1 ){?>
-           					<li<?php echo activeMenu($routeArray['sViewAllReport'], $activeArray)?>><a href="<?php echo route($routeArray['sViewAllReport'], $this) ?>">View All Reports</a></li>
-           				<?php }?>
-                        <?php if($_SESSION['appl']['userType'] == 1){?>
-                        	<li<?php echo activeMenu($routeArray['aAddteam'], $activeArray)?>><a href="<?php echo route($routeArray['aAddteam'], $this) ?>">Add Team</a></li>
-							<li<?php echo activeMenu($routeArray['aManageteam'], $activeArray)?>><a href="<?php echo route($routeArray['aManageteam'], $this) ?>">Manage Team</a></li>
-                         <?php }?>
-                         <?php if ($_SESSION['appl']['username']){?>
-                         	<li class="logout"><a href="<?php echo $this->url('base',$routeArray['lLogout']) ?>">Logout</a></li><?php }?>
-                         <?php } ?>
+                        <?php
+                        foreach ($userMenu->management as $controller => $menus) {
+                            if($controller !=='error'){
+                                $controllerMenu = array($controller, $menus);
+                                processMenu($activeMenu, $controller, $menus, $this);
+                            }
+                         } ?>
                     </ul>
-                    <?php } else { ?>
+                    <?php } } else { ?>
                     <ul class="nav navbar-nav">
                         <li><a href="#home">Home</a></li>
                         <li><a href="#project">Project</a></li>
                         <li><a href="#changepassword">Change Password</a></li>
                         <li><a href="#userprofile">User Profile</a></li>
                     </ul>
-                    <?php } ?>
-                </div><!--/.nav-collapse -->
+                  <?php }?>
+                </div>
             </div>
 </nav>
 
 <?php
-function activeMenu($route = array(), $active = array())
+
+/**
+ *
+ * @param object $activeUrl
+ * @param string $controller
+ * @param object $menus
+ * @param object $that
+ */
+function processMenu($activeUrl, $controller, $menus, $that)
 {
-	$class = ' class="active"';
-	if($route['controller'] == $active['controller']){
-		if($route['action'] == $active['action']){
-			return $class;
-		}else{
-			return "";
-		}
-	}else{
-		return "";
-	}
+    foreach ($menus as $action => $description){
+        $route = new \stdClass();
+        $route->controller = $controller;
+        $route->action = $action;
+        $url = route($that, $route);
+        $active = ($activeUrl->controller == $controller && $activeUrl->action == $action) ? 'active' :'';
+        echo  "<li class='{$active}'><a href='{$url}'>{$description}</a></li>";
+    }
+
 }
 
-function route($route = array(), $that)
+/**
+ *
+ * @param object $that
+ * @param object $route
+ * @return string
+ */
+function route($that, $route)
 {
 	if(!empty($route)){
-		return $that->url('base', array('controller'=>$route['controller'],'action'=>$route['action']));
+		return $that->url('base', array('controller'=>$route->controller,'action'=>$route->action));
 	}else{
 		return "";
 	}
 }
-?>

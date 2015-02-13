@@ -1,10 +1,11 @@
-define(['collections/baseCollection', 'models/pm/todolistModel'], function(BaseCollection, TodolistModel) {
-    var TodoListCollection = BaseCollection.extend({
-        model: TodolistModel,
-        url: function() {
-            return this.apiBaseUrl + "todolist";
-        }
+var BaseCollection = require('../baseCollection'),
+    TodolistModel = require('../../models/pm/todolistModel');
 
-    });
-    return TodoListCollection;
+var TodoListCollection = BaseCollection.extend({
+    model: TodolistModel,
+    url: function() {
+        return this.apiBaseUrl + "todolist";
+    }
+
 });
+module.exports = TodoListCollection;

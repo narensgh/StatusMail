@@ -39,10 +39,9 @@ class UserController extends BaseController
     }
     public function getList()
     {
-         return new JsonModel(array('Method not allowed..!! : '));
-        $PmprojectService = new PmprojectService($this->getEntityManager());
-        $pmproject = $PmprojectService->getProject();
-        return new JsonModel($pmproject);
+        $userService = new UserService($this->getEntityManager());
+        $users = $userService->getAllUser();
+        return new JsonModel($users);
     }
 
     public function update($userId, $data)

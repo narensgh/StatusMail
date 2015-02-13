@@ -17,6 +17,6 @@ gulp.task('build', function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch('./apps/**/**/*.*', {interval: 500}, ['build']);
+    gulp.watch('./**/**/*.*', {interval: 500}, ['build']);
 });
 
