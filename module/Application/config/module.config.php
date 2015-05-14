@@ -76,6 +76,7 @@ return array(
              'Application\Controller\user' => 'Application\Controller\UserController',
             'Application\Controller\todolist' => 'Application\Controller\TodolistController',
             'Application\Controller\todo' => 'Application\Controller\TodoController',
+            'Application\Controller\pmdiscussion' => 'Application\Controller\PmdiscussionController',
             'Application\Controller\Testb'=> 'Application\Controller\TestbController'
 
         ),
