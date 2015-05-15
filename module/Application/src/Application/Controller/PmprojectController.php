@@ -20,16 +20,23 @@ use Application\Service\PmprojectService;
 
 class PmprojectController extends BaseController
 {
-    public function get($id)
+    
+    function __construct ()
     {
-        die('get');
-        return new JsonModel(array('Method not allowed..!! : '. $id));
+        $this->setIdentifierName("projectId");
+    }
+    
+    public function get($projectId)
+    {
+        $PmprojectService = new PmprojectService($this->getEntityManager());
+        $pmproject = $PmprojectService->getProject($projectId);
+        return new JsonModel(array('projects' => $pmproject));
     }
     public function getList()
     {
         $PmprojectService = new PmprojectService($this->getEntityManager());
         $pmproject = $PmprojectService->getProject();
-        return new JsonModel($pmproject);
+        return new JsonModel(array('projects' => $pmproject));
     }
     public function create($data)
     {

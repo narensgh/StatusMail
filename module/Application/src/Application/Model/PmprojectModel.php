@@ -33,15 +33,17 @@ class PmprojectModel
     public function getProject($projectId = null)
     {
         $qb = $this->_em->createQueryBuilder();
-		$qb	->add('select', 'pmp')
-		->add('from', 'Application\Model\Entity\Pmproject pmp');
-        if($projectId)
-        {
-            $qb->where('pmp.fieldId = ?')
-                ->setParameter(1, $projectId);
+        $qb->add('select', 'pmp')
+                ->add('from', 'Application\Model\Entity\Pmproject pmp');
+        if ($projectId) {
+            $qb->where('pmp.projectId=:a')
+                    ->setParameter('a', $projectId);
+            $result = $qb->getQuery()->getArrayResult();
+            $result = $result[0];
+        } else {
+            $result = $qb->getQuery()->getArrayResult();
         }
-		$result = $qb->getQuery()->getArrayResult();
-		return $result;
+        return $result;
     }
 
     public function saveProject($data)
