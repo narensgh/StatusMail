@@ -25,6 +25,17 @@ class TodoService
         }
     }
 
+    public function getTodo($todoId)
+    {
+        $todoObj = $this->getTodoById($todoId);
+        $todo = array();
+        $todo['todoId'] = $todoObj->getTodoId();
+        $todo['description'] = $todoObj->getDescription();
+        $todo['assignedTo'] = $todoObj->getAssignedTo();
+        $todo['dateUpdated'] = $todoObj->getDateUpdated();
+        $todo['active'] = $todoObj->getActive();
+        return $todo;
+    }
     /**
      *
      * @param int $todoListId

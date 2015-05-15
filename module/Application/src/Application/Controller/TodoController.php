@@ -21,7 +21,9 @@ class TodoController extends BaseController
 
     public function get ($todoId)
     {
-        return new JsonModel(array ($todoId));
+        $todoService = new TodoService($this->getEntityManager());
+        $todo = $todoService->getTodo($todoId);
+        return new JsonModel(array ('todos' => $todo));
     }
 
     /**
@@ -33,7 +35,7 @@ class TodoController extends BaseController
         $todoListId = $this->params()->fromQuery('todoListId');
         $todoService = new TodoService($this->getEntityManager());
         $todos = $todoService->getTodoByListId($todoListId);
-        return new JsonModel($todos);
+        return new JsonModel(array ('todos' => $todos));
     }
 
     /**
