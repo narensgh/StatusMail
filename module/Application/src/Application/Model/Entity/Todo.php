@@ -29,6 +29,13 @@ class Todo
     private $description;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="due_on", type="date", nullable=false)
+     */
+    private $dueOn;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="assigned_to", type="integer", nullable=false)
@@ -47,7 +54,7 @@ class Todo
      *
      * @ORM\Column(name="active", type="string", nullable=false)
      */
-    private $active = 'yes';
+    private $active = 'true';
 
     /**
      * @var \DateTime
@@ -99,6 +106,29 @@ class Todo
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set dueOn
+     *
+     * @param \DateTime $dueOn
+     * @return Todo
+     */
+    public function setDueOn($dueOn)
+    {
+        $this->dueOn = $dueOn;
+
+        return $this;
+    }
+
+    /**
+     * Get dueOn
+     *
+     * @return \DateTime 
+     */
+    public function getDueOn()
+    {
+        return $this->dueOn;
     }
 
     /**

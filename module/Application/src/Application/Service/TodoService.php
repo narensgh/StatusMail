@@ -113,10 +113,12 @@ class TodoService
         }
         $data = (object) $data;
         $date = new \DateTime('now');
+        $dueOn = new \DateTime($data->dueOn);
         $todoList = $this->getTodoListByListId($data->todoListId);
         $todo->setTodoList($todoList);
         $todo->setDescription($data->description);
         $todo->setAssignedTo($data->assignedTo);
+        $todo->setDueOn($dueOn);
         $todo->setActive(($data->active) ? 'true' : 'false');
         $todo->setDateAdded($date);
         $todo->setDateUpdated($date);
