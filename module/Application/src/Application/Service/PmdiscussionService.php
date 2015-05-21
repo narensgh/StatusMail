@@ -65,7 +65,18 @@ class PmdiscussionService
      */
     public function saveDiscussion($data)
     {
-        
+        try {
+            $todo = $this->getTodobyId($data->todoId);
+            $discussion = new PmDiscussion();
+            $discussion->setContent($data->content);
+            $discussion->setAddedBy($data->addedBy);
+            $discussion->setTodo($todo);
+            $this->_em->persist($discussion);
+            $this->_em->flush();
+        return $discussion->getDiscussionId();
+        } catch (\Exception $ex) {
+            throw new \Exception($ex->getMessage());
+        }
     }
 
 }

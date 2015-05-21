@@ -17,7 +17,8 @@ use Application\Controller\BaseController;
 use Zend\View\Model\JsonModel;
 use Application\Service\PmdiscussionService;
 
-class PmdiscussionController extends BaseController {
+class PmdiscussionController extends BaseController 
+{
 
     public function get($id) 
     {
@@ -32,4 +33,10 @@ class PmdiscussionController extends BaseController {
         return new JsonModel(array('discussions' => $discussions));
     }
 
+    public function create($data)
+    {
+        $discussionService = new PmdiscussionService($this->getEntityManager());
+        $discussionId = $discussionService->saveDiscussion($data);
+        return new JsonModel(array('discussionId' => $discussionId));
+    }
 }
