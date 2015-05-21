@@ -48,20 +48,28 @@ class TodoService
         $todos = array ();
         $todoList = $this->getTodoListByListId($todoListId);
         try {
-            $todosObj = $this->_em->getRepository('Application\Model\Entity\Todo')
-                ->findByTodoList(array ('todoList' => $todoList), array ('active' => 'ASC', 'dateUpdated' => 'DESC'), $limit);
-        } catch (\Exception $ex) {
+            $qb = $this->_em->createQueryBuilder();
+            $qb->add('select', 't, partial tl.{todoListId}, partial p.{projectId}')
+                    ->add('from', 'Application\Model\Entity\Todo t')
+                    ->innerJoin('t.todoList', 'tl')
+                    ->innerJoin('tl.project', 'p')
+                    ->where('t.todoList = :todoList')
+                    ->setParameter('todoList', $todoList)
+                    ->orderBy('t.active, t.dateUpdated');
+            $todosObj = $qb->getQuery()->getArrayResult();
+        } catch (Exception $ex) {
             throw new exception($ex->getMessage());
         }
         if (!empty($todosObj)) {
             foreach ($todosObj as $object) {
+                $todo['projectId'] = $object['todoList']['project']['projectId'];
                 $todo['todoListId'] = $todoListId;
-                $todo['todoId'] = $object->getTodoId();
-                $todo['description'] = $object->getDescription();
-                $todo['assignedTo'] = $object->getAssignedTo();
-                $todo['active'] = ($object->getActive() === 'true') ? true : false;
-                $todo['dateUpdated'] = $object->getDateAdded()->format('jS M, Y');
-                $todo['dateAdded'] = $object->getDateAdded()->format('jS M, Y');
+                $todo['todoId'] = $object['todoId'];
+                $todo['description'] = $object['description'];
+                $todo['assignedTo'] = $object['assignedTo'];
+                $todo['active'] = ($object['active'] === 'true') ? true : false;
+                $todo['dateUpdated'] = $object['dateUpdated']->format('jS M, Y');
+                $todo['dateAdded'] = $object['dateAdded']->format('jS M, Y');
                 $todos[] = $todo;
             }
         }
@@ -109,7 +117,7 @@ class TodoService
         $todo->setTodoList($todoList);
         $todo->setDescription($data->description);
         $todo->setAssignedTo($data->assignedTo);
-        $todo->setActive(($data->active)? 'true': 'false');
+        $todo->setActive(($data->active) ? 'true' : 'false');
         $todo->setDateAdded($date);
         $todo->setDateUpdated($date);
         return $todo;
