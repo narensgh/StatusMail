@@ -17,9 +17,9 @@
         <th colspan="2">Action</th>
     </tr>
     {{#each pmProject.models}}
-    <tr class="{{ifEven @index}}">
+    <tr class="explore-project {{ifEven @index}}">
         <td>{{math @index '+' 1}}</td>
-        <td>{{attributes.projectName}}</td>
+        <td id="explore-{{attributes.projectId}}">{{attributes.projectName}}</td>
         <td>Description</td>
         <td colspan="2">
             <a href="#" id="edit-{{attributes.projectId}}">Delete</a>

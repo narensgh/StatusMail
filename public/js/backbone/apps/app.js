@@ -5,6 +5,7 @@ require.config({
         views: '../apps/views',
         baseView: '../apps/views/baseView',
         models: '../apps/models',
+        libraries: '../apps/libraries',
         apps: '../apps',
         tpl: '../apps/templates',
         handlebars: 'handlebars',

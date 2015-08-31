@@ -4,5 +4,5 @@
 
 define({
     'env' : 'development',
-    'baseUrl': 'http://localhost/taskmanager/application/'
+    'baseUrl':  '/taskmanager/application/'
 });
